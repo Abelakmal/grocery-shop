@@ -1,6 +1,5 @@
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
-import { RiAccountCircleLine } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";

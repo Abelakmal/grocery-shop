@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Finish = () => {
   return (
-    <div className="lg:w-[50%] sm:p-10 p-4 h-full flex flex-col">
+    <div className=" sm:p-10 p-4 h-full flex flex-col">
       <div className="h-1/2 bg-green-600 w-full flex flex-col items-center justify-center rounded-t-lg">
         <svg
           className="pl-20"

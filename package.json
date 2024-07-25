@@ -15,13 +15,15 @@
     "@types/node": "^20.14.2",
     "axios": "^1.7.2",
     "flowbite-react": "^0.9.0",
+    "formik": "^2.4.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
     "react-splide-ts": "^0.7.14",
     "redux": "^5.0.1",
-    "tailwind": "^4.0.0"
+    "tailwind": "^4.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

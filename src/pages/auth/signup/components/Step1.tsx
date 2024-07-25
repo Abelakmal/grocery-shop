@@ -2,31 +2,10 @@ import { CiShop } from "react-icons/ci";
 import { IoMdArrowBack } from "react-icons/io";
 import { HiMiniArrowRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-import { FormEvent, useState } from "react";
 
-interface Input {
-  fristname?: string;
-  lastname?: string;
-}
-
-const Step1 = ({ setStep, tempData, setTempData }: any) => {
-  const [input, setInput] = useState<Input>({
-    fristname: "",
-    lastname: "",
-  });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStep(2);
-    setTempData({
-      ...tempData,
-      fristname: input.fristname,
-      lastname: input.lastname,
-    });
-  };
-
+const Step1 = ({ setStep, formik, loading }: any) => {
   return (
-    <div className="lg:w-[50%] sm:p-10 p-4 h-full">
+    <div className="sm:p-10 p-4 h-full">
       <div className="max-sm:mb-4 flex justify-between">
         <Link to={"/"}>
           <div className="flex items-center w-max cursor-pointer  ">
@@ -49,36 +28,60 @@ const Step1 = ({ setStep, tempData, setTempData }: any) => {
         Ayok Bergabung Saatnya belanja Kebutuhan kamu Dan nikmati dengan
         berbagai Promo yang Ada dan barang yang menarik.
       </p>
-
-      <form className="flex flex-col my-10" onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <div className="flex flex-col mb-4">
-            <label className="mb-1">First Name</label>
-            <input
-              type="text"
-              placeholder="Santoso"
-              className="border-2 rounded-lg p-2"
-              value={input.fristname}
-              onChange={(e) =>
-                setInput({ ...input, fristname: e.target.value })
-              }
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1">Last Name</label>
-            <input
-              type="text"
-              placeholder="Manto"
-              className="border-2 rounded-lg p-2"
-              value={input.lastname}
-              onChange={(e) => setInput({ ...input, lastname: e.target.value })}
-            />
-          </div>
+      <div className="mb-6">
+        <div className="flex flex-col mb-4">
+          <label className="mb-1">First Name</label>
+          <input
+            type="text"
+            name="fristname"
+            placeholder="example: Santoso"
+            className={`border-2 rounded-lg p-2  ${
+              formik.touched["fristname"] && formik.errors["fristname"]
+                ? "border-red-500"
+                : ""
+            }`}
+            value={formik.values["fristname"]}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
+          />
+          {formik.touched["fristname"] && formik.errors["fristname"] && (
+            <p className="text-red-500 text-xs mt-1">
+              {formik.errors["fristname"]}
+            </p>
+          )}
         </div>
-        <button className="bg-[#162D3A] text-white rounded-lg py-1 flex justify-center items-center">
-          Next <HiMiniArrowRight className="ml-2" />
-        </button>
-      </form>
+        <div className="flex flex-col">
+          <label className="mb-1">Last Name</label>
+          <input
+            type="text"
+            placeholder="optional..."
+            className={`border-2 rounded-lg p-2  ${
+              formik.touched["lastname"] && formik.errors["lastname"]
+                ? "border-red-500"
+                : ""
+            }`}
+            name="lastname"
+            value={formik.values["lastname"]}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+        </div>
+      </div>
+      <button
+        type="button"
+        className="bg-[#162D3A] text-white rounded-lg p-1 flex justify-center items-center"
+        onClick={() => setStep(2)}
+        disabled={!formik.values.fristname}
+      >
+        {loading ? (
+          "Loading...."
+        ) : (
+          <>
+            Next <HiMiniArrowRight className="ml-2" />
+          </>
+        )}
+      </button>
       <div className="my-8 text-center flex items-center">
         <div className="w-full border-2 h-max border-black rounded-lg"></div>
         <p className="mx-2">OR</p>
