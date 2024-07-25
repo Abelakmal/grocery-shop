@@ -18,7 +18,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
   
 
   return (
-    <div className="w-full h-full mb-5">
+    <div className="w-full h-screen mb-5">
       {data ? (
         <>
           <div className="flex">

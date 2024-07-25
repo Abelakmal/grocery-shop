@@ -5,6 +5,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
+import Delivered from "./Delivered";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
@@ -68,7 +69,7 @@ const NavbarComp = () => {
               <ListGroup
                 className={`w-48 ${!show && "hidden"} absolute left-1 top-14`}
               >
-                <ListGroup.Item>Profile</ListGroup.Item>
+                <Link to={"/profile"}><ListGroup.Item>Profile</ListGroup.Item></Link>
                 <ListGroup.Item>Settings</ListGroup.Item>
                 <ListGroup.Item>Messages</ListGroup.Item>
                 <ListGroup.Item active onClick={() => setOpenModal(true)}>
@@ -127,6 +128,7 @@ const NavbarComp = () => {
           </div>
         )}
       </div>
+      <Delivered />
     </div>
   );
 };

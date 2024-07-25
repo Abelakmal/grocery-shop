@@ -8,7 +8,7 @@ const Delivered = () => {
           <span className=" text-lg">
             <IoLocationSharp />
           </span>
-          <div className={`ml-2 text-2xl`}>
+          <div className={`ml-2 lg:text-2xl`}>
             Deliver to:
           </div>
         </div>
@@ -16,5 +16,5 @@ const Delivered = () => {
     </div>
   );
 };
-
+``
 export default Delivered;
