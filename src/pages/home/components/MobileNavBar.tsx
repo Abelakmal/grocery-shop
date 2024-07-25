@@ -43,12 +43,6 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
               <span>Orders</span>
             </div>
           </Link>
-          <Link to="/account">
-            <div className="flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
-              <RiAccountCircleLine className="text-2xl hover:scale-110 transition-transform duration-150" />
-              <span>Account</span>
-            </div>
-          </Link>
           <div className="ml-6 w-10">
               <ListGroup
                 className={`w-48 ${!show && "hidden"} absolute bottom-20 right-1`}
