@@ -7,7 +7,6 @@ import { ProductDetails } from "../pages/products/components/ProductDetails";
 import FooterComp from "../pages/home/components/FooterComp";
 import Signin from "../pages/auth/signin";
 import { Signup } from "../pages/auth/signup";
-import MobileSearch from "../pages/home/components/MobileSearch";
 
 export const Routers = () => {
   const location = useLocation();
@@ -16,7 +15,6 @@ export const Routers = () => {
   return (
     <div className="bg-orange-50 h-screen font-popins">
       {!route.includes(location.pathname) && <NavbarComp />}
-      {!route.includes(location.pathname) && <MobileSearch/>}
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/products" element={<Products />} />

@@ -5,9 +5,9 @@ import { IoHomeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const MobileNavBar = ({ itemOnCartCount }: any) => {
-  const token = "";
+  const token = localStorage.getItem("token");
   return (
-    <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg md:hidden">
+    <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg sm:hidden">
       {token ? (
         <div className="flex justify-around items-center p-4 bg-gray-100 rounded-t-lg">
           <Link to="/">

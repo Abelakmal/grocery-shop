@@ -1,27 +1,33 @@
 import { FaSearch } from "react-icons/fa";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
-import { RiAccountCircleLine } from "react-icons/ri";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 
 const NavbarComp = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const navigate = useNavigate();
+  const [show, setShow] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const token = localStorage.getItem("token");
 
   const handleSearch = (e: any) => {
     e.preventDefault();
-    console.log(search);
-    // router.push(`/products?search=${search}`)
     navigate(`/products?search=${search}`);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    setOpenModal(false)
+  }
   return (
     <div className="sticky top-0 z-50 bg-orange-50">
-      <div className="hidden text-xl sm:flex sm:flex-row lg:justify-center justify-between sm:max-w-10xl sm:container  mx-auto lg:p-5 items-center">
+      <div className=" flex flex-row lg:justify-center justify-between max-w-10xl container text-md  mx-auto px-2 items-center">
         <Link to="/">
-          <div className={` flex font-bold `}>
+          <div className={` flex font-bold mr-2`}>
             <div className=" text-[#b1bf4c] lg:text-5xl ">Grocery</div>
             <div className=" text-[#848484] lg:text-5xl h-full ">Shop</div>
           </div>
@@ -43,7 +49,7 @@ const NavbarComp = () => {
           />
         </form>
         {token ? (
-          <>
+          <div className="hidden sm:flex relative">
             <Link to="/cart">
               <button className="ml-6 flex">
                 <span className="w-full text-4xl">
@@ -58,16 +64,56 @@ const NavbarComp = () => {
                 </span>
               </button>
             </Link>
-            <Link to="/account">
-              <button className="ml-6 flex">
-                <span className="w-full text-4xl">
-                  <RiAccountCircleLine />
-                </span>
-              </button>
-            </Link>
-          </>
+            <div className="ml-6 w-10">
+              <ListGroup
+                className={`w-48 ${!show && "hidden"} absolute left-1 top-14`}
+              >
+                <ListGroup.Item>Profile</ListGroup.Item>
+                <ListGroup.Item>Settings</ListGroup.Item>
+                <ListGroup.Item>Messages</ListGroup.Item>
+                <ListGroup.Item active onClick={() => setOpenModal(true)}>
+                  Log Out
+                </ListGroup.Item>
+              </ListGroup>
+              <Avatar
+                img="/Google.png"
+                alt="profile"
+                rounded
+                bordered
+                className="cursor-pointer"
+                onClick={() => setShow(!show)}
+              />
+              <Modal
+                show={openModal}
+                size="md"
+                onClose={() => setOpenModal(false)}
+                popup
+              >
+                <Modal.Header />
+                <Modal.Body>
+                  <div className="text-center">
+                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                      Are you sure for Log Out?
+                    </h3>
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        color="failure"
+                        onClick={handleLogout}
+                      >
+                        {"Yes, I'm sure"}
+                      </Button>
+                      <Button color="gray" onClick={() => setOpenModal(false)}>
+                        No, cancel
+                      </Button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </div>
+          </div>
         ) : (
-          <>
+          <div className="hidden md:flex">
             <Link to={"/signin"}>
               <button className="bg-green-600 text-white p-2 font-medium rounded-lg mr-2 whitespace-nowrap text-base">
                 <p>SIGN IN</p>
@@ -78,12 +124,11 @@ const NavbarComp = () => {
                 SIGN UP
               </button>
             </Link>
-          </>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-
-export default NavbarComp
+export default NavbarComp;
