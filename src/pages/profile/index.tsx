@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProfilePage from "./components/ProfilePage";
 import Transaction from "./components/Transaction";
 import History from "./components/History";

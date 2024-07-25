@@ -13,7 +13,7 @@ const NavbarComp = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
-  const {data, loading , error} = useCurrent()
+  const {data} = useCurrent()
 
   const token = localStorage.getItem("token");
 

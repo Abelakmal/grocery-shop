@@ -1,14 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { IUser } from "../../types/user.type";
-import { useNavigate } from "react-router-dom";
 
 const useCurrent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState<IUser>();
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
 
   useEffect(() => {
     if(token){
