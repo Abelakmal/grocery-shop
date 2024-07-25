@@ -5,11 +5,13 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import { useState } from "react";
+import useCurrent from "../../../hooks/users/useCurrent";
 
 const MobileNavBar = ({ itemOnCartCount }: any) => {
   const token = localStorage.getItem("token");
   const [openModal, setOpenModal] = useState(false);
   const [show, setShow] = useState<boolean>(false);
+  const {data, loading , error} = useCurrent()
 
   const handleLogout = () => {
     localStorage.removeItem("token")
@@ -54,7 +56,7 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
                 </ListGroup.Item>
               </ListGroup>
               <Avatar
-                img="/Google.png"
+                img={data?.image || `/profile.webp`}
                 alt="profile"
                 rounded
                 bordered

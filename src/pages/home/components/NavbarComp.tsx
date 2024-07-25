@@ -6,12 +6,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
+import useCurrent from "../../../hooks/users/useCurrent";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
+  const {data, loading , error} = useCurrent()
 
   const token = localStorage.getItem("token");
 
@@ -22,6 +24,7 @@ const NavbarComp = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token")
+    navigate("/")
     setOpenModal(false)
   }
   return (
@@ -77,7 +80,7 @@ const NavbarComp = () => {
                 </ListGroup.Item>
               </ListGroup>
               <Avatar
-                img="/Google.png"
+                img={data?.image || `/profile.webp`}
                 alt="profile"
                 rounded
                 bordered

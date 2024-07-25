@@ -1,10 +1,9 @@
 export interface IUser {
-    id: number;
-    fristname: string;
-    lastname: string
-    dob: Date;
-    email: string;
-    phone: number;
-    address: string;
-    password: string;
-  }
+  id: number;
+  name: string;
+  dob: string;
+  email: string;
+  phone: number;
+  address: string;
+  image: string;
+}
