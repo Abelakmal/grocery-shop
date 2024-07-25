@@ -4,16 +4,6 @@ import Step2 from "./components/Step2";
 import Finish from "./components/Finish";
 import useRegister from "../../../hooks/auth/useRegister";
 
-interface TempData {
-  fristname: string;
-  lastname: string;
-  dob: string;
-  email: string;
-  numberPhone: string;
-  alamat: string;
-  password: string;
-}
-
 export const Signup = () => {
   const [step, setStep] = useState<number>(1);
   const { formik, loading } = useRegister(setStep);
