@@ -2,10 +2,20 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
+import { useState } from "react";
 
 const MobileNavBar = ({ itemOnCartCount }: any) => {
   const token = localStorage.getItem("token");
+  const [openModal, setOpenModal] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    setOpenModal(false)
+  }
   return (
     <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg sm:hidden">
       {token ? (
@@ -39,6 +49,53 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
               <span>Account</span>
             </div>
           </Link>
+          <div className="ml-6 w-10">
+              <ListGroup
+                className={`w-48 ${!show && "hidden"} absolute bottom-20 right-1`}
+              >
+                <ListGroup.Item>Profile</ListGroup.Item>
+                <ListGroup.Item>Settings</ListGroup.Item>
+                <ListGroup.Item>Messages</ListGroup.Item>
+                <ListGroup.Item active onClick={() => setOpenModal(true)}>
+                  Log Out
+                </ListGroup.Item>
+              </ListGroup>
+              <Avatar
+                img="/Google.png"
+                alt="profile"
+                rounded
+                bordered
+                className="cursor-pointer"
+                onClick={() => setShow(!show)}
+              />
+              <Modal
+                show={openModal}
+                size="md"
+                onClose={() => setOpenModal(false)}
+                popup
+              >
+                <Modal.Header />
+                <Modal.Body>
+                  <div className="text-center">
+                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                      Are you sure for Log Out?
+                    </h3>
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        color="failure"
+                        onClick={handleLogout}
+                      >
+                        {"Yes, I'm sure"}
+                      </Button>
+                      <Button color="gray" onClick={() => setOpenModal(false)}>
+                        No, cancel
+                      </Button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </div>
         </div>
       ) : (
         <div className="flex justify-around items-center p-4 bg-gray-100 rounded-t-lg">
