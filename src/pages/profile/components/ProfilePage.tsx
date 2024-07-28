@@ -2,20 +2,56 @@ import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
 import ChangeBioModal from "./ChangeBioModal";
 import { format } from "date-fns";
+import useChangeImg from "../../../hooks/users/useChangeImg";
 
 const ProfilePage = ({ data, getUser }: any) => {
   const [openChangeBio, setOpenChangeBio] = useState(false);
+  const { formik } = useChangeImg(getUser);
+
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        formik.setFieldValue("preview", reader.result);
+      };
+      reader.readAsDataURL(file);
+      formik.setFieldValue("image", file);
+    }
+  };
 
   return (
     <div className="md:flex md:p-8 p-2">
       <div className="border-4 rounded-lg w-max flex flex-col items-center relative  p-4 mb-6">
         <img
-          src={data?.image || `/profile.webp`}
+          src={formik.values.preview || data?.image || `/profile.webp`}
           alt=""
           className="md:h-96 md:w-96 w-48 "
         />
-        <div className="border-2 w-full text-center m-3 rounded-md text-xl cursor-pointer">
-          <p>Ubah Gambar</p>
+        <div className=" w-full flex flex-col items-center text-center m-3  text-xl  relative">
+          <p className="border-2 w-full rounded-md h-full">Ubah Gambar</p>
+          <form onSubmit={formik.handleSubmit}>
+            <input
+              type="file"
+              className="absolute left-0 top-0  cursor-pointer h-full w-full opacity-0"
+              onChange={handleImageChange}
+            />
+            {formik.touched["image"] && formik.errors["image"] && (
+              <p className="text-red-500 text-xs mt-1 w-full">
+                {formik.errors["image"]}
+              </p>
+            )}
+            <div className="w-full flex justify-center">
+              <Button
+                type="submit"
+                className={`w-max mt-4 hidden  ${
+                  formik.values.image && "block"
+                }`}
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
       <div className="md:ml-32 font-medium">
@@ -47,10 +83,17 @@ const ProfilePage = ({ data, getUser }: any) => {
         </ul>
         <div className="flex mt-10 mb-6">
           <Button className="mr-4">Ubah Password</Button>
-          <Button onClick={() => setOpenChangeBio(!openChangeBio)}>Ubah Data</Button>
+          <Button onClick={() => setOpenChangeBio(!openChangeBio)}>
+            Ubah Data
+          </Button>
         </div>
       </div>
-      <ChangeBioModal openChangeBio={openChangeBio} setOpenChangeBio={setOpenChangeBio} data={data} getUser={getUser}/>
+      <ChangeBioModal
+        openChangeBio={openChangeBio}
+        setOpenChangeBio={setOpenChangeBio}
+        data={data}
+        getUser={getUser}
+      />
     </div>
   );
 };

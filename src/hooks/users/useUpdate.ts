@@ -19,7 +19,6 @@ const useUpdate = (
   });
 
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
 
   const formik = useFormik({
     initialValues: {
