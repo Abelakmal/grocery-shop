@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [page, setPage] = useState(1);
-  const { data, loading, error } = useCurrent();
+  const { data, loading, error, getUser } = useCurrent();
   const navigate = useNavigate();
   const token = localStorage.getItem("token")
 
@@ -16,15 +16,15 @@ const Profile = () => {
     if(!token){
       navigate("/signin")
     }
-  },[token])
+  },[token]) 
   
   return (
     <>
       {loading || !data ? (
-        <div className="flex justify-center h-96 w-full items-center bg-white">{loading ? <div>Loading.....</div> : <div className="text-4xl">{error} {":("}</div>}</div>
+        <div className="flex justify-center h-screen w-full items-center bg-white">{loading ? <div>Loading.....</div> : <div className="text-4xl">{error} {":("}</div>}</div>
       ) : (
         <div className=" bg-white lg:mx-20 border-2 ">
-          <ProfilePage data={data} />
+          <ProfilePage data={data} getUser={getUser}/>
           <div className="border-b-2 w-full flex">
             <p
               className={`text-xl ml-4 ${

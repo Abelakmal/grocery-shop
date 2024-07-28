@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { baseURL } from "../../helper/config";
 
 const useRegister = (setStep: CallableFunction) => {
   const validationSchema = Yup.object().shape({
@@ -34,7 +35,7 @@ const useRegister = (setStep: CallableFunction) => {
         setLoading(true);
         const { fristname, lastname, email, password, dob, phone, address } =
           values;
-        await axios.post("http://localhost:3000/api/users", {
+        await axios.post(`${baseURL}/users`, {
           name: fristname + " " + lastname,
           email,
           password,

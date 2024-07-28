@@ -10,14 +10,16 @@ export const Signup = () => {
   return (
     <section className="">
       <div className="lg:flex justify-center items-center h-screen  w-full bg-white  rounded-lg relative">
-        <form onSubmit={formik.handleSubmit} className="lg:w-1/2 ">
-          {step === 1 && (
-            <Step1 setStep={setStep} formik={formik} loading={loading} />
-          )}
-          {step === 2 && (
-            <Step2 setStep={setStep} formik={formik} loading={loading} />
-          )}
-        </form>
+        {step !== 3 && (
+          <form onSubmit={formik.handleSubmit} className="lg:w-1/2 ">
+            {step === 1 && (
+              <Step1 setStep={setStep} formik={formik} loading={loading} />
+            )}
+            {step === 2 && (
+              <Step2 setStep={setStep} formik={formik} loading={loading} />
+            )}
+          </form>
+        )}
         {step === 3 && <Finish />}
         <div className="w-[50%] hidden lg:block">
           <img src="/bg-login.jpg" alt="bg-login" />

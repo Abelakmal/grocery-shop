@@ -17,8 +17,8 @@ const Signin = () => {
   };
 
   return (
-    <section className="h-screen flex items-center">
-      <div className="lg:flex w-full bg-white justify-center items-center rounded-lg relative">
+    <section className="h-screen flex bg-white items-center">
+      <div className="lg:flex w-full  justify-center items-center rounded-lg relative">
         <div className="lg:w-[50%] sm:p-10 p-4 h-full">
           <div className="max-sm:mb-4 flex justify-between">
             <Link to="/">

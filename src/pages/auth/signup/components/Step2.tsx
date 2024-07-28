@@ -143,7 +143,7 @@ console.log(formik.errors);
               "Loading...."
             ) : (
               <>
-                Finis <HiMiniArrowRight className="ml-2" />
+                Finish <HiMiniArrowRight className="ml-2" />
               </>
             )}
           </button>

@@ -1,6 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { IUser } from "../../types/user.type";
+import { axiosInstance } from "../../helper/axios";
+import { baseURL } from "../../helper/config";
 
 const useCurrent = () => {
   const [loading, setLoading] = useState(false);
@@ -9,8 +10,8 @@ const useCurrent = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if(token){
-        getUser();
+    if (token) {
+      getUser();
     }
   }, []);
 
@@ -19,25 +20,18 @@ const useCurrent = () => {
     setError(null);
 
     try {
-      const { data } = await axios.get(
-        "http://localhost:3000/api/users/current",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const { data } = await axiosInstance.get(`${baseURL}/users/current`);
       setData(data.data);
     } catch (err: any) {
       console.log(err);
 
-      setError(err.message || err.response.data?.error);
+      setError(err.response.data?.error || err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  return { data, loading, error };
+  return { data, loading, error, getUser };
 };
 
 export default useCurrent;

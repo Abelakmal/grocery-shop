@@ -13,7 +13,7 @@ const NavbarComp = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
-  const {data} = useCurrent()
+  const { data } = useCurrent();
 
   const token = localStorage.getItem("token");
 
@@ -23,10 +23,11 @@ const NavbarComp = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    navigate("/")
-    setOpenModal(false)
-  }
+    localStorage.removeItem("token");
+    navigate("/signin");
+    setShow(false)
+    setOpenModal(false);
+  };
   return (
     <div className="sticky top-0 z-50 bg-orange-50">
       <div className=" flex flex-row lg:justify-center justify-between max-w-10xl container text-md  mx-auto px-2 items-center">
@@ -72,10 +73,16 @@ const NavbarComp = () => {
               <ListGroup
                 className={`w-48 ${!show && "hidden"} absolute left-1 top-14`}
               >
-                <Link to={"/profile"}><ListGroup.Item>Profile</ListGroup.Item></Link>
-                <ListGroup.Item>Settings</ListGroup.Item>
-                <ListGroup.Item>Messages</ListGroup.Item>
-                <ListGroup.Item active onClick={() => setOpenModal(true)}>
+                <Link to={"/profile"} onClick={() => setShow(false)}>
+                  <ListGroup.Item>Profile</ListGroup.Item>
+                </Link>
+                <ListGroup.Item onClick={() => setShow(false)}>
+                  Settings
+                </ListGroup.Item>
+                <ListGroup.Item onClick={() => setShow(false)}>
+                  Messages
+                </ListGroup.Item>
+                <ListGroup.Item active onClick={() => handleLogout()}>
                   Log Out
                 </ListGroup.Item>
               </ListGroup>
@@ -101,10 +108,7 @@ const NavbarComp = () => {
                       Are you sure for Log Out?
                     </h3>
                     <div className="flex justify-center gap-4">
-                      <Button
-                        color="failure"
-                        onClick={handleLogout}
-                      >
+                      <Button color="failure" onClick={handleLogout}>
                         {"Yes, I'm sure"}
                       </Button>
                       <Button color="gray" onClick={() => setOpenModal(false)}>
