@@ -5,7 +5,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import { useState } from "react";
-import useCurrent from "../../../hooks/users/useCurrent";
+import useCurrent from "../hooks/users/useCurrent";
 
 const MobileNavBar = ({ itemOnCartCount }: any) => {
   const token = localStorage.getItem("token");
@@ -21,7 +21,7 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
     setShow(false);
   };
   return (
-    <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg sm:hidden">
+    <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg md:hidden">
       {token ? (
         <div className="flex justify-around items-center p-4 bg-gray-100 rounded-t-lg">
           <Link to="/">

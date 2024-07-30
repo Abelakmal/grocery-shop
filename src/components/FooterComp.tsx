@@ -1,15 +1,15 @@
-import { Footer, FooterCopyright, FooterIcon } from 'flowbite-react';
+import { Footer, FooterCopyright, FooterIcon } from "flowbite-react";
 import {
   BsDribbble,
   BsFacebook,
   BsGithub,
   BsInstagram,
   BsTwitter,
-} from 'react-icons/bs';
+} from "react-icons/bs";
 
 const FooterComp = () => {
   return (
-    <Footer className="bg-orange-50 mt-12 relative">
+    <Footer className="bg-orange-50  h-full  ">
       <div className="container mx-auto max-w-7xl px-5 py-20">
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <FooterCopyright href="#" by="GroceryShop™" year={2024} />

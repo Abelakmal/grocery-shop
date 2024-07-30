@@ -1,13 +1,8 @@
 import { Button, Modal } from "flowbite-react";
 import useUpdate from "../../../hooks/users/useUpdate";
 
-const ChangeBioModal = ({
-  openChangeBio,
-  setOpenChangeBio,
-  getUser,
-  data,
-}: any) => {
-  const { formik } = useUpdate(data, setOpenChangeBio, getUser);
+const ChangeBioModal = ({ openChangeBio, setOpenChangeBio, user }: any) => {
+  const { formik } = useUpdate(user, setOpenChangeBio);
 
   return (
     <>
@@ -19,11 +14,11 @@ const ChangeBioModal = ({
         <Modal.Header className="text-2xl">Ubah Data</Modal.Header>
         <Modal.Body>
           <div>
-          {formik.touched["email"] && formik.errors["email"] && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {formik.errors["email"]}
-                  </p>
-                )}
+            {formik.touched["email"] && formik.errors["email"] && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors["email"]}
+              </p>
+            )}
             <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-col mb-2">
                 <label>Name</label>

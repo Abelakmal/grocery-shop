@@ -6,14 +6,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
-import useCurrent from "../../../hooks/users/useCurrent";
+import { useSelector } from "react-redux";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
-  const { data } = useCurrent();
 
   const token = localStorage.getItem("token");
 
@@ -25,21 +24,24 @@ const NavbarComp = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/signin");
-    setShow(false)
+    setShow(false);
     setOpenModal(false);
   };
+
+  const { user } = useSelector((state: any) => state.user);
+
   return (
-    <div className="sticky top-0 z-50 bg-orange-50">
-      <div className=" flex flex-row lg:justify-center justify-between max-w-10xl container text-md  mx-auto px-2 items-center">
+    <div className="sticky top-0 z-50 ">
+      <div className="bg-[#ccc1a1]  flex flex-row lg:justify-center justify-between w-full  px-1 md:px-5 items-center">
         <Link to="/">
           <div className={` flex font-bold mr-2`}>
-            <div className=" text-[#b1bf4c] lg:text-5xl ">Grocery</div>
-            <div className=" text-[#848484] lg:text-5xl h-full ">Shop</div>
+            <div className=" text-[#b1bf4c] text-sm md:text-4xl ">Grocery</div>
+            <div className=" text-[#848484] text-sm md:text-4xl h-full ">Shop</div>
           </div>
         </Link>
         <form
           onSubmit={handleSearch}
-          className="z-10 relative w-full sm:mx-4 md:mx-10 lg:mx-20 xl:mx-auto xl:max-w-3xl"
+          className="z-10 relative w-full md:mx-10 mx-2"
         >
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <span className="w-full">
@@ -49,7 +51,7 @@ const NavbarComp = () => {
           <input
             className="pl-12 bg-gray-100 text-gray-600 placeholder-gray-200 sm:focus:bg-white w-full mx-auto my-4 py-2 px-3 rounded-xl z-10 outline-0 border-gray-200"
             placeholder="Search for product name..."
-            type="text"
+            type="search"
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
@@ -87,7 +89,7 @@ const NavbarComp = () => {
                 </ListGroup.Item>
               </ListGroup>
               <Avatar
-                img={data?.image || `/profile.webp`}
+                img={user.image || `/profile.webp`}
                 alt="profile"
                 rounded
                 bordered

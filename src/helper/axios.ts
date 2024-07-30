@@ -46,7 +46,11 @@ const processQueue = (error: any, token: string | null = null) => {
 // Fungsi untuk refresh token
 const refreshToken = async (): Promise<string> => {
   try {
-    const response = await axiosInstance.post(baseURL + "/auth/refreshToken");
+    const response = await axios.post(
+      baseURL + "/auth/refreshToken",
+      {},
+      { withCredentials: true }
+    );
     const newToken = response.data.data.token;
     setAccessToken(newToken);
     axiosInstance.defaults.headers.common[
@@ -54,6 +58,8 @@ const refreshToken = async (): Promise<string> => {
     ] = `Bearer ${newToken}`;
     return newToken;
   } catch (error) {
+    console.log(error);
+
     processQueue(error, null);
     localStorage.clear();
     throw error;

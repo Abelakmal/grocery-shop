@@ -4,11 +4,12 @@ import * as Yup from "yup";
 import { IUser } from "../../types/user.type";
 import { axiosInstance } from "../../helper/axios";
 import { baseURL } from "../../helper/config";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "../../redux/features/userSlice";
 
 const useUpdate = (
-  data: IUser,
+  user: IUser,
   setOpenChangeBio: CallableFunction,
-  getUser: CallableFunction
 ) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name cannot be empty"),
@@ -19,14 +20,15 @@ const useUpdate = (
   });
 
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<any>();
 
   const formik = useFormik({
     initialValues: {
-      name: data.name || undefined,
-      email: data.email || undefined,
-      dob: data.dob,
-      phone: data.phone,
-      address: data.address || undefined,
+      name: user.name || undefined,
+      email: user.email || undefined,
+      dob: user.dob,
+      phone: user.phone,
+      address: user.address || undefined,
     },
     validationSchema,
     onSubmit: async (values, { setErrors }) => {
@@ -34,23 +36,20 @@ const useUpdate = (
         setLoading(true);
         const { name, email, dob, phone, address } = values;
 
-        await axiosInstance.patch(
-          `${baseURL}/users`,
-          {
-            name,
-            email,
-            dob: new Date(dob),
-            phone,
-            address,
-          }
-        );
-        getUser();
+        await axiosInstance.patch(`${baseURL}/users`, {
+          name,
+          email,
+          dob: new Date(dob),
+          phone,
+          address,
+        });
+        dispatch(fetchCurrentUser());
         setOpenChangeBio(false);
       } catch (error: any) {
         console.error("Error Register:", error);
-        if (error.response.data.error) {
+        if (error.response.user.error) {
           setErrors({
-            email: error.response.data.error,
+            email: error.response.user.error,
           });
         }
       } finally {

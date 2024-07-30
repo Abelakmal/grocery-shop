@@ -1,12 +1,12 @@
-import { Button, Label, Modal, TextInput } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { useState } from "react";
 import ChangeBioModal from "./ChangeBioModal";
 import { format } from "date-fns";
 import useChangeImg from "../../../hooks/users/useChangeImg";
 
-const ProfilePage = ({ data, getUser }: any) => {
+const ProfilePage = ({ user}: any) => {
   const [openChangeBio, setOpenChangeBio] = useState(false);
-  const { formik } = useChangeImg(getUser);
+  const { formik } = useChangeImg();
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -19,12 +19,13 @@ const ProfilePage = ({ data, getUser }: any) => {
       formik.setFieldValue("image", file);
     }
   };
+  
 
   return (
     <div className="md:flex md:p-8 p-2">
       <div className="border-4 rounded-lg w-max flex flex-col items-center relative  p-4 mb-6">
         <img
-          src={formik.values.preview || data?.image || `/profile.webp`}
+          src={formik.values.preview || user?.image || `/profile.webp`}
           alt=""
           className="md:h-96 md:w-96 w-48 "
         />
@@ -57,26 +58,26 @@ const ProfilePage = ({ data, getUser }: any) => {
       <div className="md:ml-32 font-medium">
         <ul className=" text-lg text-gray-400">
           <h1 className="text-3xl font-bold text-gray-500 mb-6">Biodata</h1>
-          <li className="mb-4 flex">Name : {data?.name}</li>
+          <li className="mb-4 flex">Name : {user?.name}</li>
           <li className="mb-4 flex">
             Tanggal Lahir :{" "}
-            {format(data?.dob, "dd-MMM-yyyy") || (
+            {format(user?.dob, "dd-MMM-yyyy") || (
               <p className="text-black ml-2 text-nowrap"> Tidak ada</p>
             )}
           </li>
           <li className="mb-4 flex">
             Alamat :{" "}
-            {data?.address || (
+            {user?.address || (
               <p className="text-black ml-2 text-nowrap"> Tidak ada</p>
             )}
           </li>
         </ul>
         <ul className=" text-lg text-gray-400">
           <h1 className="text-3xl font-bold text-gray-500 mb-6">Kontak</h1>
-          <li className="mb-4">Email : {data?.email}</li>
+          <li className="mb-4">Email : {user?.email}</li>
           <li className="mb-4 flex">
             Nomor Telp :{" "}
-            {data?.phone || (
+            {user?.phone || (
               <p className="text-black ml-2 text-nowrap"> Tidak ada</p>
             )}
           </li>
@@ -91,8 +92,7 @@ const ProfilePage = ({ data, getUser }: any) => {
       <ChangeBioModal
         openChangeBio={openChangeBio}
         setOpenChangeBio={setOpenChangeBio}
-        data={data}
-        getUser={getUser}
+        user={user}
       />
     </div>
   );

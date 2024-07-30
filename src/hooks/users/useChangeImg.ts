@@ -2,9 +2,12 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { axiosInstance } from "../../helper/axios";
 import { baseURL } from "../../helper/config";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "../../redux/features/userSlice";
 
-const useChangeImg = (getUser: CallableFunction) => {
+const useChangeImg = () => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<any>();
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +28,7 @@ const useChangeImg = (getUser: CallableFunction) => {
             "Content-Type": "multipart/form-data",
           },
         });
-       await getUser();
+        dispatch(fetchCurrentUser());
       } catch (error: any) {
         if (error.response.data.error) {
           setErrors({

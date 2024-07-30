@@ -11,14 +11,18 @@
   },
   "dependencies": {
     "@arismun/format-rupiah": "^3.0.0",
-    "@reduxjs/toolkit": "^2.2.5",
+    "@reduxjs/toolkit": "^2.2.7",
     "@types/node": "^20.14.2",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "flowbite-react": "^0.9.0",
     "formik": "^2.4.6",
+    "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-geolocated": "^4.1.2",
+    "react-leaflet": "^4.2.1",
+    "react-redux": "^9.1.2",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
     "react-splide-ts": "^0.7.14",
@@ -27,6 +31,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
