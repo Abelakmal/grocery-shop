@@ -24,14 +24,10 @@ const useLogin = () => {
         }
       );
 
-      console.log(data);
-
       localStorage.setItem("token", data.data.token);
 
       navigate("/");
     } catch (err: any) {
-      console.log(err);
-
       setError(err.response.data?.error || "Server Error");
     } finally {
       setLoading(false);

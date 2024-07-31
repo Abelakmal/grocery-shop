@@ -31,8 +31,6 @@ const useSearchLocation = () => {
         setLoading(false);
       }, 1000);
     } catch (err: any) {
-      console.log(err);
-
       setError(err.response.data?.error || "Server Error");
     }
   };

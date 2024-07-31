@@ -17,8 +17,6 @@ const useDetailLocation = () => {
       return data;
       setLoading(false);
     } catch (err: any) {
-      console.log(err);
-
       setError(err.response.data?.error || "Server Error");
     }
   };
