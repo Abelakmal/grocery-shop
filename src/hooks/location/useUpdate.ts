@@ -2,17 +2,12 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { baseURL } from "../../helper/config";
-import { useDispatch, useSelector } from "react-redux";
-import { IUser } from "../../types/user.type";
+import { useDispatch } from "react-redux";
 import axiosInstance from "../../helper/axios";
 import { getAddress } from "../../redux/features/addressSlice";
+import { IAddress } from "../../types/address.type";
 
-const useCreateLocation = (
-  latitude: number,
-  longitude: number,
-  setOpenAddLocation: CallableFunction,
-  setStep: CallableFunction
-) => {
+const useUpdate = (data: IAddress, setOpenUpdate: CallableFunction) => {
   const validationSchema = Yup.object().shape({
     label: Yup.string().required("Wajib Disi"),
     details: Yup.string().required("Wajib Disi"),
@@ -23,44 +18,44 @@ const useCreateLocation = (
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<any>();
 
-  const user = useSelector((state: any) => state.user.user as IUser);
-
   const formik = useFormik({
     initialValues: {
-      label: "",
-      details: "",
-      recipient_name: user.name,
-      recipient_number: user.phone,
-      main: 0,
+      id: data.id,
+      label: data.label,
+      details: data.details,
+      recipient_name: data.recipient_name,
+      recipient_number: data.recipient_number,
+      latitude: data.latitude,
+      longitude: data.longitude,
       error: "",
     },
     validationSchema,
     onSubmit: async (values, { setErrors }) => {
       try {
         const {
+          id,
           details,
           label,
           recipient_name,
           recipient_number,
-          main,
+          latitude,
+          longitude,
         } = values;
 
-        await axiosInstance.post(baseURL + "/address", {
+        await axiosInstance.put(baseURL + "/address/" + id, {
           label,
           details,
           recipient_name,
           recipient_number,
-          main,
-          longitude: longitude.toString(),
-          latitude: latitude.toString(),
+          latitude,
+          longitude,
         });
 
         setLoading(true);
-        setOpenAddLocation(false);
+        setOpenUpdate(false);
         dispatch(getAddress());
-        setStep(1);
       } catch (error: any) {
-        console.error("Error Register:", error);
+        console.error("Error :", error);
         if (error.response.data.error) {
           setErrors({
             error: error.response.data.error,
@@ -75,4 +70,4 @@ const useCreateLocation = (
   return { formik, loading };
 };
 
-export default useCreateLocation;
+export default useUpdate;

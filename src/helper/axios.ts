@@ -58,8 +58,6 @@ const refreshToken = async (): Promise<string> => {
     ] = `Bearer ${newToken}`;
     return newToken;
   } catch (error) {
-    console.log(error);
-
     processQueue(error, null);
     localStorage.clear();
     throw error;

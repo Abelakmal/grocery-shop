@@ -8,7 +8,6 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`${baseURL}/users/current`);
-      console.log(data);
 
       return data.data;
     } catch (error: any) {
@@ -49,7 +48,6 @@ export const userSlice = createSlice({
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.loading = false;
-        console.log(action);
 
         state.error = action.error.message as string;
       });

@@ -3,7 +3,6 @@ import { IoMdArrowBack } from "react-icons/io";
 
 const Step2 = ({ setStep,  formik, loading }: any) => {
 
-console.log(formik.errors);
 
   return (
     <div className="sm:p-10 p-4 h-full max-sm:text-sm">

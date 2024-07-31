@@ -12,10 +12,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get("search");
 
-  const { data } = useGetAllProduct(sort,search, filterCategory);
-
-  console.log(data);
-  
+  const { data } = useGetAllProduct(sort, search, filterCategory);
 
   return (
     <div className="w-full h-screen mb-5">

@@ -5,23 +5,38 @@ import { ILocation } from "../types/location.type";
 import Map from "./Map";
 import { GoArrowLeft } from "react-icons/go";
 import FormDetailAddress from "./FormDetailAddress";
+import { useSelector } from "react-redux";
+import { IUser } from "../types/user.type";
+import { Link } from "react-router-dom";
+import ViewAddress from "./ViewAddress";
 const PickLocation = () => {
   const [openAddLocation, setOpenAddLocation] = useState(false);
   const [nowLocation, setNowLocation] = useState<ILocation>();
+  const user = useSelector((state: any) => state.user.user as IUser);
 
   const [step, setStep] = useState(1);
 
   return (
-    <div className="flex justify-center">
-      <button
-        onClick={() => setOpenAddLocation(true)}
-        className="border-2 p-2 rounded-lg w-full text-lg font-semibold"
-      >
-        Add Location
-      </button>
+    <div className="flex justify-center flex-col">
+      {user.id ? (
+        <ViewAddress setOpenAddLocation={setOpenAddLocation} />
+      ) : (
+        <div className="border-2 rounded-md flex justify-between items-center p-4">
+          <div>
+            <h1 className="font-bold text-xl">Masuk</h1>
+            <p>masuk terlebih dahulu Untuk Melihat Alamat</p>
+          </div>
+          <Link
+            to={"/signin"}
+            className="bg-green-500 text-white p-2 rounded-lg h-max"
+          >
+            Masuk
+          </Link>
+        </div>
+      )}
       <Modal
-        size={"4xl"}
-        className="md:text-2xl "
+        size={"6xl"}
+        className="md:text-2xl"
         show={openAddLocation}
         onClose={() => setOpenAddLocation(false)}
       >
@@ -77,7 +92,13 @@ const PickLocation = () => {
             <Koordinat setStep={setStep} setNowLocation={setNowLocation} />
           )}
           {step === 2 && <Map nowLocation={nowLocation} setStep={setStep} />}
-          {step === 3 && <FormDetailAddress nowLocation={nowLocation}  setOpenAddLocation={setOpenAddLocation} setStep={setStep}/>}
+          {step === 3 && (
+            <FormDetailAddress
+              nowLocation={nowLocation}
+              setOpenAddLocation={setOpenAddLocation}
+              setStep={setStep}
+            />
+          )}
         </Modal.Body>
       </Modal>
     </div>
