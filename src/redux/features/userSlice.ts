@@ -29,7 +29,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     user,
-    loading: false,
+    loading: true,
     error: "",
   },
   reducers: {

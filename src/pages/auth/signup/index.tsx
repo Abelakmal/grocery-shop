@@ -3,8 +3,9 @@ import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
 import Finish from "./components/Finish";
 import useRegister from "../../../hooks/auth/useRegister";
+import AuthGuard from "../../../HOC/AuthGuard";
 
-export const Signup = () => {
+const Signup = () => {
   const [step, setStep] = useState<number>(1);
   const { formik, loading } = useRegister(setStep);
   return (
@@ -28,3 +29,5 @@ export const Signup = () => {
     </section>
   );
 };
+
+export default Signup;

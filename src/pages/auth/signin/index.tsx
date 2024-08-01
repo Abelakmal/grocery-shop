@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 import useLogin from "../../../hooks/auth/useLogin";
 import { FormEvent, useState } from "react";
 import { CiShop } from "react-icons/ci";
+import AuthGuard from "../../../HOC/AuthGuard";
+
 
 const Signin = () => {
   const { login, loading, error } = useLogin();
-  const [email, setEmail] = useState(""); 
-  const [password, setPassword] = useState(""); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // Handling form submission
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    await login(email, password); 
+    await login(email, password);
   };
 
   return (
@@ -37,8 +38,12 @@ const Signin = () => {
           </div>
 
           {/* Sign-in form section */}
-          <h1 className="font-semibold text-2xl sm:mt-10">Hallo, Welcome Back</h1>
-          <p className="my-4">Saatnya belanja lagi, Ayo nikmati dengan berbagai Promo yang Ada.</p>
+          <h1 className="font-semibold text-2xl sm:mt-10">
+            Hallo, Welcome Back
+          </h1>
+          <p className="my-4">
+            Saatnya belanja lagi, Ayo nikmati dengan berbagai Promo yang Ada.
+          </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col">
             {/* Email input field */}
@@ -69,7 +74,10 @@ const Signin = () => {
             {error && <p className=" py-4 text-red-500">{error}</p>}
 
             {/* Sign-in button */}
-            <button className="bg-[#162D3A] text-white rounded-lg py-1" disabled={loading}>
+            <button
+              className="bg-[#162D3A] text-white rounded-lg py-1"
+              disabled={loading}
+            >
               {loading ? "Loading...." : "Sign In"}
             </button>
           </form>
@@ -80,7 +88,6 @@ const Signin = () => {
             <p className="mx-2">OR</p>
             <div className="border-2 w-full border-black rounded-lg"></div>
           </div>
-
 
           <ul>
             <li className="bg-[#F3F9FA] text-center mb-5 p-2 rounded-lg flex items-center justify-center cursor-pointer font-semibold shadow-md whitespace-nowrap">
@@ -95,7 +102,10 @@ const Signin = () => {
 
           {/* Sign-up option */}
           <p className="flex justify-center w-full">
-            Don't Have a acounnt? <Link to="/signup" className="text-blue-500 hover:underline ml-2">Sign up</Link>
+            Don't Have a acounnt?{" "}
+            <Link to="/signup" className="text-blue-500 hover:underline ml-2">
+              Sign up
+            </Link>
           </p>
         </div>
 
@@ -108,4 +118,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Signin

@@ -4,13 +4,15 @@ import Products from "../pages/products";
 import { ProductDetails } from "../pages/products/components/ProductDetails";
 import FooterComp from "../components/FooterComp";
 import Signin from "../pages/auth/signin";
-import { Signup } from "../pages/auth/signup";
+import Signup from "../pages/auth/signup";
 import Profile from "../pages/profile";
 import NavbarComp from "../components/NavbarComp";
 import MobileNavBar from "../components/MobileNavBar";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchCurrentUser } from "../redux/features/userSlice";
+import AuthGuard from "../HOC/AuthGuard";
+import UserGuard from "../HOC/UserGuard";
 
 export const Routers = () => {
   const location = useLocation();
@@ -18,7 +20,7 @@ export const Routers = () => {
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
-      dispatch(fetchCurrentUser());
+    dispatch(fetchCurrentUser());
   }, []);
 
   const route = ["/signup", "/signin", "/admin"];
@@ -29,9 +31,12 @@ export const Routers = () => {
         <Route path="/" element={<App />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/signin" element={<AuthGuard component={<Signin />} />} />
+        <Route path="/signup" element={<AuthGuard component={<Signup />} />} />
+        <Route
+          path="/profile"
+          element={<UserGuard component={<Profile />} />}
+        />
       </Routes>
       {!route.includes(location.pathname) && <MobileNavBar />}
       {!route.includes(location.pathname) && <FooterComp />}
