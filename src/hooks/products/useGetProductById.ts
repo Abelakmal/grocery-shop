@@ -14,9 +14,9 @@ const useGetProductById = (id: string | undefined) => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${base_url}/products/${id}`,
+        `${base_url}/product/${id}`,
       );
-      setData(data);
+      setData(data.data);
     } catch (error) {
       throw error;
     } finally {

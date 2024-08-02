@@ -18,10 +18,13 @@ export const Routers = () => {
   const location = useLocation();
 
   const dispatch = useDispatch<any>();
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, []);
+    if(token){
+      dispatch(fetchCurrentUser());
+    }
+  }, [token]);
 
   const route = ["/signup", "/signin", "/admin"];
   return (

@@ -13,10 +13,14 @@ const Delivered = () => {
   const address = useSelector(
     (state: any) => state.address.address as IAddress[]
   );
-  useEffect(() => {
-    dispatch(getAddress());
-  }, []);
 
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getAddress());
+    }
+  }, [token]);
 
   return (
     <div className="bg-[#fef9e9] ">
@@ -29,22 +33,31 @@ const Delivered = () => {
             className={`ml-2 lg:text-2xl cursor-pointer flex items-center`}
             onClick={() => setOpenModal(true)}
           >
-            <p>Deliver to:</p>{" "}
-            {address.map((data, index) => {
-              return (
-                <div key={index}>
-                  {data.main && (
-                    <p
-                      key={index}
-                      className="ml-2 font-bold text-lg text-black flex items-center"
-                    >
-                      {data.label} {data.recipient_name}{" "}
-                      <MdKeyboardArrowDown className="text-3xl" />
-                    </p>
-                  )}
-                </div>
-              );
-            })}
+            <p>Deliver to:</p>
+            {address[0].id ? (
+              <>
+                {address.map((data, index) => {
+                  return (
+                    <div key={index}>
+                      {data.main && (
+                        <p
+                          key={index}
+                          className="ml-2 font-bold text-lg text-black flex items-center"
+                        >
+                          {data.label} {data.recipient_name}{" "}
+                          <MdKeyboardArrowDown className="text-3xl" />
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              <p className="ml-2 font-bold text-lg text-black flex items-center">
+                Jakarta Pusat
+                <MdKeyboardArrowDown className="text-3xl" />
+              </p>
+            )}
           </div>
         </div>
 

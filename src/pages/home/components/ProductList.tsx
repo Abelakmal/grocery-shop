@@ -6,6 +6,7 @@ import { FormatRupiah } from "@arismun/format-rupiah";
 
 const ProductList = () => {
   const { data } = useGetAllProduct();
+  
   return (
     <div>
       <div className="max-w-7xl mx-auto px-5">
