@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import useLogin from "../../../hooks/auth/useLogin";
 import { FormEvent, useState } from "react";
 import { CiShop } from "react-icons/ci";
-import AuthGuard from "../../../HOC/AuthGuard";
-
 
 const Signin = () => {
   const { login, loading, error } = useLogin();
@@ -18,9 +16,9 @@ const Signin = () => {
   };
 
   return (
-    <section className="h-screen flex bg-white items-center">
-      <div className="lg:flex w-full  justify-center items-center rounded-lg relative">
-        <div className="lg:w-[50%] sm:p-10 p-4 h-full">
+    <section className="lg:h-full h-screen flex bg-white items-center">
+      <div className="lg:flex w-full h-full  justify-center items-center rounded-lg relative">
+        <div className="lg:w-[50%] sm:p-10 p-4 h-full lg:flex flex-col justify-center">
           <div className="max-sm:mb-4 flex justify-between">
             <Link to="/">
               <div className="flex items-center w-max cursor-pointer">
@@ -110,7 +108,7 @@ const Signin = () => {
         </div>
 
         {/* Background image (visible only on large screens) */}
-        <div className="w-[50%] hidden lg:block">
+        <div className="lg:w-[50%] hidden lg:flex items-center h-full">
           <img src="/bg-login.jpg" alt="bg-login" />
         </div>
       </div>
@@ -118,4 +116,4 @@ const Signin = () => {
   );
 };
 
-export default Signin
+export default Signin;

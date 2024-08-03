@@ -9,7 +9,7 @@ const ProductList = () => {
   
   return (
     <div>
-      <div className="max-w-7xl mx-auto px-5">
+      <div className="max-w-7xl mx-auto p-5">
         <div className="flex justify-between items-center mb-6 my-12">
           <h1 className={` text-xl sm:text-3xl lg:text-4xl mb-0 text-left `}>
             Product Recommendation

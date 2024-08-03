@@ -5,7 +5,7 @@ const Step2 = ({ setStep,  formik, loading }: any) => {
 
 
   return (
-    <div className="sm:p-10 p-4 h-full max-sm:text-sm">
+    <div className="sm:p-10 lg:p-4 px-4 pt-2 h-full max-sm:text-xs">
       <div className="flex justify-between">
         <div className="cursor-pointer" onClick={() => setStep(1)}>
           <div className="flex items-center w-max cursor-pointer  ">
@@ -13,7 +13,7 @@ const Step2 = ({ setStep,  formik, loading }: any) => {
             <p className="ml-2">Back</p>
           </div>
         </div>
-        <h1 className="text-center text-xl font-bold">
+        <h1 className="text-center lg:text-xl font-bold">
           Masukan Data Lengkap Dirimu
         </h1>
       </div>

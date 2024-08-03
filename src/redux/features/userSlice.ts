@@ -35,6 +35,7 @@ export const userSlice = createSlice({
   reducers: {
     clearCurrentUser: (state: any) => {
       state.user = null;
+      state.user.id = null
     },
   },
   extraReducers: (builder) => {

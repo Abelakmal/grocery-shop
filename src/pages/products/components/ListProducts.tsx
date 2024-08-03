@@ -12,49 +12,57 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get("search");
 
-  const { data } = useGetAllProduct(sort, search, filterCategory);
+  const { data, loading } = useGetAllProduct(sort, search, filterCategory);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center h-96 w-full items-center bg-white">
+        Loading...
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full h-screen mb-5">
+    <div className="w-full lg:h-screen mb-5">
       {data ? (
         <>
-          <div className="flex">
+          <div className="flex max-xl:fixed h-max items-center z-40 bg-white w-full shadow-lg">
             <div
-              className="m-4 h-max p-2 rounded-lg block lg:hidden cursor-pointer border-2"
+              className="ml-2  h-max w-max p-2 rounded-lg block xl:hidden cursor-pointer border-2 "
               onClick={() => setShowSide(true)}
             >
               <RiMenu2Fill />
             </div>
-            <div className="lg:flex sm:flex justify-between items-center shadow-lg mb-8 text-base sm:text-xl lg:text-xl mx-5 rounded-lg p-2 w-full">
-              <p>
+            <div className="flex text-nowrap  justify-between items-center xl:shadow-lg text-[14px] sm:text-xl h-full p-4  xl:mx-5 xl:rounded-lg w-full">
+              <p className="max-md:text-[10px]">
                 Showing 1-{data?.length > 10 ? 10 : data.length} of{" "}
                 {data?.length} Results {search ? `of "${search}"` : ""}
               </p>
-              <div className="flex items-center mr-3  mt-2">
-                <p className="mr-3">Sort By: </p>
+              <div className="flex items-center ">
+                <p className="mr-3 max-md:text-[10px]">Sort By: </p>
                 <select
-                  className="rounded-lg"
+                  className="rounded-lg max-md:text-[8px] w-max h-max"
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
                 >
-                  <option value={"random"}>Default</option>
-                  <option value={"latest"}>latest</option>
-                  <option value={"higher"}>highest price</option>
-                  <option value={"lowest"}>lowest price</option>
+                  <option value={"random"} className="max-md:text-[10px]">Default</option>
+                  <option value={"latest"} className="max-md:text-[10px]">latest</option>
+                  <option value={"higher"} className="max-md:text-[10px]">highest price</option>
+                  <option value={"lowest"} className="max-md:text-[10px]">lowest price</option>
                 </select>
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center w-full">
-            <div className="grid grid-cols-2 p-2 sm:grid-cols-4 lg:grid-cols-6 gap-6 overflow-y-scroll">
+          <div className="flex flex-col items-center w-full h-full xl:h-screen max-xl:mt-32 mt-4 ">
+            <div className="grid grid-cols-1 p-2  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:mb-32 lg:overflow-y-scroll">
               {data?.map((product) => {
                 return (
                   <div
                     key={product.id}
-                    className="bg-[#f2f2f2] border rounded-lg"
+                    className="bg-[#f2f2f2] border rounded-lg  w-max"
                   >
                     <Link key={product.id} to={`/products/${product.id}`}>
-                      <div className="h-max justify-center hover:shadow-lg transition-shadow duration-300 cursor-pointer pb-2 ">
+                      <div className="h-max justify-center hover:shadow-lg transition-shadow duration-300 cursor-pointer pb-2">
                         <div className="w-full relative mb-3 h-32 flex items-center justify-center">
                           <img
                             src={product.image as string}
@@ -86,9 +94,9 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
                       <Link to={"/cart"}>
                         <Button
                           color="success"
-                          className=" text-black hover:bg-green-500 max-lg:bg-green-500"
+                          className=" text-black hover:bg-green-500 max-lg:bg-green-500 "
                         >
-                          <MdOutlineAddShoppingCart className="text-2xl max-sm:text-sm" />
+                          <MdOutlineAddShoppingCart className="text-2xl max-sm:text-sm " />
                         </Button>
                       </Link>
                     </div>

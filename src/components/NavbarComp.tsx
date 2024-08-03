@@ -6,7 +6,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCurrentUser } from "../redux/features/userSlice";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
@@ -15,6 +16,7 @@ const NavbarComp = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const token = localStorage.getItem("token");
+  const dispatch: any = useDispatch();
 
   const handleSearch = (e: any) => {
     e.preventDefault();
@@ -23,7 +25,10 @@ const NavbarComp = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    document.cookie =
+      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/signin");
+    dispatch(clearCurrentUser())
     setShow(false);
     setOpenModal(false);
   };
@@ -35,8 +40,8 @@ const NavbarComp = () => {
       <div className="bg-[#ccc1a1]  flex flex-row lg:justify-center justify-between w-full  px-1 md:px-5 items-center">
         <Link to="/">
           <div className={` flex font-bold mr-2`}>
-            <div className=" text-[#b1bf4c] text-sm md:text-4xl ">Grocery</div>
-            <div className=" text-[#848484] text-sm md:text-4xl h-full ">Shop</div>
+            <div className=" text-green-600 text-sm md:text-xl ">Grocery</div>
+            <div className=" text-black text-sm md:text-2xl h-full ">Shop</div>
           </div>
         </Link>
         <form
@@ -125,12 +130,12 @@ const NavbarComp = () => {
         ) : (
           <div className="hidden md:flex">
             <Link to={"/signin"}>
-              <button className="bg-green-600 text-white p-2 font-medium rounded-lg mr-2 whitespace-nowrap text-base">
+              <button className="bg-green-600 text-white p-1 font-medium rounded-lg mr-2 whitespace-nowrap text-[13px]">
                 <p>SIGN IN</p>
               </button>
             </Link>
             <Link to={"/signup"}>
-              <button className="hover:bg-green-600 hover:text-white font-medium bg-white p-2 rounded-lg border-2 text-base whitespace-nowrap">
+              <button className="hover:bg-green-600 hover:text-white font-medium bg-white p-1 rounded-lg border-2 text-[13px] whitespace-nowrap">
                 SIGN UP
               </button>
             </Link>

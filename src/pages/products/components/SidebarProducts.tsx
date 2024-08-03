@@ -3,13 +3,17 @@ import { ICategory } from "../../../types/category.type";
 import useGetAllCategory from "../../../hooks/categories/useGetAllCategory";
 import { useLocation } from "react-router-dom";
 
-export const SidebarProducts = ({ setFilterCategory, showSide, setShowSide }: any) => {
+export const SidebarProducts = ({
+  setFilterCategory,
+  showSide,
+  setShowSide,
+}: any) => {
   const [filter, setFilter] = useState<ICategory[]>([]);
-  
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const categoryId = searchParams.get('categoryId');
-  const name = searchParams.get('name');
+  const categoryId = searchParams.get("categoryId");
+  const name = searchParams.get("name");
 
   const handleChecked = (id: string, name: string) => {
     let dataFilter = [...filter];
@@ -32,18 +36,17 @@ export const SidebarProducts = ({ setFilterCategory, showSide, setShowSide }: an
 
   const [dropDown, setDropdown] = useState(false);
   const { data } = useGetAllCategory();
-  
-    
+
   useEffect(() => {
-    if(categoryId && name) {
-      handleChecked(categoryId,name)
+    if (categoryId && name) {
+      handleChecked(categoryId, name);
     }
-  },[categoryId && name])
+  }, [categoryId && name]);
   return (
     <div
-      className={`p-10 lg:h-full bg-[#4a5765] text-white ${
+      className={`p-3 h-full  bg-[#4a5765] text-white ${
         showSide ? "fixed" : "hidden"
-      } h-full max-lg:z-50 max-lg:w-full lg:block lg:relative`}
+      } max-xl:z-50 max-xl:w-full xl:block  xl:relative `}
     >
       <div className="flex">
         {filter?.map((value: any, index: number) => {
@@ -70,7 +73,12 @@ export const SidebarProducts = ({ setFilterCategory, showSide, setShowSide }: an
           Product <span className="text-[#b1bf4c]">Category</span>
           <span className="ml-2 text-xl font-bold">{dropDown ? "+" : "-"}</span>
         </h1>
-        <h1 className="text-xl cursor-pointer block lg:hidden" onClick={() => setShowSide(false)}>X</h1>
+        <h1
+          className="text-xl cursor-pointer block xl:hidden"
+          onClick={() => setShowSide(false)}
+        >
+          X
+        </h1>
       </div>
 
       <div className={`  ${dropDown ? "hidden" : "block"}`}>
@@ -120,4 +128,3 @@ export const SidebarProducts = ({ setFilterCategory, showSide, setShowSide }: an
     </div>
   );
 };
-

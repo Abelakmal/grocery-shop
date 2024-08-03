@@ -3,14 +3,13 @@ import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
 import Finish from "./components/Finish";
 import useRegister from "../../../hooks/auth/useRegister";
-import AuthGuard from "../../../HOC/AuthGuard";
 
 const Signup = () => {
   const [step, setStep] = useState<number>(1);
   const { formik, loading } = useRegister(setStep);
   return (
-    <section className="">
-      <div className="lg:flex justify-center items-center h-screen  w-full bg-white  rounded-lg relative">
+    <section className="h-screen lg:h-full">
+      <div className="lg:flex justify-center items-center h-full  w-full bg-white  rounded-lg relative">
         {step !== 3 && (
           <form onSubmit={formik.handleSubmit} className="lg:w-1/2 ">
             {step === 1 && (

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 const Step1 = ({ setStep, formik, loading }: any) => {
   return (
-    <div className="sm:p-10 p-4 h-full">
-      <div className="max-sm:mb-4 flex justify-between">
+    <div className="sm:p-10 p-4">
+      <div className="max-sm:mb-4 flex justify-between bg-white">
         <Link to={"/"}>
           <div className="flex items-center w-max cursor-pointer  ">
             <IoMdArrowBack />

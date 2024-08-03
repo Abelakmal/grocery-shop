@@ -33,7 +33,6 @@ const address: IAddress[] = [
 export const addressSlice = createSlice({
   name: "address",
   initialState: {
-
     address,
     loading: false,
     error: "",
@@ -41,6 +40,7 @@ export const addressSlice = createSlice({
   reducers: {
     clearCurrentAddress: (state: any) => {
       state.address = null;
+      state.address.id = null;
     },
   },
   extraReducers: (builder) => {

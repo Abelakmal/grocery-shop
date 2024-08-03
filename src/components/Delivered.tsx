@@ -30,7 +30,7 @@ const Delivered = () => {
             <IoLocationSharp />
           </span>
           <div
-            className={`ml-2 lg:text-2xl cursor-pointer flex items-center`}
+            className={`ml-2  cursor-pointer flex items-center`}
             onClick={() => setOpenModal(true)}
           >
             <p>Deliver to:</p>
@@ -53,7 +53,7 @@ const Delivered = () => {
                 })}
               </>
             ) : (
-              <p className="ml-2 font-bold text-lg text-black flex items-center">
+              <p className="ml-2 font-bold  text-black flex items-center">
                 Jakarta Pusat
                 <MdKeyboardArrowDown className="text-3xl" />
               </p>
