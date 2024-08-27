@@ -30,11 +30,11 @@ const Delivered = () => {
             <IoLocationSharp />
           </span>
           <div
-            className={`ml-2  cursor-pointer flex items-center`}
+            className={`ml-2   cursor-pointer flex items-center`}
             onClick={() => setOpenModal(true)}
           >
-            <p>Deliver to:</p>
-            {address[0].id ? (
+            <p className="text-[10px] lg:text-lg">Deliver to:</p>
+            {address.length > 1 ? (
               <>
                 {address.map((data, index) => {
                   return (
@@ -42,7 +42,7 @@ const Delivered = () => {
                       {data.main && (
                         <p
                           key={index}
-                          className="ml-2 font-bold text-lg text-black flex items-center"
+                          className="ml-2 font-bold lg:text-lg text-[10px] text-black flex items-center"
                         >
                           {data.label} {data.recipient_name}{" "}
                           <MdKeyboardArrowDown className="text-3xl" />
@@ -67,7 +67,7 @@ const Delivered = () => {
           onClose={() => setOpenModal(false)}
         >
           <Modal.Header>
-            <h1 className="md:text-4xl">Delivere to?</h1>
+            <div className="md:text-4xl ">Delivere to?</div>
           </Modal.Header>
           <Modal.Body>
             <PickLocation />

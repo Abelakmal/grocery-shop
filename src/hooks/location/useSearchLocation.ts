@@ -22,6 +22,7 @@ const useSearchLocation = () => {
         data.forEach((data: any) => {
           result.push({
             name: data.display_name,
+            city: data.address.city,
             latitude: data.lat,
             longitude: data.lon,
           });

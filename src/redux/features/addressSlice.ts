@@ -8,7 +8,6 @@ export const getAddress = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`${baseURL}/address`);
-
       return data.data;
     } catch (error: any) {
       return rejectWithValue(error.message);

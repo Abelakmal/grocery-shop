@@ -11,3 +11,13 @@ export interface IStock {
   storeBranch: IStoreBranch;
   product: IProduct
 }
+
+
+export interface IHistoryStock {
+  id: number;
+  stockBefore: number;
+  stockAfter: number;
+  createdAt: string;
+  stockId: string;
+  stock: IStock;
+}

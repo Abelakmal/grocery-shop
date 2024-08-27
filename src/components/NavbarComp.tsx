@@ -8,6 +8,8 @@ import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
+import { jwtPayload } from "../types/admin.type";
+import { jwtDecode } from "jwt-decode";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
@@ -34,6 +36,7 @@ const NavbarComp = () => {
   };
 
   const { user } = useSelector((state: any) => state.user);
+  
 
   return (
     <div className="sticky top-0 z-50 ">
@@ -60,7 +63,7 @@ const NavbarComp = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
-        {token ? (
+        {token  ? (
           <div className="hidden sm:flex relative">
             <Link to="/cart">
               <button className="ml-6 flex">

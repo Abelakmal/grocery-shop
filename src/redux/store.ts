@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/userSlice";
-import addressReducer from "./features/addressSlice"
+import adminReducer from "./features/adminSlice";
+import addressReducer from "./features/addressSlice";
 
 export default configureStore({
   reducer: {
     user: userReducer,
-    address: addressReducer
+    address: addressReducer,
+    admin: adminReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -1,13 +1,18 @@
+import { useState } from "react";
+import { FaBoxOpen } from "react-icons/fa6";
+import { MdDashboard } from "react-icons/md";
+import { FaBoxes } from "react-icons/fa";
+import { TbReport } from "react-icons/tb";
+import { RiAdminLine } from "react-icons/ri";
+import { MdOutlineStorefront } from "react-icons/md";
+import { jwtDecode } from "jwt-decode";
+import { jwtPayload } from "../../../types/admin.type";
 
-import { useState } from 'react';
-import { FaBoxOpen } from 'react-icons/fa6';
-import { MdDashboard } from 'react-icons/md';
-import { RiArrowRightCircleFill } from 'react-icons/ri';
-import { TbReport } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
-
-export function SidebarAdmin() {
+export function SidebarAdmin({ setShow }: any) {
   const [dropDown, setDropdown] = useState(false);
+  const token = localStorage.getItem("token");
+  const decodeToken = jwtDecode<jwtPayload>(token as string);
+
   return (
     <div className="flex">
       <section className="bg-[#272c2f] text-white w-max h-screen pt-4 px-12 sticky top-0 500 shadow-[rgb(165,170,178)_3px_0px_8px_0px] shadow-black">
@@ -15,62 +20,78 @@ export function SidebarAdmin() {
           Gr<span className="text-yellow-300">oc</span>eria
         </h1>
         <ul className="mt-20">
-          <Link to={'/admin'}>
-            <li className="flex items-center px-2 py-2 rounded-sm hover:bg-[#374151]">
-              <MdDashboard className="mr-2" />
-              Dashboard
+          <li
+            className="flex items-center px-5 py-2 rounded-sm hover:bg-[#374151]"
+            onClick={() => setShow(1)}
+          >
+            <MdDashboard className="mr-2" />
+            Dashboard
+          </li>
+          {decodeToken.isSuper && (
+            <li
+              className="flex items-center px-5 py-2 whitespace-nowrap rounded-sm hover:bg-[#374151] cursor-pointer"
+              onClick={() => setShow(2)}
+            >
+              <RiAdminLine className="mr-2" />
+              Manage Store Admin
             </li>
-          </Link>
-          <li className="px-2 py-2  mt-2 flex items-center flex-col">
+          )}
+          {decodeToken.isSuper && (
+            <li
+              className="flex items-center px-5 py-2 whitespace-nowrap rounded-sm hover:bg-[#374151] cursor-pointer"
+              onClick={() => setShow(8)}
+            >
+              <MdOutlineStorefront className="mr-2" />
+              Store Branch
+            </li>
+          )}
+          <li className="px-5 py-2  mt-2 flex items-center flex-col">
             <h1
               className="flex items-center rounded-sm whitespace-nowrap hover:bg-[#374151] cursor-pointer"
               onClick={() => setDropdown(!dropDown)}
             >
               <FaBoxOpen className="mr-2" /> Product Management
               <span className="ml-2 text-xl font-bold">
-                {dropDown ? '-' : '+'}
+                {dropDown ? "-" : "+"}
               </span>
             </h1>
-            <ul className={`${dropDown ? 'block' : 'hidden'} text-sm ml-4`}>
-              <li className="mt-2">
-                <Link
-                  to={'/admin/manage-product'}
-                  className="text-white  px-5  py-1 rounded-sm hover:bg-[#374151]"
-                >
-                  Manage Product
-                </Link>
+            <ul className={`${dropDown ? "block" : "hidden"} text-sm ml-4`}>
+              <li
+                className="mt-2 text-white  px-5  py-1 rounded-sm hover:bg-[#374151] cursor-pointer"
+                onClick={() => setShow(3)}
+              >
+                Manage Product
               </li>
-              <li className="mt-2">
-                <Link
-                  to={'/admin/manage-category'}
-                  className="text-white  px-5  py-1 rounded-sm hover:bg-[#374151]"
-                >
-                  ManageCategory
-                </Link>
+              <li
+                className="mt-2 text-white  px-5  py-1 rounded-sm hover:bg-[#374151] cursor-pointer"
+                onClick={() => setShow(4)}
+              >
+                Manage Category
               </li>
-              <li className="mt-2">
-                <Link
-                  to={'/admin/manage-stock'}
-                  className="text-white  px-5  py-1 rounded-sm hover:bg-[#374151]"
-                >
-                  Manage Stock
-                </Link>
+              <li
+                className="mt-2 text-white  px-5  py-1 rounded-sm hover:bg-[#374151] cursor-pointer"
+                onClick={() => setShow(5)}
+              >
+                Manage Stock
               </li>
             </ul>
           </li>
-          <Link to={'/admin/sales-report'}>
-            <li className="flex items-center mt-2 px-2 py-2 rounded-sm hover:bg-[#374151]">
-              <TbReport className="mr-2" />
-              Sales Report
-            </li>
-          </Link>
+          <li
+            className="flex items-center mt-2 px-5 py-2 rounded-sm hover:bg-[#374151] cursor-pointer"
+            onClick={() => setShow(6)}
+          >
+            <TbReport className="mr-2" />
+            Sales Report
+          </li>
+          <li
+            className="flex items-center mt-2 px-5 py-2 rounded-sm hover:bg-[#374151] cursor-pointer"
+            onClick={() => setShow(7)}
+          >
+            <FaBoxes className="mr-2" />
+            Stock Report
+          </li>
         </ul>
       </section>
-      <div className="relative">
-        <button className="text-white font-bold text-3xl rounded-lg border-2 border-black h-max bg-green-600 absolute">
-          <RiArrowRightCircleFill />
-        </button>
-      </div>
     </div>
   );
 }

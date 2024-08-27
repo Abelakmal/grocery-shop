@@ -10,6 +10,7 @@ export interface IProduct {
   unitWeight: UnitWeight;
   image: string;
   price: number;
+  categoryId : number
   category: ICategory;
   stock: number
 }

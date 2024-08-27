@@ -13,20 +13,24 @@ import { useEffect } from "react";
 import { fetchCurrentUser } from "../redux/features/userSlice";
 import AuthGuard from "../HOC/AuthGuard";
 import UserGuard from "../HOC/UserGuard";
+import { AdminPage } from "../pages/admin";
+import CartPage from "../pages/cart";
+import AdminLoginPage from "../pages/auth/admin-login/AdminLoginPage";
+import AdminGuard from "../HOC/AdminGuard";
 
 export const Routers = () => {
   const location = useLocation();
 
   const dispatch = useDispatch<any>();
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token") || "";
 
   useEffect(() => {
-    if(token){
+    if (token && !route.includes(location.pathname)) {
       dispatch(fetchCurrentUser());
     }
   }, [token]);
 
-  const route = ["/signup", "/signin", "/admin"];
+  const route = ["/signup", "/signin","/signup/", "/signin/", "/admin","/admin/", "/admin/login" ,"/admin/login/"];
   return (
     <div className=" md:h-screen h-full grid grid-cols-1 font-popins relative">
       {!route.includes(location.pathname) && <NavbarComp />}
@@ -40,6 +44,12 @@ export const Routers = () => {
           path="/profile"
           element={<UserGuard component={<Profile />} />}
         />
+        <Route path="/cart" element={<UserGuard component={<CartPage />} />} />
+        <Route
+          path="/admin"
+          element={<AdminGuard component={<AdminPage />} />}
+        />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
       </Routes>
       {!route.includes(location.pathname) && <MobileNavBar />}
       {!route.includes(location.pathname) && <FooterComp />}

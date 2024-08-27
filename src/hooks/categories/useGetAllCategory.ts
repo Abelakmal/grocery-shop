@@ -13,8 +13,8 @@ const useGetAllCategory = () => {
   const fetch = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${base_url}/categories`);
-      setData(data);
+      const { data } = await axios.get(`${base_url}/category`);
+      setData(data.data);
     } catch (error) {
       throw error;
     } finally {

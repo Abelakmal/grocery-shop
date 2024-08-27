@@ -5,7 +5,10 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCurrentUser } from "../redux/features/userSlice";
+import { jwtPayload } from "../types/admin.type";
+import { jwtDecode } from "jwt-decode";
 
 const MobileNavBar = ({ itemOnCartCount }: any) => {
   const token = localStorage.getItem("token");
@@ -13,16 +16,21 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [show, setShow] = useState<boolean>(false);
   const { user } = useSelector((state: any) => state.user);
+  const dispatch: any = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    document.cookie =
+      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/signin");
+    dispatch(clearCurrentUser());
     navigate("/signin");
     setOpenModal(false);
     setShow(false);
   };
   return (
     <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg md:hidden">
-      {token ? (
+      {token  ? (
         <div className="flex justify-around items-center p-4 bg-gray-100 rounded-t-lg">
           <Link to="/">
             <div className="flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">

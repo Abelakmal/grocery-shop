@@ -54,7 +54,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
             </div>
           </div>
           <div className="flex flex-col items-center w-full h-full xl:h-screen max-xl:mt-32 mt-4 ">
-            <div className="grid grid-cols-1 p-2  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:mb-32 lg:overflow-y-scroll">
+            <div className="grid  p-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-8 lg:mb-32 ">
               {data?.map((product) => {
                 return (
                   <div
@@ -67,20 +67,19 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
                           <img
                             src={product.image as string}
                             alt={product.name}
-                            width={600}
-                            height={100}
-                            className="object-cover h-32 w-full rounded-lg"
+
+                            className="object-cover h-32 max-lg:w-40 rounded-lg"
                           />
                         </div>
                         <div className={`text-left px-4 mb-4`}>
-                          <h3 className="text-lg font-semibold h-[3rem] mb-2">
+                          <h3 className="lg:text-lg text-[12px] font-semibold h-[3rem] mb-2">
                             {product.name}
                           </h3>
                           <div className="flex justify-between items-center mb-2">
-                            <p className="text-gray-500 ">
+                            <p className="text-gray-500 text-[10px]">
                               {product.weight} {product.unitWeight}
                             </p>
-                            <p className="border-2 p-2 rounded-lg text-sm text-green-400">
+                            <p className="border-2 p-2 rounded-lg lg:text-sm text-[10px] text-green-400">
                               {product.category.name}
                             </p>
                           </div>
@@ -88,15 +87,15 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
                       </div>
                     </Link>
                     <div className="flex mb-3 items-center justify-between pr-2 pl-1 lg:px-4">
-                      <p className="lg:text-base text-sm  font-bold  mr-6 text-[#b1bf4c]">
+                      <p className="lg:text-base text-[10px]  font-bold  lg:mr-6 text-[#b1bf4c]">
                         <FormatRupiah value={product?.price} />
                       </p>
                       <Link to={"/cart"}>
                         <Button
                           color="success"
-                          className=" text-black hover:bg-green-500 max-lg:bg-green-500 "
+                          className=" text-white hover:bg-green-500 max-lg:bg-green-500 "
                         >
-                          <MdOutlineAddShoppingCart className="text-2xl max-sm:text-sm " />
+                          <MdOutlineAddShoppingCart className="lg:text-2xl text-[10px] " />
                         </Button>
                       </Link>
                     </div>
