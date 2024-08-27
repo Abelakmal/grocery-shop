@@ -58,18 +58,6 @@ const CardProduct = ({ product, refreshData }: any) => {
             >
               delete <MdDelete />
             </p>
-            <p
-              className="mr-4 flex items-center hover:underline cursor-pointer"
-              onClick={() => setOpenUpdate(true)}
-            >
-              edit <CiEdit />
-            </p>
-            <p
-              className="flex items-center hover:underline cursor-pointer"
-              onClick={() => setOpenDelete(true)}
-            >
-              delete <MdDelete />
-            </p>
           </>
         )}
       </div>
