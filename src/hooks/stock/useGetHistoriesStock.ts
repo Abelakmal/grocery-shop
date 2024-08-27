@@ -52,7 +52,7 @@ export const useGetHistoriesStock = (
       setLoading(false);
     }
   };
-  const refreshData = (startDate: string = "", endDate: string = "") => {
+  const refreshData = () => {
     fetch();
   };
   return { data, refreshData, loading };

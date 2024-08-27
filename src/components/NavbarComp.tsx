@@ -8,8 +8,6 @@ import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
-import { jwtPayload } from "../types/admin.type";
-import { jwtDecode } from "jwt-decode";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");

@@ -34,7 +34,7 @@ const Delivered = () => {
             onClick={() => setOpenModal(true)}
           >
             <p className="text-[10px] lg:text-lg">Deliver to:</p>
-            {address.length > 1 ? (
+            {address.length >= 1 && token ? (
               <>
                 {address.map((data, index) => {
                   return (

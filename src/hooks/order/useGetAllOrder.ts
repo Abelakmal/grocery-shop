@@ -48,7 +48,7 @@ export const useGetAllOrder = (
       setLoading(false);
     }
   };
-  const refreshData = (startDate: string = '', endDate: string = '') => {
+  const refreshData = () => {
     fetch();
   };
   return { data, refreshData, loading };

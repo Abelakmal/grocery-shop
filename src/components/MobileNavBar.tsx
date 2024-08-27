@@ -7,8 +7,6 @@ import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
-import { jwtPayload } from "../types/admin.type";
-import { jwtDecode } from "jwt-decode";
 
 const MobileNavBar = ({ itemOnCartCount }: any) => {
   const token = localStorage.getItem("token");
