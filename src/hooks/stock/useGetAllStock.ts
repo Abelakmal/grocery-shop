@@ -1,21 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ICategory } from "../../types/category.type";
-import { IProduct } from "../../types/product.type";
+import { IProductWithStock } from "../../types/product.type";
 import { baseURL } from "../../helper/config";
 import { IResponse } from "../../types/generale.type";
 
-const useGetAllProduct = (
-  page: number,
+const useGetAllStock = (
   sort: string = "",
   search: string | null = null,
-  filterCategory: ICategory[] | null = null
+  filterCategory: ICategory[] | null = null,
+  pageSize: number | null = null,
+  setHasMore?: CallableFunction
 ) => {
-  const [data, setData] = useState<IResponse<IProduct>>();
+  const [data, setData] = useState<IResponse<IProductWithStock>>();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     fetch();
-  }, [search, filterCategory, sort,page]);
+  }, [search, filterCategory, sort, pageSize]);
   const fetch = async () => {
     try {
       setLoading(true);
@@ -30,19 +31,20 @@ const useGetAllProduct = (
       const searchQuery = search ? `search=${search}` : "";
 
       const sortQuery = sort ? `sort=${sort}` : "";
-      const pageQuery = `page=${page}` || "";
+      const pageSizeQuery = `pageSize=${pageSize}` || "";
 
-      const query = [searchQuery, categoryQuery, sortQuery, pageQuery]
+      const query = [searchQuery, categoryQuery, sortQuery, pageSizeQuery]
         .filter(Boolean)
         .join("&");
 
-      const url = `${baseURL}/product${query ? "?" + query : ""}`;
+      const url = `${baseURL}/stock${query ? "?" + query : ""}`;
 
       const { data } = await axios.get(url);
+      if (setHasMore) {
+        setHasMore(data.total === data.limit);
+      }
 
-      
-
-      setData(data.data);
+      setData(data);
     } catch (error) {
       throw error;
     } finally {
@@ -56,4 +58,4 @@ const useGetAllProduct = (
   return { data, refreshData, loading };
 };
 
-export default useGetAllProduct;
+export default useGetAllStock;

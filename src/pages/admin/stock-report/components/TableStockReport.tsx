@@ -10,7 +10,6 @@ interface IParam {
 
 export const TableStockReport = ({ data , loading}: IParam) => {
 
-  console.log(data);
   
   if (loading) {
     return (

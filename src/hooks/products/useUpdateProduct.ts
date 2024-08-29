@@ -11,6 +11,7 @@ const useUpdateProduct = (
   refreshData: CallableFunction,
   setOpenModal: CallableFunction
 ) => {
+  
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Title cannot be empty"),
     weight: Yup.string().required("Weight cannot be empty"),

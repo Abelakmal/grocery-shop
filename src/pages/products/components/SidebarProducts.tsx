@@ -44,9 +44,9 @@ export const SidebarProducts = ({
   }, [categoryId && name]);
   return (
     <div
-      className={`p-3 h-full  bg-[#4a5765] text-white ${
+      className={`p-3 h-screen   bg-[#4a5765] text-white ${
         showSide ? "fixed" : "hidden"
-      } max-xl:z-50 max-xl:w-full xl:block  xl:relative `}
+      } z-50 w-full  `}
     >
       <div className="flex">
         {filter?.map((value: any, index: number) => {
@@ -74,7 +74,7 @@ export const SidebarProducts = ({
           <span className="ml-2 text-xl font-bold">{dropDown ? "+" : "-"}</span>
         </h1>
         <h1
-          className="text-xl cursor-pointer block xl:hidden"
+          className="text-xl cursor-pointer"
           onClick={() => setShowSide(false)}
         >
           X

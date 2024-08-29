@@ -57,9 +57,9 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
             <ListGroup
               className={`w-48 ${!show && "hidden"} absolute bottom-20 right-1`}
             >
-              <ListGroup.Item onClick={() => setShow(false)}>
-                Profile
-              </ListGroup.Item>
+              <Link to={"/profile"} onClick={() => setShow(false)}>
+                  <ListGroup.Item>Profile</ListGroup.Item>
+                </Link>
               <ListGroup.Item onClick={() => setShow(false)}>
                 Settings
               </ListGroup.Item>

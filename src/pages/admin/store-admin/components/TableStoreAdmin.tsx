@@ -37,6 +37,7 @@ const TableStoreAdmin = ({ data, loading, refreshData }: IParam) => {
               <TableRow
                 storeAdmin={storeAdmin}
                 index={index}
+                key={index}
                 refreshData={refreshData}
               />
             );

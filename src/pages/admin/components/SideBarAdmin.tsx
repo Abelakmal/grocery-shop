@@ -7,18 +7,35 @@ import { RiAdminLine } from "react-icons/ri";
 import { MdOutlineStorefront } from "react-icons/md";
 import { jwtDecode } from "jwt-decode";
 import { jwtPayload } from "../../../types/admin.type";
+import { BsFillArrowRightSquareFill } from "react-icons/bs";
 
-export function SidebarAdmin({ setShow }: any) {
+export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
   const [dropDown, setDropdown] = useState(false);
   const token = localStorage.getItem("token");
   const decodeToken = jwtDecode<jwtPayload>(token as string);
 
   return (
-    <div className="flex">
-      <section className="bg-[#272c2f] text-white w-max h-screen pt-4 px-12 sticky top-0 500 shadow-[rgb(165,170,178)_3px_0px_8px_0px] shadow-black">
-        <h1 className={`font-mono font-bold text-[2rem]`}>
-          Gr<span className="text-yellow-300">oc</span>eria
-        </h1>
+    <div
+      className={`flex transition-transform transform ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      } md:w-max w-full`}
+    >
+      <section className="bg-[#272c2f] text-white lg:w-max w-full h-screen pt-4 px-12 sticky top-0 500 shadow-[rgb(165,170,178)_3px_0px_8px_0px] shadow-black">
+        <div className="flex justify-between w-full ">
+          <h1 className={`font-mono font-bold text-[2rem]`}>
+            Gr<span className="text-yellow-300">oc</span>eria
+          </h1>
+          <div
+            className={` justify-between ${isOpen && "lg:hidden block"}`}
+          >
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className=" w-max  text-white p-1 rounded-md"
+            >
+              <BsFillArrowRightSquareFill className="text-4xl" />
+            </button>
+          </div>
+        </div>
         <ul className="mt-20">
           <li
             className="flex items-center px-5 py-2 rounded-sm hover:bg-[#374151]"

@@ -15,7 +15,7 @@ const ModalDelete = ({
       refreshData();
       setOpenModal(true);
     } catch (error) {
-      console.log(error);
+      throw error
     }
     setOpenModal(false);
   };

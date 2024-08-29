@@ -26,7 +26,6 @@ const useLoginAdmin = () => {
             withCredentials: true,
           }
         );
-        console.log(data);
         localStorage.setItem("token", data.data.token);
         dispatch(fetchCurrentAdmin());
         navigate("/admin");

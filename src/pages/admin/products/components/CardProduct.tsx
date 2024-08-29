@@ -22,7 +22,7 @@ const CardProduct = ({ product, refreshData }: any) => {
 
   return (
     <Card
-      className="max-w-12 text-black text-[10px]"
+      className=" text-black text-[10px]"
       imgSrc={`${product.image}`}
       horizontal
     >
@@ -69,7 +69,6 @@ const CardProduct = ({ product, refreshData }: any) => {
         refreshData={refreshData}
       />
       <ModalInput
-        product={product}
         openModal={openUpdate}
         setOpenModal={setOpenUpdate}
         Form={FormProduct}

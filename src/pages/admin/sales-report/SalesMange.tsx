@@ -27,7 +27,7 @@ const SalesManage = () => {
 
   return (
     <div className="w-full px-10 py-10 bg-[#272c2f] text-white">
-      <h1 className={` text-3xl`}>Sales Report</h1>
+      <h1 className={`md:text-3xl text-sm`}>Sales Report</h1>
       <div className="flex justify-between items-end w-full">
         {decodeToken.isSuper && (
           <StoreList storeId={storeId} setStoreId={setStoreId} />

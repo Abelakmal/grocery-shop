@@ -1,4 +1,4 @@
-import { Button, Spinner } from "flowbite-react";
+import {  Pagination, Spinner } from "flowbite-react";
 import { useState } from "react";
 import useGetAllProduct from "../../../hooks/products/useGetAllProduct";
 import ModalInput from "../components/ModalInput";
@@ -9,11 +9,14 @@ import { jwtDecode } from "jwt-decode";
 import { jwtPayload } from "../../../types/admin.type";
 
 const ProductManage = () => {
+  const [page, setCurrentPage] = useState(1);
   const [openAdd, setOpenAdd] = useState(false);
-  const { data, refreshData, loading } = useGetAllProduct();
+  const { data, refreshData, loading } = useGetAllProduct(page);
   const formik = useCreateProduct(refreshData, setOpenAdd);
   const token = localStorage.getItem("token");
   const decodeToken = jwtDecode<jwtPayload>(token as string);
+
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   if (loading) {
     return (
@@ -25,19 +28,22 @@ const ProductManage = () => {
   }
 
   return (
-    <section className="w-full px-10 py-10 bg-[#272c2f] text-white">
-      <div className="flex justify-between top-0 sticky bg-[#272c2f] py-4">
-        <h1 className={` text-3xl`}>Manage Product</h1>
+    <section className="w-full md:px-10 md:py-10 bg-[#272c2f] text-white h-full">
+      <div className="flex justify-between top-0 sticky w-full  bg-[#272c2f] py-4">
+        <h1 className={`md:text-3xl text-sm`}>Manage Product</h1>
         {decodeToken.isSuper && (
-          <Button size={"sm"} color="success" onClick={() => setOpenAdd(true)}>
+          <button
+            className="text-sm bg-green-600 p-1 rounded-md"
+            onClick={() => setOpenAdd(true)}
+          >
             Add Product
-          </Button>
+          </button>
         )}
       </div>
 
       {data ? (
-        <div className="grid grid-cols-2 mt-8 gap-2">
-          {data.map((product) => {
+        <div className="grid md:grid-cols-2 grid-cols-1 mt-8 gap-2">
+          {data.data.map((product) => {
             return (
               <CardProduct
                 key={product.id}
@@ -49,6 +55,15 @@ const ProductManage = () => {
         </div>
       ) : (
         <></>
+      )}
+      {data && (
+        <div className=" text-[10px] flex w-full justify-center mt-10">
+          <Pagination
+            currentPage={page}
+            totalPages={Math.ceil(data?.total / data?.limit)}
+            onPageChange={onPageChange}
+          />
+        </div>
       )}
       <ModalInput
         openModal={openAdd}

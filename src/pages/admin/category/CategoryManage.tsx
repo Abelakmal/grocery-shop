@@ -1,4 +1,4 @@
-import { Button, Spinner } from "flowbite-react";
+import {  Spinner } from "flowbite-react";
 import { useState } from "react";
 import useGetAllCategory from "../../../hooks/categories/useGetAllCategory";
 import { Toaster } from "react-hot-toast";
@@ -25,14 +25,17 @@ const CategoryManage = () => {
   }
 
   return (
-    <section className="bg-[#272c2f] px-10 py-10 text-white w-full">
+    <section className="bg-[#272c2f] md:px-10 md:py-10 text-white w-full">
       <Toaster />
       <div className="flex justify-between top-0 sticky bg-[#272c2f] py-4">
-        <h1 className={` text-3xl`}>Manage Category</h1>
+        <h1 className={`md:text-3xl text-sm`}>Manage Category</h1>
         {decodeToken.isSuper && (
-          <Button size={"sm"} color="success" onClick={() => setOpenAdd(true)}>
+          <button
+            className="text-sm bg-green-600 p-1 rounded-md"
+            onClick={() => setOpenAdd(true)}
+          >
             Add Category
-          </Button>
+          </button>
         )}
       </div>
       <div className="grid grid-cols-5 gap-2">

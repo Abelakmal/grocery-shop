@@ -1,13 +1,11 @@
-import { Table } from 'flowbite-react';
-import ModalInput from '../../components/ModalInput';
-import { useState } from 'react';
-import FormStock from './FormStock';
-import { IStock } from '../../../../types/stock.type';
-import useUpdateStock from '../../../../hooks/stock/useUpdateStock';
+import { Table } from "flowbite-react";
+import ModalInput from "../../components/ModalInput";
+import { useState } from "react";
+import FormStock from "./FormStock";
+import { IStock } from "../../../../types/stock.type";
+import useUpdateStock from "../../../../hooks/stock/useUpdateStock";
 
-export function TableProducts({ stocks, refreshData }: any) {
-  const [openUpdate, setOpenUpdate] = useState(false);
-
+export function TableStocks({ stocks, refreshData }: any) {
   return (
     <div className="overflow-x-auto mt-10">
       <Table>
@@ -23,13 +21,13 @@ export function TableProducts({ stocks, refreshData }: any) {
         </Table.Head>
         <Table.Body className="divide-y ">
           {stocks.map((stock: IStock, index: number) => {
-            const formik = useUpdateStock(
-              stock,
-              refreshData,
-              setOpenUpdate,
-            );
+            const [openUpdate, setOpenUpdate] = useState(false);
+            const formik = useUpdateStock(stock, refreshData, setOpenUpdate);
             return (
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={index}>
+              <Table.Row
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                key={index}
+              >
                 <Table.Cell>{index + 1}</Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {stock.product.name}
@@ -46,7 +44,7 @@ export function TableProducts({ stocks, refreshData }: any) {
                   </button>
                 </Table.Cell>
                 <ModalInput
-                  product={stock.product}
+                  stock={stock}
                   openModal={openUpdate}
                   setOpenModal={setOpenUpdate}
                   Form={FormStock}

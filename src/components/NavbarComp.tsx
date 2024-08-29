@@ -28,16 +28,15 @@ const NavbarComp = () => {
     document.cookie =
       "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/signin");
-    dispatch(clearCurrentUser())
+    dispatch(clearCurrentUser());
     setShow(false);
     setOpenModal(false);
   };
 
   const { user } = useSelector((state: any) => state.user);
-  
 
   return (
-    <div className="sticky top-0 z-50 ">
+    <div className="fixed w-full bg-white z-50 ">
       <div className="bg-[#ccc1a1]  flex flex-row lg:justify-center justify-between w-full  px-1 md:px-5 items-center">
         <Link to="/">
           <div className={` flex font-bold mr-2`}>
@@ -61,7 +60,7 @@ const NavbarComp = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
-        {token  ? (
+        {token ? (
           <div className="hidden sm:flex relative">
             <Link to="/cart">
               <button className="ml-6 flex">
@@ -144,6 +143,7 @@ const NavbarComp = () => {
         )}
       </div>
       <Delivered />
+
     </div>
   );
 };

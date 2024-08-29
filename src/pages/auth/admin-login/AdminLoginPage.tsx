@@ -10,7 +10,7 @@ const AdminLoginPage = () => {
     await login(email, password);
   };
   return (
-    <div className="bg-green-600 flex justify-center items-center">
+    <div className="bg-green-600 flex justify-center items-center h-screen">
       <div className="bg-white  w-max h-max p-4">
         <h1 className="text-xl font-bold  mb-4">Selamat Datang</h1>
         <form onSubmit={handleSubmit}>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const CartPage = () => {
   return (
-    <div className="   mx-auto p-10q2">
+    <div className="pt-28   mx-auto p-10q2">
       <h1 className="text-2xl font-bold mb-4">Keranjang</h1>
       <div className="flex">
         <div className="bg-white p-20 flex items-center">

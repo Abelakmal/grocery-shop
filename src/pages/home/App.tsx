@@ -4,7 +4,7 @@ import ProductList from "./components/ProductList";
 
 export const App = () => {
   return (
-    <section className="bg-[url('/background.png')] bg-repeat bg-cover">
+    <section className="bg-[url('/background.png')] bg-repeat bg-cover  pt-28">
       <Carousel />
       <Category />
       <ProductList />

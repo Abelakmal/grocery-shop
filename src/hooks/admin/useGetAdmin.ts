@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { baseURL } from "../../helper/config";
 import axiosInstance from "../../helper/axios";
 import { IAdmin } from "../../types/admin.type";
+import { IResponse } from "../../types/generale.type";
 
-const useGetAdmin = () => {
-  const [data, setData] = useState<IAdmin[]>();
+const useGetAdmin = (page: number) => {
+  const [data, setData] = useState<IResponse<IAdmin>>();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     fetch();
@@ -12,9 +13,10 @@ const useGetAdmin = () => {
   const fetch = async () => {
     try {
       setLoading(true);
-      const { data } = await axiosInstance.get(baseURL + "/admin");
-      console.log(data);
-      
+      const { data } = await axiosInstance.get(
+        baseURL + "/admin" + `?page=${page}`
+      );
+
       setData(data.data);
     } catch (error) {
       throw error;

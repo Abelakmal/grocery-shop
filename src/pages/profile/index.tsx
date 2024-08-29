@@ -10,7 +10,7 @@ const Profile = () => {
   const { user } = useSelector((state: any) => state.user);
 
   return (
-    <div className="h-full">
+    <div className="h-full pt-40 bg-white">
       <div className=" bg-white lg:mx-20 lg:border-2 ">
         <ProfilePage user={user} />
         <div className="border-b-2 w-full  flex">

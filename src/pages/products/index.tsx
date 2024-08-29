@@ -2,7 +2,7 @@ import ProductsPage from "./components/ProductsPage";
 
 const Products = () => {
   return (
-    <div className="xl:flex justify-center">
+    <div className=" bg-white">
       <ProductsPage />
     </div>
   );

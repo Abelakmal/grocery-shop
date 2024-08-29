@@ -11,6 +11,7 @@ const useUpdateStock = (
   refreshData: CallableFunction,
   setOpenModal: CallableFunction
 ) => {
+  
   const validationSchema = Yup.object().shape({
     amount: Yup.number().required("Weight cannot be empty"),
   });

@@ -4,14 +4,13 @@ import InputFields from "../../components/InputFields";
 
 const FormProduct = ({ setOpenModal, formik }: any) => {
   const { data } = useGetAllCategory();
-  console.log(formik.values.unitWeight);
 
   return (
     <form
-      className="flex flex-col items-center text-sm"
+      className="flex flex-col items-center md:text-sm text-[12px]"
       onSubmit={formik.handleSubmit}
     >
-      <div className="w-[80%]">
+      <div className="md:w-[80%] w w-full">
         <InputFields
           label="Product Name"
           name="name"
@@ -19,7 +18,7 @@ const FormProduct = ({ setOpenModal, formik }: any) => {
           formik={formik}
         />
       </div>
-      <div className="mt-3 w-[80%]">
+      <div className="mt-3 md:w-[80%] w-full">
         <label htmlFor="categories">Select Category</label> <br />
         <select
           name="categoryId"
@@ -44,7 +43,7 @@ const FormProduct = ({ setOpenModal, formik }: any) => {
           </p>
         )}
       </div>
-      <div className="mt-3 w-[80%]">
+      <div className="mt-3 md:w-[80%] w-full">
         <label htmlFor="description">Product Description</label>
         <br />
         <textarea
@@ -64,7 +63,7 @@ const FormProduct = ({ setOpenModal, formik }: any) => {
           </p>
         )}
       </div>
-      <div className="mt-3 flex mx-12 w-[80%]">
+      <div className="mt-3 flex mx-12 md:w-[80%] w-full">
         <div className="w-1/2 relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <span
@@ -110,7 +109,7 @@ const FormProduct = ({ setOpenModal, formik }: any) => {
           </div>
         </div>
       </div>
-      <div className="mt-3 w-[80%]">
+      <div className="mt-3 md:w-[80%] w-full">
         <label htmlFor="image">Product image</label>
         <input
           type="file"
