@@ -33,10 +33,10 @@ const Step1 = ({ setStep, formik, loading }: any) => {
           <label className="mb-1">First Name</label>
           <input
             type="text"
-            name="fristname"
+            name="firstname"
             placeholder="example: Santoso"
             className={`border-2 rounded-lg p-2  ${
-              formik.touched["fristname"] && formik.errors["fristname"]
+              formik.touched["firstname"] && formik.errors["firstname"]
                 ? "border-red-500"
                 : ""
             }`}

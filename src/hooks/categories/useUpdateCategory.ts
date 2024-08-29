@@ -42,7 +42,7 @@ const useUpdateCategory = (
           },
         });
 
-        toast.success("Successfully!", { duration: 1000 });
+        toast.success("Successfully!", { duration: 3000 });
         setOpenModal(false);
         refreshData();
       } catch (error: any) {

@@ -15,6 +15,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
+import { Toaster } from "react-hot-toast";
 
 export const AdminPage = () => {
   const [show, setShow] = useState(1);
@@ -36,21 +37,25 @@ export const AdminPage = () => {
 
   return (
     <section className="flex bg-[#272c2f] h-full">
-      <SidebarAdmin setShow={setShow} isOpen={isOpen} setIsOpen={setIsOpen}/>
+      <Toaster position="top-center" reverseOrder={false} />
+      <SidebarAdmin setShow={setShow} isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <div
         className={`w-full flex flex-col bg-[#272c2f] items-end  flex-1 transition-all duration-300 ${
           !isOpen && "absolute h-full"
         }`}
       >
-        <div className={`w-full flex justify-between ${isOpen && "hidden lg:block"}`}>
+        <div
+          className={`w-full flex justify-between ${
+            isOpen && "hidden lg:block"
+          }`}
+        >
           <button
             onClick={() => setIsOpen(!isOpen)}
             className=" w-max  text-white p-1 rounded-md"
           >
             {isOpen ? (
-              <BsFillArrowRightSquareFill className="text-4xl"/>
-              
+              <BsFillArrowRightSquareFill className="text-4xl" />
             ) : (
               <BsFillArrowLeftSquareFill className="text-4xl" />
             )}
@@ -103,7 +108,9 @@ export const AdminPage = () => {
           </div>
         </div>
 
-        <div className={`w-full bg-[#272c2f]  p-4 ${isOpen && "hidden lg:block"}`}>
+        <div
+          className={`w-full bg-[#272c2f]  p-1 ${isOpen && "hidden lg:block"}`}
+        >
           {show === 1 && <Dashboard />}
           {show === 2 && <StoreAdminManage />}
           {show === 3 && <ProductManage />}

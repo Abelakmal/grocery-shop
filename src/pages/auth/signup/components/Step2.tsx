@@ -1,8 +1,8 @@
 import { HiMiniArrowRight } from "react-icons/hi2";
 import { IoMdArrowBack } from "react-icons/io";
 
-const Step2 = ({ setStep,  formik, loading }: any) => {
-
+const Step2 = ({ setStep, formik, loading }: any) => {
+  console.log(formik.values.isAgree);
 
   return (
     <div className="sm:p-10 lg:p-4 px-4 pt-2 h-full max-sm:text-xs">
@@ -17,7 +17,7 @@ const Step2 = ({ setStep,  formik, loading }: any) => {
           Masukan Data Lengkap Dirimu
         </h1>
       </div>
-      <div className="my-10 h-full" >
+      <div className="my-10 h-full">
         <div className="flex flex-col opacity-50 mb-2">
           <label>Name</label>
           <input
@@ -74,9 +74,7 @@ const Step2 = ({ setStep,  formik, loading }: any) => {
             onBlur={formik.handleBlur}
           />
           {formik.touched["dob"] && formik.errors["dob"] && (
-            <p className="text-red-500 text-xs mt-1">
-              {formik.errors["dob"]}
-            </p>
+            <p className="text-red-500 text-xs mt-1">{formik.errors["dob"]}</p>
           )}
         </div>
         <div className="flex flex-col  mb-4">
@@ -122,30 +120,41 @@ const Step2 = ({ setStep,  formik, loading }: any) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched["confirmPassword"] && formik.errors["confirmPassword"] && (
-            <p className="text-red-500 text-xs mt-1">
-              {formik.errors["confirmPassword"]}
+          {formik.touched["confirmPassword"] &&
+            formik.errors["confirmPassword"] && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors["confirmPassword"]}
+              </p>
+            )}
+        </div>
+        <div className="grid grid-cols-2">
+          <div className="flex  items-center w-[70%]">
+            <p className="mr-2 text-nowrap">
+              Anda Menyetujui Kebijakan Aplikasi?
+            </p>
+
+          </div>
+
+          <div className="w-full flex justify-end">
+            <button
+              className="bg-[#162D3A] w-max  text-white rounded-lg py-1 px-4 flex justify-end items-center"
+              disabled={loading}
+              type="submit"
+            >
+              {loading ? (
+                "Loading...."
+              ) : (
+                <>
+                  Finish <HiMiniArrowRight className="ml-2" />
+                </>
+              )}
+            </button>
+          </div>
+          {formik.touched["isAgree"] && formik.errors["isAgree"] && (
+            <p className="text-red-500 text-xs mt-1 text-nowrap">
+              {formik.errors["isAgree"]}
             </p>
           )}
-        </div>
-        <div className="flex justify-between">
-          <div className="flex items-center w-[70%]">
-            <p className="mr-2">Anda Menyetujui Kebijakan Aplikasi?</p>
-            <input type="checkbox" className="" />{" "}
-          </div>
-          <button
-            className="bg-[#162D3A] text-white rounded-lg py-1 px-4 flex justify-center items-center"
-            disabled={loading}
-            type="submit"
-          >
-            {loading ? (
-              "Loading...."
-            ) : (
-              <>
-                Finish <HiMiniArrowRight className="ml-2" />
-              </>
-            )}
-          </button>
         </div>
       </div>
     </div>

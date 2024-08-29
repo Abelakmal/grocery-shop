@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Button, Modal } from 'flowbite-react';
+import toast from 'react-hot-toast';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 const ModalDelete = ({
@@ -12,6 +13,7 @@ const ModalDelete = ({
   const confirmDelete = async () => {
     try {
       await axios.delete(`${url}`)
+      toast.success("Successfully!", { duration: 3000 });
       refreshData();
       setOpenModal(true);
     } catch (error) {

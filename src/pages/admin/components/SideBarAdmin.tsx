@@ -14,6 +14,11 @@ export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
   const token = localStorage.getItem("token");
   const decodeToken = jwtDecode<jwtPayload>(token as string);
 
+  const handleShow = (id:number) => {
+    setIsOpen(!isOpen)
+    setShow(id)
+  }
+
   return (
     <div
       className={`flex transition-transform transform ${
@@ -39,7 +44,7 @@ export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
         <ul className="mt-20">
           <li
             className="flex items-center px-5 py-2 rounded-sm hover:bg-[#374151]"
-            onClick={() => setShow(1)}
+            onClick={() => handleShow(1)}
           >
             <MdDashboard className="mr-2" />
             Dashboard
@@ -47,7 +52,7 @@ export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
           {decodeToken.isSuper && (
             <li
               className="flex items-center px-5 py-2 whitespace-nowrap rounded-sm hover:bg-[#374151] cursor-pointer"
-              onClick={() => setShow(2)}
+              onClick={() => handleShow(2)}
             >
               <RiAdminLine className="mr-2" />
               Manage Store Admin
@@ -56,7 +61,7 @@ export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
           {decodeToken.isSuper && (
             <li
               className="flex items-center px-5 py-2 whitespace-nowrap rounded-sm hover:bg-[#374151] cursor-pointer"
-              onClick={() => setShow(8)}
+              onClick={() => handleShow(8)}
             >
               <MdOutlineStorefront className="mr-2" />
               Store Branch
@@ -75,19 +80,19 @@ export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
             <ul className={`${dropDown ? "block" : "hidden"} text-sm ml-4`}>
               <li
                 className="mt-2 text-white  px-5  py-1 rounded-sm hover:bg-[#374151] cursor-pointer"
-                onClick={() => setShow(3)}
+                onClick={() => handleShow(3)}
               >
                 Manage Product
               </li>
               <li
                 className="mt-2 text-white  px-5  py-1 rounded-sm hover:bg-[#374151] cursor-pointer"
-                onClick={() => setShow(4)}
+                onClick={() => handleShow(4)}
               >
                 Manage Category
               </li>
               <li
                 className="mt-2 text-white  px-5  py-1 rounded-sm hover:bg-[#374151] cursor-pointer"
-                onClick={() => setShow(5)}
+                onClick={() => handleShow(5)}
               >
                 Manage Stock
               </li>
@@ -95,14 +100,14 @@ export function SidebarAdmin({ setShow, isOpen, setIsOpen }: any) {
           </li>
           <li
             className="flex items-center mt-2 px-5 py-2 rounded-sm hover:bg-[#374151] cursor-pointer"
-            onClick={() => setShow(6)}
+            onClick={() => handleShow(6)}
           >
             <TbReport className="mr-2" />
             Sales Report
           </li>
           <li
             className="flex items-center mt-2 px-5 py-2 rounded-sm hover:bg-[#374151] cursor-pointer"
-            onClick={() => setShow(7)}
+            onClick={() => handleShow(7)}
           >
             <FaBoxes className="mr-2" />
             Stock Report

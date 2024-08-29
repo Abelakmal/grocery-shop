@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { TableStocks } from "./components/TableStocks";
 
+
 const StockManage = () => {
   const [page, setCurrentPage] = useState(1);
   const { admin } = useSelector((state: any) => state.admin);

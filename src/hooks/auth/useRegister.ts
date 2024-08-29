@@ -6,7 +6,7 @@ import { baseURL } from "../../helper/config";
 
 const useRegister = (setStep: CallableFunction) => {
   const validationSchema = Yup.object().shape({
-    fristname: Yup.string().required("Frist Name cannot be empty"),
+    firstname: Yup.string().required("Frist Name cannot be empty"),
     email: Yup.string().email().required("email cannot be empty"),
     password: Yup.string()
       .required("password cannot be empty")
@@ -14,16 +14,21 @@ const useRegister = (setStep: CallableFunction) => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password") ?? ""], "Password must match")
       .required("Password cannot be empty"),
+    isAgree: Yup.boolean().oneOf(
+      [true],
+      "Anda harus menyetujui untuk melanjutkan."
+    ),
   });
 
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      fristname: "",
+      firstname: "",
       lastname: "",
       email: "",
       password: "",
+      isAgree: false,
       dob: null,
       phone: null,
       address: null,
@@ -33,10 +38,10 @@ const useRegister = (setStep: CallableFunction) => {
     onSubmit: async (values, { setErrors }) => {
       try {
         setLoading(true);
-        const { fristname, lastname, email, password, dob, phone, address } =
+        const { firstname, lastname, email, password, dob, phone, address } =
           values;
         await axios.post(`${baseURL}/users`, {
-          name: fristname + " " + lastname,
+          name: firstname + " " + lastname,
           email,
           password,
           dob,

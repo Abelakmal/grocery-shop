@@ -2,15 +2,18 @@ import { FaSearch } from "react-icons/fa";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
+import { jwtDecode } from "jwt-decode";
+import { jwtPayload } from "../types/admin.type";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
+  const [isSuper, setIsSuper] = useState<boolean>(false);
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
@@ -22,6 +25,11 @@ const NavbarComp = () => {
     e.preventDefault();
     navigate(`/products?search=${search}`);
   };
+  useEffect(() => {
+    if (token) {
+      setIsSuper("isSuper " in jwtDecode<jwtPayload>(token));
+    }
+  }, [token]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -60,7 +68,7 @@ const NavbarComp = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
-        {token ? (
+        {token && isSuper ? (
           <div className="hidden sm:flex relative">
             <Link to="/cart">
               <button className="ml-6 flex">
@@ -143,7 +151,6 @@ const NavbarComp = () => {
         )}
       </div>
       <Delivered />
-
     </div>
   );
 };

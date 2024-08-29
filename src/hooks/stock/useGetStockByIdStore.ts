@@ -21,7 +21,7 @@ export const useGetStockByIdStore = (id: number, page: number) => {
       const query = [pageQuery].filter(Boolean).join("&");
 
       const { data } = await axiosInstance.get(
-        `${baseURL}"/stock/${id}/store${query ? "?" + query : ""}`
+        `${baseURL}/stock/${id}/store${query ? "?" + query : ""}`
       );
 
       setData(data.data);

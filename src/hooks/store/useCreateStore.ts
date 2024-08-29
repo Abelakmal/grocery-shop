@@ -35,7 +35,7 @@ const useCreateStore = (
           longitude,
         });
 
-        toast.success("Successfully toasted!", { duration: 1000 });
+        toast.success("Successfully!", { duration: 3000 });
         setOpenModal(false);
         refreshData();
         resetForm();

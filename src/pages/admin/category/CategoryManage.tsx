@@ -27,7 +27,7 @@ const CategoryManage = () => {
   return (
     <section className="bg-[#272c2f] md:px-10 md:py-10 text-white w-full">
       <Toaster />
-      <div className="flex justify-between top-0 sticky bg-[#272c2f] py-4">
+      <div className="flex justify-between top-0 sticky bg-[#272c2f]  py-4">
         <h1 className={`md:text-3xl text-sm`}>Manage Category</h1>
         {decodeToken.isSuper && (
           <button
@@ -38,7 +38,7 @@ const CategoryManage = () => {
           </button>
         )}
       </div>
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid md:grid-cols-5 grid-cols-2 gap-2">
         {data &&
           data.map((category) => {
             return (

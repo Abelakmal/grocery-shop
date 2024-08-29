@@ -7,9 +7,20 @@ export const fetchCurrentUser = createAsyncThunk(
   "user/fetchCurrentUser",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.get(`${baseURL}/users/current`);
+      const token = localStorage.getItem("token");
+      if (token) {
+        const { data } = await axiosInstance.get(`${baseURL}/users/current`);
 
-      return data.data;
+        return data.data;
+      }
+      return {
+        id: null,
+        dob: "",
+        email: "",
+        image: "",
+        name: "",
+        phone: "",
+      };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -34,8 +45,15 @@ export const userSlice = createSlice({
   },
   reducers: {
     clearCurrentUser: (state: any) => {
-      state.user = null;
-      state.user.id = null
+      state.user = {
+        id: null,
+        dob: "",
+        email: "",
+        image: "",
+        name: "",
+        phone: "",
+      };
+      state.user.id = null;
     },
   },
   extraReducers: (builder) => {

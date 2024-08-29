@@ -5,7 +5,7 @@ import { fetchCurrentUser } from "../redux/features/userSlice";
 
 const AuthGuard = ({ component }: any) => {
   const { user, loading } = useSelector((state: any) => state.user);
-
+  
   
   const dispatch: any = useDispatch();
 

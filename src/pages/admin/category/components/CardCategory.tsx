@@ -17,7 +17,7 @@ const CardCategory = ({ category, refreshData }: any) => {
   const token = localStorage.getItem("token");
   const decodeToken = jwtDecode<jwtPayload>(token as string);
   return (
-    <Card className=" text-black text-lg w-max flex justify-center ">
+    <Card className=" text-black md:text-lg text-xs w-max flex justify-center ">
       <div className="w-32 h-full">
         <img
           className=" rounded-lg"
@@ -29,7 +29,7 @@ const CardCategory = ({ category, refreshData }: any) => {
       </div>
       <h1 className="font-bold">{category.name}</h1>
       {decodeToken.isSuper && (
-        <div className="flex text-base">
+        <div className="flex lg:text-base text-xs">
           <p
             className="mr-4 flex items-center hover:underline cursor-pointer"
             onClick={() => setOpenUpdate(true)}

@@ -43,6 +43,8 @@ export const useGetHistoriesStock = (
         .filter(Boolean)
         .join("&");
 
+        
+
       const { data } = await axiosInstance.get(
         `${baseURL}/stock/history/${id}/store${query ? "?" + query : ""}`
       );

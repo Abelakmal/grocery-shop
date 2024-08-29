@@ -28,6 +28,9 @@ const StockReportManage = () => {
     page
   );
 
+  console.log(data);
+  
+
   const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
