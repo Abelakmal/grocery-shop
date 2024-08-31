@@ -2,49 +2,60 @@ import { useRef, useState } from "react";
 import { Breadcrumb, Button } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaShoppingCart } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetStockById from "../../../hooks/stock/useGetStockById";
+import { useSelector } from "react-redux";
+import { ICart } from "../../../types/cart.type";
+import useCreateCart from "../../../hooks/cart/useCreateCart";
+import { FormatRupiah } from "@arismun/format-rupiah";
+import useGetCarts from "../../../hooks/cart/useGetCarts";
+import useUpdateCart from "../../../hooks/cart/useUpdateCart";
+import { RootState } from "../../../redux/store";
 
 export const ProductDetails = () => {
-  let [sum, setSum] = useState(0);
+  let [sum, setSum] = useState(1);
   let { id } = useParams();
 
   const { data } = useGetStockById(id);
+  const { user } = useSelector((state: any) => state.user);
+  const { create } = useCreateCart();
+  const { update } = useUpdateCart();
+  const { quantity } = useSelector((state: RootState) => state.cart);
 
+  const carts = useGetCarts();
 
-  // const { addItemToCart, cart } = useContext(CartContext);
   const imgRef = useRef(null);
 
-  // const readyStock = product.amount >= 1;
+  const navigate = useNavigate();
 
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     // validasi user jika sudah login
-    // if(user.id === 0){
-    //   return router.push("/login")
-    // }
-    // const cartItem = {
-    //   productId: product.product.id,
-    //   name: product.product.name,
-    //   price: product.product.price,
-    //   image: product.product.image,
-    //   stock: product.amount,
-    //   seller: product.storeBranch.name,
-    // };
-    // const itemExist = cart.cartItems.find(
-    //   (i: IProduct) => i.productId === product.product.id,
-    // );
-    // if (itemExist) {
-    //   const newQuantity = itemExist.quantity + 1;
-    //   const item = { ...itemExist, quantity: newQuantity };
-    //   if (newQuantity > Number(itemExist.stock)) return;
-    //   addItemToCart(item);
-    // } else {
-    //   addItemToCart(cartItem);
-    // }
+    if (!user.id) {
+      return navigate("/signin");
+    }
+    const cartItem: ICart = {
+      product_id: parseInt(id as string, 0),
+      price_at_time: parseInt(data?.product.price as string, 0),
+      quantity: sum,
+      user_id: user.id,
+    };
+
+    const isExist = carts.data.find(
+      (cart: ICart) => cart.product_id === parseInt(id as string, 0)
+    );
+    if (isExist && isExist?.quantity >= 10) {
+      return;
+    }
+    if (isExist) {
+      await update(isExist.quantity + sum, parseInt(id as string, 0));
+    } else {
+      await create(cartItem);
+    }
+    navigate("/cart");
   };
 
   return (
-    <div className="h-full lg:pt-64 pt-28 bg-white">
+    <div className="h-full lg:pt-64 md:pt-52 pt-32 bg-white">
       {data && (
         <section className="bg-white  ">
           <Breadcrumb
@@ -63,11 +74,9 @@ export const ProductDetails = () => {
                 <div className="border border-gray-200 shadow-sm  text-center rounded mb-5">
                   <img
                     ref={imgRef}
-                    className="object-cover  h-96 w-full"
+                    className="object-cover   w-full"
                     src={data?.product.image || ""}
                     alt="data title"
-                    width="340"
-                    height="40"
                   />
                 </div>
               </aside>
@@ -87,12 +96,8 @@ export const ProductDetails = () => {
                   <span className="text-green-500">Verified</span>
                 </div>
                 <p className="mb-4 font-semibold text-xl">
-                  {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  }).format(data?.product.price)}{" "}
-                  /{" "}
-                  <span className="opacity-80 font-normal">
+                  <FormatRupiah value={parseInt(data.product.price)} />
+                  <span className="opacity-80 font-normal ml-4">
                     {data?.product.weight}{" "}
                     {data?.product.unitWeight?.toLowerCase()}
                   </span>
@@ -115,7 +120,9 @@ export const ProductDetails = () => {
                 <div className="flex  flex-wrap gap-2 mb-5">
                   <div className="flex border-2 border-black mr-10 items-center rounded-lg justify-between w-max">
                     <button
-                      onClick={() => setSum((prev) => (prev > 0 ? sum-- : sum))}
+                      onClick={() =>
+                        setSum((prev) => (prev > 1 ? prev - 1 : sum))
+                      }
                       className="hover:bg-gray-200 h-full px-4 rounded-lg"
                     >
                       -
@@ -123,7 +130,7 @@ export const ProductDetails = () => {
                     <p className="px-2">{sum}</p>
                     <button
                       onClick={() =>
-                        setSum((prev) => (prev < data.amount ? sum++ : sum))
+                        setSum((prev) => (quantity < 10 ? prev + 1 : sum))
                       }
                       className="hover:bg-gray-200 h-full px-4 rounded-lg"
                       disabled={!Boolean(data.amount > 0)}
@@ -133,7 +140,7 @@ export const ProductDetails = () => {
                   </div>
                   <Button
                     color="success"
-                    className="px-4 py-2 inline-block text-white border border-transparent rounded-m bg-green-600"
+                    className="lg:px-4 lg:py-2 inline-block text-white border border-transparent rounded-m bg-green-600"
                     onClick={addToCartHandler}
                     disabled={!Boolean(data.amount > 0)}
                   >

@@ -1,9 +1,24 @@
 import { Button } from "flowbite-react";
 import useGetAllCategory from "../../../../hooks/categories/useGetAllCategory";
 import InputFields from "../../components/InputFields";
+import { ChangeEvent } from "react";
 
 const FormProduct = ({ setOpenModal, formik }: any) => {
   const { data } = useGetAllCategory();
+
+  const formatNumber = (value: string) => {
+    if (!value) return "";
+    let onlyNumbers = value.replace(/\D/g, "");
+
+    return onlyNumbers.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value;
+
+    const formattedNumber = formatNumber(input);
+    formik.setFieldValue("price", formattedNumber);
+  };
 
   return (
     <form
@@ -74,13 +89,20 @@ const FormProduct = ({ setOpenModal, formik }: any) => {
               Rp
             </span>
           </div>
-          <InputFields
-            formik={formik}
-            name="price"
-            type="number"
-            label="Price"
-            className="text-center "
-          />
+          <div>
+            <label htmlFor="">Price</label>
+            <input
+              type="text"
+              name="price"
+              onChange={(event) => handleInput(event)}
+              className={`bg-gray-50 border mt-2 pl-12 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500  ${
+                formik.touched["price"] && formik.errors["price"]
+                  ? "border-red-500"
+                  : ""
+              }`}
+              value={formik.values.price}
+            />
+          </div>
         </div>
         <div className="w-1/2 ml-2 flex">
           <div className="w-[50%] ml-2">

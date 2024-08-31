@@ -42,7 +42,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
   return (
     <div className="w-full h-full mb-5 bg-white lg:pt-64 pt-28">
       <>
-        <div className="fixed top-[8.5rem] h-max  z-40 bg-white w-full shadow-lg">
+        <div className="fixed top-[9rem] h-max  z-40 bg-white w-full shadow-lg">
           <div className="flex text-nowrap  justify-between items-center text-[14px] sm:text-xl h-full p-4   w-full">
             <div className="flex items-center">
               <div
@@ -79,21 +79,23 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
               </select>
             </div>
           </div>
-          <div className="flex pb-4 ml-7">
-            {filterCategory.map((data: ICategory, index: number) => {
-              return (
-                <p
-                  className="text-sm mr-2 bg-[#77818b] p-1 rounded whitespace-nowrap text-white"
-                  key={index}
-                >
-                  {data.name}
-                </p>
-              );
-            })}
-          </div>
+          {filterCategory.length > 0 && (
+            <div className={`flex pb-4 ml-7 `}>
+              {filterCategory.map((data: ICategory, index: number) => {
+                return (
+                  <p
+                    className="text-sm mr-2 bg-[#77818b] p-1 rounded whitespace-nowrap text-white"
+                    key={index}
+                  >
+                    {data.name}
+                  </p>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="flex flex-col items-center w-full h-full  max-xl:mt-32 mt-4 ">
-          {data?.data ? (
+          {data && data?.data.length > 0 ? (
             <div className="grid  p-2 grid-cols-2 md:grid-cols-4 xl:grid-cols-6  gap-2 lg:gap-8 lg:mb-32 ">
               <>
                 {data.data?.map((product) => {
@@ -129,7 +131,9 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
                       </Link>
                       <div className="flex mb-3 items-center justify-between pr-2 pl-1 lg:px-4">
                         <p className=" text-[12px]  font-bold  lg:mr-6 text-[#b1bf4c]">
-                          <FormatRupiah value={product.product.price} />
+                          <FormatRupiah
+                            value={parseInt(product.product.price, 0)}
+                          />
                         </p>
                         <Link to={"/cart"}>
                           <Button
@@ -173,13 +177,12 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
                         </div>
                       </div>
                     ))}
-                    
                   </>
                 )}
               </>
             </div>
           ) : (
-            <div className="flex w-full justify-center ">Tidak Ada Product</div>
+            <div className="flex w-full justify-center h-screen items-center">Tidak Ada Product {":("}</div>
           )}
         </div>{" "}
       </>

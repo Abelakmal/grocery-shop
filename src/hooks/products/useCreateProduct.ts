@@ -29,12 +29,11 @@ const useCreateProduct = (
       categoryId: "",
     },
     validationSchema,
-    onSubmit: async (values, {resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
-        
         const data = new FormData();
         data.append("name", values.name);
-        data.append("price", values.price.toString());
+        data.append("price", values.price.replaceAll(".", ""));
         data.append("description", values.description);
         data.append("weight", values.weight.toString());
         data.append("unitWeight", values.unitWeight || "GRAM");
@@ -50,7 +49,7 @@ const useCreateProduct = (
         toast.success("Successfully!", { duration: 3000 });
         setOpenModal(false);
         refreshData();
-        resetForm()
+        resetForm();
       } catch (error: any) {
         toast.error(error.response.data.message || error.response.data);
       }

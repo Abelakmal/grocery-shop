@@ -72,7 +72,7 @@ const Step1 = ({ setStep, formik, loading }: any) => {
         type="button"
         className="bg-[#162D3A] text-white rounded-lg p-1 flex justify-center items-center"
         onClick={() => setStep(2)}
-        disabled={!formik.values.fristname}
+        disabled={!formik.values.firstname}
       >
         {loading ? (
           "Loading...."

@@ -3,10 +3,12 @@ import { useState } from "react";
 import ChangeBioModal from "./ChangeBioModal";
 import { format } from "date-fns";
 import useChangeImg from "../../../hooks/users/useChangeImg";
+import useForgotPassword from "../../../hooks/auth/useForgotPassword";
 
-const ProfilePage = ({ user}: any) => {
+const ProfilePage = ({ user }: any) => {
   const [openChangeBio, setOpenChangeBio] = useState(false);
   const { formik } = useChangeImg();
+  const { send, loading } = useForgotPassword();
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -19,7 +21,10 @@ const ProfilePage = ({ user}: any) => {
       formik.setFieldValue("image", file);
     }
   };
-  
+
+  const handleResetPassword = async () => {
+    await send(user.email);
+  };
 
   return (
     <div className="md:flex md:p-8 p-2">
@@ -83,7 +88,9 @@ const ProfilePage = ({ user}: any) => {
           </li>
         </ul>
         <div className="flex mt-10 mb-6">
-          <Button className="mr-4">Ubah Password</Button>
+          <Button className="mr-4" onClick={handleResetPassword} disabled={loading}>
+            Ubah Password
+          </Button>
           <Button onClick={() => setOpenChangeBio(!openChangeBio)}>
             Ubah Data
           </Button>

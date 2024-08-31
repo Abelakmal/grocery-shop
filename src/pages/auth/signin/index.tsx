@@ -80,6 +80,13 @@ const Signin = () => {
             </button>
           </form>
 
+          <div className="mt-4 ">
+            Lupa Password ?{" "}
+            <Link to={"/forgotPassword"}>
+              <span className="hover:underline text-blue-500">Klik disini</span>{" "}
+            </Link>
+          </div>
+
           {/* Other sign-in options */}
           <div className="my-8 text-center flex items-center">
             <div className="w-full border-2 h-max border-black rounded-lg"></div>

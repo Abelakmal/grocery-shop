@@ -2,22 +2,36 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
 import { IoHomeOutline } from "react-icons/io5";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { jwtPayload } from "../types/admin.type";
+import { RootState } from "../redux/store";
+import { FormatRupiah } from "@arismun/format-rupiah";
+import { countCart } from "../redux/features/cartSlice";
+import useGetCarts from "../hooks/cart/useGetCarts";
 
-const MobileNavBar = ({ itemOnCartCount }: any) => {
+const MobileNavBar = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [show, setShow] = useState<boolean>(false);
+  const location = useLocation();
   const { user } = useSelector((state: any) => state.user);
   const dispatch: any = useDispatch();
   const [isSuper, setIsSuper] = useState<boolean>(false);
+  const { total, quantity } = useSelector((state: RootState) => state.cart);
+
+  const { data } = useGetCarts  ();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(countCart(data));
+    }
+  }, [data, token]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -31,11 +45,30 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
   };
   useEffect(() => {
     if (token) {
-      setIsSuper(jwtDecode<jwtPayload>(token).isSuper);
+      setIsSuper("isSuper " in jwtDecode<jwtPayload>(token));
     }
   }, [token]);
   return (
     <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg md:hidden">
+      {"/cart" === location.pathname && quantity > 0 && (
+        <div className=" bg-white md:hidden flex justify-between items-center w-full px-2">
+          <div className="flex items-center">
+            <input type="checkbox" />
+            <p className="text-xs ml-2">Semua</p>
+          </div>
+          <div className="flex items-center">
+            <div className=" my-4">
+              <p className="text-xs text-end">
+                <FormatRupiah value={total} />
+              </p>
+              <p className="text-sm font-semibold"></p>
+            </div>
+            <button className=" text-xs bg-green-600 text-white  rounded-md  p-2 px-4 ml-4 font-semibold">
+              Beli {quantity}
+            </button>
+          </div>
+        </div>
+      )}
       {token && !isSuper ? (
         <div className="flex justify-around items-center p-4 bg-gray-100 rounded-t-lg">
           <Link to="/">
@@ -47,9 +80,9 @@ const MobileNavBar = ({ itemOnCartCount }: any) => {
           <Link to="/cart">
             <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
               <HiOutlineShoppingBag className="text-2xl hover:scale-110 transition-transform duration-150" />
-              {itemOnCartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-[10px] px-2">
-                  {itemOnCartCount}
+              {quantity > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-black rounded-full text-[10px] px-2">
+                  {quantity}
                 </span>
               )}
               <span>Cart</span>

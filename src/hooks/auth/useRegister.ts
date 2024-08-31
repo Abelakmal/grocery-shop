@@ -14,7 +14,7 @@ const useRegister = (setStep: CallableFunction) => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password") ?? ""], "Password must match")
       .required("Password cannot be empty"),
-    isAgree: Yup.boolean().oneOf(
+    isAgree: Yup.boolean().required().oneOf(
       [true],
       "Anda harus menyetujui untuk melanjutkan."
     ),
@@ -29,9 +29,9 @@ const useRegister = (setStep: CallableFunction) => {
       email: "",
       password: "",
       isAgree: false,
-      dob: null,
-      phone: null,
-      address: null,
+      dob: "",
+      phone: "",
+      address: "",
       confirmPassword: "",
     },
     validationSchema,

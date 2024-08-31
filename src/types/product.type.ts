@@ -9,7 +9,7 @@ export interface IProduct {
   weight: number;
   unitWeight: UnitWeight;
   image: string;
-  price: number;
+  price: string;
   categoryId: number;
   category: ICategory;
   stock: IStock[];
@@ -31,7 +31,7 @@ export interface IProductWithStock {
     weight: number;
     unitWeight: string;
     image: string;
-    price: number;
+    price: string;
     category: {
       name: string;
       image: string;

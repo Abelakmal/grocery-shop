@@ -7,19 +7,20 @@ import useGetAllStock from "../../../hooks/stock/useGetAllStock";
 const ProductList = () => {
   const { data } = useGetAllStock();
 
+
   return (
     <div>
       <div className="max-w-7xl mx-auto p-5">
         <div className="flex justify-between items-center mb-6 my-12">
-          <h1 className={` text-xl sm:text-3xl lg:text-4xl mb-0 text-left `}>
+          <h1 className={` text-lg sm:text-3xl lg:text-4xl mb-0 text-left `}>
             Product Recommendation
           </h1>
 
-          <Link to="/products" className={` text-base hover:underline`}>
+          <Link to="/products" className={` md:text-base text-xs hover:underline`}>
             See more
           </Link>
         </div>
-        {data && (
+        {data && data?.data.length > 0 ? (
           <Splide
             options={{
               perPage: 4,
@@ -73,7 +74,11 @@ const ProductList = () => {
                       </div>
                       <div className="flex mb-3 items-center justify-between">
                         <p className="text-lg font-bold  mr-6 text-[#b1bf4c]">
-                          {<FormatRupiah value={product.product.price} />}
+                          {
+                            <FormatRupiah
+                              value={parseInt(product.product.price)}
+                            />
+                          }
                         </p>
                       </div>
                     </div>
@@ -82,6 +87,10 @@ const ProductList = () => {
               </SplideSlide>
             ))}
           </Splide>
+        ) : (
+          <div className=" w-full flex justify-center my-20">
+            <p className="md:text-base text-xs">Product tidak ada di wilayah anda Saat ini {":("}</p>
+          </div>
         )}
       </div>
     </div>

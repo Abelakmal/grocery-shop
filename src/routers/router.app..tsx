@@ -17,12 +17,17 @@ import { AdminPage } from "../pages/admin";
 import CartPage from "../pages/cart";
 import AdminLoginPage from "../pages/auth/admin-login/AdminLoginPage";
 import AdminGuard from "../HOC/AdminGuard";
+import { AppDispatch } from "../redux/store";
+import ResetPasswordPage from "../pages/reset-password";
+import { Toaster } from "react-hot-toast";
+import ForgotPassword from "../pages/forgotPassword";
 
 export const Routers = () => {
   const location = useLocation();
 
-  const dispatch = useDispatch<any>();
   const token = localStorage.getItem("token") || "";
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (token && !route.includes(location.pathname)) {
@@ -30,9 +35,21 @@ export const Routers = () => {
     }
   }, [token]);
 
-  const route = ["/signup", "/signin","/signup/", "/signin/", "/admin","/admin/", "/admin/login" ,"/admin/login/"];
+  const route = [
+    "/signup",
+    "/signin",
+    "/signup/",
+    "/signin/",
+    "/admin",
+    "/admin/",
+    "/admin/login",
+    "/admin/login/",
+    "/reset-password",
+    "/forgotPassword",
+  ];
   return (
-    <div className=" md:h-screen h-full grid grid-cols-1 font-popins relative">
+    <div className=" md:h-screen h-full grid grid-cols-1 font-popins relative bg-white">
+      <Toaster />
       {!route.includes(location.pathname) && <NavbarComp />}
       <Routes>
         <Route path="/" element={<App />} />
@@ -44,6 +61,8 @@ export const Routers = () => {
           path="/profile"
           element={<UserGuard component={<Profile />} />}
         />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/cart" element={<UserGuard component={<CartPage />} />} />
         <Route
           path="/admin"

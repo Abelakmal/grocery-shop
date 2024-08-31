@@ -2,7 +2,6 @@ import { HiMiniArrowRight } from "react-icons/hi2";
 import { IoMdArrowBack } from "react-icons/io";
 
 const Step2 = ({ setStep, formik, loading }: any) => {
-  console.log(formik.values.isAgree);
 
   return (
     <div className="sm:p-10 lg:p-4 px-4 pt-2 h-full max-sm:text-xs">
@@ -25,7 +24,7 @@ const Step2 = ({ setStep, formik, loading }: any) => {
             disabled
             className={`border-2  border-gray-300 rounded-lg p-2`}
             name="name"
-            value={formik.values["fristname"] + " " + formik.values["lastname"]}
+            value={formik.values["firstname"] + " " + formik.values["lastname"]}
           />
         </div>
         <div className="flex flex-col  mb-2">
@@ -128,16 +127,16 @@ const Step2 = ({ setStep, formik, loading }: any) => {
             )}
         </div>
         <div className="grid grid-cols-2">
-          <div className="flex  items-center w-[70%]">
-            <p className="mr-2 text-nowrap">
+          <div className="flex  items-center ">
+            <p className="mr-2 ">
               Anda Menyetujui Kebijakan Aplikasi?
             </p>
-
+            <input type="checkbox" name="isAgree" onChange={formik.handleChange}/>{" "}
           </div>
 
           <div className="w-full flex justify-end">
             <button
-              className="bg-[#162D3A] w-max  text-white rounded-lg py-1 px-4 flex justify-end items-center"
+              className="bg-[#162D3A] w-max  text-white rounded-lg py-1 lg:px-4 px-1 flex justify-end items-center"
               disabled={loading}
               type="submit"
             >

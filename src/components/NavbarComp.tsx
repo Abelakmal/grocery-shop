@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { jwtPayload } from "../types/admin.type";
+import { RootState } from "../redux/store";
+import { countCart } from "../redux/features/cartSlice";
+import useGetCarts from "../hooks/cart/useGetCarts";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
@@ -18,8 +21,19 @@ const NavbarComp = () => {
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
 
+  const { quantity } = useSelector((state: RootState) => state.cart);
+  const { data } = useGetCarts();
+
+
+
   const token = localStorage.getItem("token");
   const dispatch: any = useDispatch();
+
+  useEffect(() => {
+    if(token){
+      dispatch(countCart(data));
+    }
+  }, [data,token]);
 
   const handleSearch = (e: any) => {
     e.preventDefault();
@@ -68,14 +82,18 @@ const NavbarComp = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
-        {token && isSuper ? (
+        {token && !isSuper ? (
           <div className="hidden sm:flex relative">
             <Link to="/cart">
-              <button className="ml-6 flex">
-                <span className="w-full text-4xl">
-                  <HiOutlineShoppingBag />
-                </span>
-              </button>
+
+              <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
+                <HiOutlineShoppingBag className="text-4xl hover:scale-110 transition-transform duration-150" />
+                {quantity > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-black rounded-full text-[18px] font-bold px-2 py-[1px]">
+                    {quantity}
+                  </span>
+                )}
+              </div>
             </Link>
             <Link to="/transaction">
               <button className="ml-6 flex">

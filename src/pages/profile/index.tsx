@@ -1,9 +1,10 @@
-import {useState } from "react";
+import { useState } from "react";
 import ProfilePage from "./components/ProfilePage";
 import Transaction from "./components/Transaction";
 import History from "./components/History";
 import Coupun from "./components/Coupun";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 const Profile = () => {
   const [page, setPage] = useState(1);
@@ -11,6 +12,7 @@ const Profile = () => {
 
   return (
     <div className="h-full pt-40 bg-white">
+      <Toaster />
       <div className=" bg-white lg:mx-20 lg:border-2 ">
         <ProfilePage user={user} />
         <div className="border-b-2 w-full  flex">
