@@ -48,16 +48,16 @@ const CardCart = ({ cart, refreshData, index }: props) => {
           className="w-20 h-20 object-cover mr-4"
         />
 
-        <div className="grid lg:grid-cols-2 grid-cols-1 w-full">
-          <div className="md:ml-4  md:mr-20 lg:mr-7">
-            <p className=" md:text-lg text-xs font font-semibold">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="">
+            <p className=" md:text-lg text-xs font font-semibold w-max ">
               {cart.product?.name}
             </p>
-            <p className="text-nowrap lg:text-base text-[10px]">
-              {cart.product?.description}
+            <p className=" lg:text-xs text-[10px] ">
+              {cart.product?.description.slice(0,40)}...
             </p>
           </div>
-          <p className="font-semibold md:text-lg text-[10px] md:text-end">
+          <p className="font-semibold lg:text-lg text-[10px] md:text-end">
             <FormatRupiah value={parseInt(cart.product?.price as string, 0)} />
           </p>
           <div className="flex items-center md:col-span-2 w-full md:justify-end justify-between">
@@ -65,7 +65,7 @@ const CardCart = ({ cart, refreshData, index }: props) => {
               className="mr-4 cursor-pointer"
               onClick={() => setOpenModal(!openModal)}
             />
-            <div className="flex border-2 max-md:text-xs mt-2 border-black  items-center rounded-lg justify-between w-max">
+            <div className="flex border-2 max-lg:text-xs mt-2 border-black  items-center rounded-lg justify-between w-max">
               <button
                 onClick={() => setSum((prev) => (prev > 1 ? prev - 1 : sum))}
                 className="hover:bg-gray-200 h-full px-4 rounded-lg"

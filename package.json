@@ -12,6 +12,7 @@
   "dependencies": {
     "@arismun/format-rupiah": "^3.0.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/node": "^20.14.2",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
