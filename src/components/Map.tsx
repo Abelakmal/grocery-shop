@@ -2,11 +2,19 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
 import { Button } from "flowbite-react";
+import React from "react";
+import { FormikProps } from "formik";
+import { IFormAddress } from "../types/address.type";
 
-const Map = ({ nowLocation, setStep }: any) => {
+interface Props {
+  formik: FormikProps<IFormAddress>;
+  setStep: (step: number) => void;
+}
+
+const Map: React.FC<Props> = ({ formik, setStep }) => {
   const position: LatLngExpression = [
-    nowLocation.latitude,
-    nowLocation.longitude,
+    parseInt(formik.values.latitude),
+    parseInt(formik.values.longitude),
   ];
 
   return (
@@ -21,10 +29,12 @@ const Map = ({ nowLocation, setStep }: any) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <Marker position={position}>
-          <Popup>{nowLocation.name}</Popup>
+          <Popup>{formik.values.location}</Popup>
         </Marker>
       </MapContainer>
-      <Button className="mt-4" color={"success"} onClick={() => setStep(3)}>Pilih Lokasi & Lengkapi Alamat</Button>
+      <Button className="mt-4" color={"success"} onClick={() => setStep(3)}>
+        Pilih Lokasi & Lengkapi Alamat
+      </Button>
     </div>
   );
 };

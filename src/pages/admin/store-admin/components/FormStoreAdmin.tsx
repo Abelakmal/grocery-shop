@@ -1,9 +1,16 @@
 import { Button, Spinner } from "flowbite-react";
 import InputFields from "../../components/InputFields";
 import { useGetStore } from "../../../../hooks/store/useGetStore";
+import React from "react";
+import { FormikProps } from "formik";
+import { IFormAdmin } from "../../../../types/admin.type";
+interface Props {
+  formik: FormikProps<IFormAdmin>;
+  setOpenModal: (open: boolean) => void;
+  method?: string;
+}
 
-
-const FormStoreAdmin = ({ formik, setOpenModal, method }: any) => {
+const FormStoreAdmin: React.FC<Props> = ({ formik, setOpenModal, method }) => {
   const { data, loading } = useGetStore();
   if (loading) {
     return (
@@ -13,6 +20,10 @@ const FormStoreAdmin = ({ formik, setOpenModal, method }: any) => {
       </div>
     );
   }
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    formik.setFieldValue("storeId", parseInt(event.target.value, 0));
+  };
 
   return (
     <form
@@ -38,10 +49,10 @@ const FormStoreAdmin = ({ formik, setOpenModal, method }: any) => {
           id="stores"
           className="w-full rounded-sm mt-2"
           value={formik.values.storeId}
-          onChange={formik.handleChange}
+          onChange={handleSelectChange}
           onBlur={formik.handleBlur}
         >
-          <option value="0">select</option>
+          <option value={"0"}>select</option>
           {data?.map((value) => {
             return (
               <option value={`${value.id}`} key={value.id}>

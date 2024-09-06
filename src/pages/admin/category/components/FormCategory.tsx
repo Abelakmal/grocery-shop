@@ -1,7 +1,15 @@
-import { Button } from 'flowbite-react';
-import InputFields from '../../components/InputFields';
+import { Button } from "flowbite-react";
+import InputFields from "../../components/InputFields";
+import { FormikProps } from "formik";
+import React from "react";
+import { IFormCatgeory } from "../../../../types/category.type";
 
-const FormCategory = ({ setOpenModal, formik }: any) => {
+interface Props {
+  setOpenModal: (open: boolean) => void;
+  formik: FormikProps<IFormCatgeory>;
+}
+
+const FormCategory: React.FC<Props> = ({ setOpenModal, formik }) => {
   return (
     <form
       className="flex flex-col items-center text-sm"
@@ -25,7 +33,7 @@ const FormCategory = ({ setOpenModal, formik }: any) => {
           name="image"
           onChange={(event) => {
             if (event.currentTarget.files) {
-              formik.setFieldValue('image', event.currentTarget.files[0]);
+              formik.setFieldValue("image", event.currentTarget.files[0]);
             }
           }}
           onBlur={formik.handleBlur}

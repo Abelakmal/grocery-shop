@@ -1,7 +1,19 @@
 import { Button, Modal } from "flowbite-react";
 import useUpdate from "../../../hooks/users/useUpdate";
+import React from "react";
+import { IUser } from "../../../types/user.type";
 
-const ChangeBioModal = ({ openChangeBio, setOpenChangeBio, user }: any) => {
+interface Props {
+  openChangeBio: boolean;
+  setOpenChangeBio: (open: boolean) => void;
+  user: IUser;
+}
+
+const ChangeBioModal: React.FC<Props> = ({
+  openChangeBio,
+  setOpenChangeBio,
+  user,
+}) => {
   const { formik } = useUpdate(user, setOpenChangeBio);
 
   return (
@@ -56,6 +68,7 @@ const ChangeBioModal = ({ openChangeBio, setOpenChangeBio, user }: any) => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   pattern="[0-9]{12}"
+                  inputMode="numeric"
                 />
 
                 {formik.touched["phone"] && formik.errors["phone"] && (

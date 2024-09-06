@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICart } from "../../types/cart.type";
 
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -9,6 +10,8 @@ const cartSlice = createSlice({
   },
   reducers: {
     countCart(state, action: PayloadAction<ICart[]>) {
+
+      
       const data = action.payload;
 
       state.total = data.reduce(

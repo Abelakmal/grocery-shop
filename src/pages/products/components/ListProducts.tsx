@@ -1,19 +1,35 @@
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { Button } from "flowbite-react";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiMenu2Fill } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useGetAllStock from "../../../hooks/stock/useGetAllStock";
 import { ICategory } from "../../../types/category.type";
+import { RootState } from "../../../redux/store";
+import { useSelector } from "react-redux";
+import { ICart } from "../../../types/cart.type";
+import useGetCarts from "../../../hooks/cart/useGetCarts";
+import useCreateCart from "../../../hooks/cart/useCreateCart";
+import useUpdateCart from "../../../hooks/cart/useUpdateCart";
 
-export const ListProducts = ({ filterCategory, setShowSide }: any) => {
+interface props {
+  filterCategory: ICategory[];
+  setShowSide: CallableFunction;
+}
+
+export const ListProducts = ({ filterCategory, setShowSide }: props) => {
   const [sort, setSort] = useState<string>("");
   const [pageSize, setPageSize] = useState<number>(10);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get("search");
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const { user } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+  const carts = useGetCarts();
+  const { create } = useCreateCart();
+  const { update } = useUpdateCart();
 
   const { data, loading } = useGetAllStock(
     sort,
@@ -23,21 +39,46 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
     setHasMore
   );
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      window.innerHeight + document.documentElement.scrollTop + 10 >=
       document.documentElement.scrollHeight
     ) {
       if (hasMore) {
         setPageSize((prevPageSize) => prevPageSize + 10);
       }
     }
-  };
+  }, [hasMore]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore]);
+  }, [handleScroll]);
+
+  const addToCartHandler = async (product_id: number, price: string) => {
+    if (!user.id) {
+      return navigate("/signin");
+    }
+    const cartItem: ICart = {
+      product_id,
+      price_at_time: parseInt(price, 0),
+      quantity: 1,
+      user_id: user.id,
+    };
+
+    const isExist = carts.data.find(
+      (cart: ICart) => cart.product_id === product_id
+    );
+    if (isExist && isExist?.quantity >= 10) {
+      return;
+    }
+    if (isExist) {
+      await update(isExist.quantity + 1, isExist.id as number);
+    } else {
+      await create(cartItem);
+    }
+    navigate("/cart");
+  };
 
   return (
     <div className="w-full h-full mb-5 bg-white lg:pt-64 pt-28">
@@ -135,14 +176,18 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
                             value={parseInt(product.product.price, 0)}
                           />
                         </p>
-                        <Link to={"/cart"}>
-                          <Button
-                            color="success"
-                            className=" text-white hover:bg-green-500 max-lg:bg-green-500 "
-                          >
-                            <MdOutlineAddShoppingCart className="lg:text-[18px]  text-[10px] " />
-                          </Button>
-                        </Link>
+                        <Button
+                          color="success"
+                          className=" text-white hover:bg-green-500 max-lg:bg-green-500 "
+                          onClick={() =>
+                            addToCartHandler(
+                              product.product.id,
+                              product.product.price
+                            )
+                          }
+                        >
+                          <MdOutlineAddShoppingCart className="lg:text-[18px]  text-[10px] " />
+                        </Button>
                       </div>
                     </div>
                   );
@@ -182,7 +227,9 @@ export const ListProducts = ({ filterCategory, setShowSide }: any) => {
               </>
             </div>
           ) : (
-            <div className="flex w-full justify-center h-screen items-center">Tidak Ada Product {":("}</div>
+            <div className="flex w-full justify-center h-screen items-center">
+              Tidak Ada Product {":("}
+            </div>
           )}
         </div>{" "}
       </>

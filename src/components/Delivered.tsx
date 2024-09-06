@@ -4,15 +4,13 @@ import { useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { IAddress } from "../types/address.type";
 import { getAddress } from "../redux/features/addressSlice";
+import { AppDispatch, RootState } from "../redux/store";
 
 const Delivered = () => {
   const [openModal, setOpenModal] = useState(false);
-  const dispatch = useDispatch<any>();
-  const address = useSelector(
-    (state: any) => state.address.address as IAddress[]
-  );
+  const dispatch = useDispatch<AppDispatch>();
+  const address = useSelector((state: RootState) => state.address.address);
 
   const token = localStorage.getItem("token");
 
@@ -20,7 +18,7 @@ const Delivered = () => {
     if (token) {
       dispatch(getAddress());
     }
-  }, [token]);
+  }, [token, dispatch, address.main]);
 
   return (
     <div className="bg-[#fef9e9] ">
@@ -34,24 +32,13 @@ const Delivered = () => {
             onClick={() => setOpenModal(true)}
           >
             <p className="text-[10px] lg:text-lg">Deliver to:</p>
-            {address.length >= 1 && token ? (
-              <>
-                {address.map((data, index) => {
-                  return (
-                    <div key={index}>
-                      {data.main && (
-                        <p
-                          key={index}
-                          className="ml-2 font-bold lg:text-lg text-[10px] text-black flex items-center"
-                        >
-                          {data.label} {data.recipient_name}{" "}
-                          <MdKeyboardArrowDown className="text-3xl" />
-                        </p>
-                      )}
-                    </div>
-                  );
-                })}
-              </>
+            {address.id && token ? (
+              <div>
+                <p className="ml-2 font-bold lg:text-lg text-[10px] text-black flex items-center">
+                  {address.label} {address.recipient_name}{" "}
+                  <MdKeyboardArrowDown className="text-3xl" />
+                </p>
+              </div>
             ) : (
               <p className="ml-2 font-bold  text-black flex items-center">
                 Jakarta Pusat

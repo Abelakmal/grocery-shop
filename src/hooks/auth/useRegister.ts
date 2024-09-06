@@ -1,10 +1,13 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useFormik } from "formik";
+import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
 import { baseURL } from "../../helper/config";
+import { IFormRegister } from "../../types/user.type";
 
-const useRegister = (setStep: CallableFunction) => {
+const useRegister = (
+  setStep: CallableFunction
+): { formik: FormikProps<IFormRegister>; loading: boolean } => {
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("Frist Name cannot be empty"),
     email: Yup.string().email().required("email cannot be empty"),
@@ -14,10 +17,9 @@ const useRegister = (setStep: CallableFunction) => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password") ?? ""], "Password must match")
       .required("Password cannot be empty"),
-    isAgree: Yup.boolean().required().oneOf(
-      [true],
-      "Anda harus menyetujui untuk melanjutkan."
-    ),
+    isAgree: Yup.boolean()
+      .required()
+      .oneOf([true], "Anda harus menyetujui untuk melanjutkan."),
   });
 
   const [loading, setLoading] = useState(false);
@@ -33,6 +35,7 @@ const useRegister = (setStep: CallableFunction) => {
       phone: "",
       address: "",
       confirmPassword: "",
+      error: "",
     },
     validationSchema,
     onSubmit: async (values, { setErrors }) => {
@@ -49,11 +52,11 @@ const useRegister = (setStep: CallableFunction) => {
           address,
         });
         setStep(3);
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error Register:", error);
-        if (error.response.data.error) {
+        if (error instanceof AxiosError) {
           setErrors({
-            email: error.response.data.error,
+            error: error.response?.data.error,
           });
         }
       } finally {

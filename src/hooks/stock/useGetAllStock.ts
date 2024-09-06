@@ -1,12 +1,11 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { useCallback, useEffect, useState } from "react";
 import { ICategory } from "../../types/category.type";
 import { IProductWithStock } from "../../types/product.type";
 import { baseURL } from "../../helper/config";
 import { IResponse } from "../../types/generale.type";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { IAddress } from "../../types/address.type";
 
 const useGetAllStock = (
   sort: string = "",
@@ -18,20 +17,14 @@ const useGetAllStock = (
   const [data, setData] = useState<IResponse<IProductWithStock>>();
   const [loading, setLoading] = useState<boolean>(false);
   const { address } = useSelector((state: RootState) => state.address);
-  useEffect(() => {
-    fetch();
-  }, [search, filterCategory, sort, pageSize, address]);
-  const fetch = async () => {
+
+  const fetch = useCallback(async () => {
     try {
       setLoading(true);
+      
 
-      const main: IAddress | undefined = address.find(
-        (address: IAddress) => address.main === true
-      );
-
-      const latitudeQuery = main ? `latitude=${main.latitude}` : "";
-      const longitudeQuery = main ? `longitude=${main.longitude}` : "";
-
+      const latitudeQuery = address.id ? `latitude=${address.latitude}` : "";
+      const longitudeQuery = address.id ? `longitude=${address.longitude}` : "";
 
       const categoryQuery =
         filterCategory && filterCategory.length > 0
@@ -58,20 +51,27 @@ const useGetAllStock = (
 
       const url = `${baseURL}/stock${query ? "?" + query : ""}`;
 
-      
-
       const { data } = await axios.get(url);
       if (setHasMore) {
-        setHasMore(data.total === data.limit);
+        
+        setHasMore(data.total >= data.limit);
       }
 
       setData(data);
     } catch (error) {
-      throw error;
+      if (error instanceof AxiosError) {
+        console.error("An error occurred:", error.response?.data.error);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, filterCategory, sort, pageSize, address, setHasMore]);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   const refreshData = () => {
     fetch();

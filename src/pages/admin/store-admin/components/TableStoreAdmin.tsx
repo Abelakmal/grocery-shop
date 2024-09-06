@@ -1,15 +1,15 @@
 import { Spinner, Table } from "flowbite-react";
 import { TableRow } from "./TableRow";
 import { IAdmin } from "../../../../types/admin.type";
+import React from "react";
 
-interface IParam {
+interface Props {
   data: IAdmin[];
   loading: boolean;
-  formik: any;
-  refreshData: CallableFunction;
+  refreshData: () => void;
 }
 
-const TableStoreAdmin = ({ data, loading, refreshData }: IParam) => {
+const TableStoreAdmin: React.FC<Props> = ({ data, loading, refreshData }) => {
   if (loading) {
     return (
       <div className="h-sceen w-full flex justify-center items-center bg-[#272c2f]">
@@ -35,8 +35,7 @@ const TableStoreAdmin = ({ data, loading, refreshData }: IParam) => {
           {data.map((storeAdmin, index) => {
             return (
               <TableRow
-                storeAdmin={storeAdmin}
-                index={index}
+                admin={storeAdmin}
                 key={index}
                 refreshData={refreshData}
               />

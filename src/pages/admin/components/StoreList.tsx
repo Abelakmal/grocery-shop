@@ -1,7 +1,12 @@
+import React from "react";
 import { useGetStore } from "../../../hooks/store/useGetStore";
 
+interface Props {
+  storeId: number | undefined;
+  setStoreId: (id: number) => void;
+}
 
-const StoreList = ({ storeId, setStoreId }: any) => {
+const StoreList: React.FC<Props> = ({ storeId, setStoreId }) => {
   const { data } = useGetStore();
   return (
     <div className="md:mt-12 mt-4 text-[12px] md:text-xl">
@@ -11,7 +16,7 @@ const StoreList = ({ storeId, setStoreId }: any) => {
           name="store"
           id="store"
           className="text-black h-max rounded-lg text-[12px] md:text-xl"
-          onChange={(e) => setStoreId(e.target.value)}
+          onChange={(e) => setStoreId(parseInt(e.target.value))}
           value={storeId || "0"}
         >
           <option value={"0"}>Select</option>

@@ -8,6 +8,7 @@ import { jwtPayload } from "../../../types/admin.type";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { Pagination } from "flowbite-react";
+import { RootState } from "../../../redux/store";
 
 const StockReportManage = () => {
   const [page, setCurrentPage] = useState(1);
@@ -15,7 +16,7 @@ const StockReportManage = () => {
   const [search, setSearch] = useState("");
   const [endDate, setEndDate] = useState(new Date().toISOString());
   const [categoryId, setCategoryId] = useState(0);
-  const { admin } = useSelector((state: any) => state.admin);
+  const { admin } = useSelector((state: RootState) => state.admin);
   const [storeId, setStoreId] = useState(admin.storeId);
   const token = localStorage.getItem("token");
   const decodeToken = jwtDecode<jwtPayload>(token as string);
@@ -27,9 +28,6 @@ const StockReportManage = () => {
     search,
     page
   );
-
-
-  
 
   const onPageChange = (page: number) => setCurrentPage(page);
 

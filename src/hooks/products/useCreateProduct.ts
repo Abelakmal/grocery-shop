@@ -1,14 +1,16 @@
 import * as Yup from "yup";
 
-import { useFormik } from "formik";
+import { useFormik, FormikProps } from "formik";
 import toast from "react-hot-toast";
 import { baseURL } from "../../helper/config";
 import axiosInstance from "../../helper/axios";
+import axios from "axios";
+import { IFormProduct} from "../../types/product.type";
 
 const useCreateProduct = (
   refreshData: CallableFunction,
   setOpenModal: CallableFunction
-) => {
+): FormikProps<IFormProduct> => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Title cannot be empty"),
     weight: Yup.string().required("Weight cannot be empty"),
@@ -22,11 +24,11 @@ const useCreateProduct = (
     initialValues: {
       name: "",
       description: "",
-      weight: "",
+      weight: 0,
       unitWeight: "",
       image: "",
       price: "",
-      categoryId: "",
+      categoryId: 0,
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -50,8 +52,12 @@ const useCreateProduct = (
         setOpenModal(false);
         refreshData();
         resetForm();
-      } catch (error: any) {
-        toast.error(error.response.data.message || error.response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.error || "An error occurred");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
       }
     },
   });

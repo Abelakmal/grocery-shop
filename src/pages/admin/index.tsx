@@ -16,6 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
+import { baseURL } from "../../helper/config";
+import { AppDispatch, RootState } from "../../redux/store";
 
 export const AdminPage = () => {
   const [show, setShow] = useState(1);
@@ -23,12 +26,11 @@ export const AdminPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
-  const { admin } = useSelector((state: any) => state.admin);
-  const handleLogout = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { admin } = useSelector((state: RootState) => state.admin);
+  const handleLogout = async () => {
     localStorage.removeItem("token");
-    document.cookie =
-      "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    await axios.post(`${baseURL}/auth/logout`, {}, { withCredentials: true });
     navigate("/admin/login");
     dispatch(clearCurrentAdmin());
     setShowAvatar(false);
@@ -46,8 +48,8 @@ export const AdminPage = () => {
         }`}
       >
         <div
-          className={`w-full flex justify-between ${
-            isOpen && "hidden lg:block"
+          className={`w-full flex justify-between  ${
+            isOpen && "hidden lg:flex"
           }`}
         >
           <button
@@ -60,8 +62,8 @@ export const AdminPage = () => {
               <BsFillArrowLeftSquareFill className="text-4xl" />
             )}
           </button>
-          <div className="relative p-4">
-            <div className="flex">
+          <div className="relative p-4 w-max">
+            <div className="flex w-max">
               <ListGroup
                 className={`w-48 ${
                   !showAvatar && "hidden"

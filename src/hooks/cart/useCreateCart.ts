@@ -1,33 +1,31 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 import { ICart } from "../../types/cart.type";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const useCreateCart = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const create = async (data: ICart) => {
     setLoading(true);
-    setError(null);
 
     try {
       await axiosInstance.post(`${baseURL}/cart`, data);
 
-      navigate("/cart");
-      toast.success("Successfully!", { duration: 3000 });
-    } catch (err: any) {
-      
-      setError(err.response.data?.error || "Server Error");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  return { create, loading, error };
+  return { create, loading };
 };
 
 export default useCreateCart;

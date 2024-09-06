@@ -1,13 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 import { BiTargetLock } from "react-icons/bi";
 import useSearchLocation from "../hooks/location/useSearchLocation";
 import { ILocation } from "../types/location.type";
 import { Spinner } from "flowbite-react";
 import useDetailLocation from "../hooks/location/useDetailLocation";
+import { FormikProps } from "formik";
+import { IFormAddress } from "../types/address.type";
+import { Toaster } from "react-hot-toast";
 
-const Koordinat = ({ setStep, setNowLocation }: any) => {
-  const [searchParam, setSearchParam] = useState<string>();
+interface Props {
+  formik: FormikProps<IFormAddress>;
+  setStep: (step: number) => void;
+}
+
+const Koordinat: React.FC<Props> = ({ formik, setStep }) => {
+  const [searchParam, setSearchParam] = useState<string>("");
   const { search, location, loading } = useSearchLocation();
   const { detail } = useDetailLocation();
   const [loadingNowLoc, setLoadingNowLoc] = useState(false);
@@ -27,27 +35,33 @@ const Koordinat = ({ setStep, setNowLocation }: any) => {
     setLoadingNowLoc(true);
     setTimeout(async () => {
       if (!name) {
-        const result: any = await detail(latitude, longitude);
+        const result = await detail(latitude, longitude);
         name = result?.display_name;
       }
-      setNowLocation({
-        name,
-        latitude,
-        longitude,
-      });
+
+      formik.setFieldValue("location", name);
+      formik.setFieldValue("latitude", latitude.toString());
+      formik.setFieldValue("longitude", longitude.toString());
+
       setLoadingNowLoc(false);
       setStep(2);
     }, 1000);
   };
 
   useEffect(() => {
-    if (searchParam) {
-      search(searchParam);
-    }
+    const delayDebounceFn = setTimeout(() => {
+      if (searchParam) {
+        search(searchParam);
+      }
+    }, 1000);
+
+    return () => clearTimeout(delayDebounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParam]);
 
   return (
     <>
+      <Toaster />
       <div className="relative">
         <form className="">
           <div className="flex flex-col">

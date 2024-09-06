@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ICategory } from "../../types/category.type";
 import { IProduct } from "../../types/product.type";
 import { baseURL } from "../../helper/config";
@@ -13,10 +13,8 @@ const useGetAllProduct = (
 ) => {
   const [data, setData] = useState<IResponse<IProduct>>();
   const [loading, setLoading] = useState<boolean>(false);
-  useEffect(() => {
-    fetch();
-  }, [search, filterCategory, sort,page]);
-  const fetch = async () => {
+
+  const fetch = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -40,15 +38,21 @@ const useGetAllProduct = (
 
       const { data } = await axios.get(url);
 
-      
-
       setData(data.data);
     } catch (error) {
-      throw error;
+      if (error instanceof Error) {
+        console.error("An error occurred:", error.message);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, filterCategory, sort, page]);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   const refreshData = () => {
     fetch();

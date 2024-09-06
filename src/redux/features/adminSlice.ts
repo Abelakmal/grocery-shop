@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 import { IAdmin } from "../../types/admin.type";
+import { AxiosError } from "axios";
 
 export const fetchCurrentAdmin = createAsyncThunk(
   "user/fetchCurrentAdmin",
@@ -10,8 +11,12 @@ export const fetchCurrentAdmin = createAsyncThunk(
       const { data } = await axiosInstance.get(`${baseURL}/admin/current`);
 
       return data.data;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data.error || "Server error");
+      } else {
+        return rejectWithValue("Server error");
+      }
     }
   }
 );
@@ -20,8 +25,8 @@ const admin: IAdmin = {
   id: null,
   email: "",
   name: "",
-  storeId: 0,
-  isSuper: undefined
+  storeId: undefined,
+  isSuper: undefined,
 };
 
 export const adminSlice = createSlice({
@@ -32,8 +37,14 @@ export const adminSlice = createSlice({
     error: "",
   },
   reducers: {
-    clearCurrentAdmin: (state: any) => {
-      state.admin = null;
+    clearCurrentAdmin: (state: { admin: IAdmin }) => {
+      state.admin = {
+        id: null,
+        email: "",
+        name: "",
+        storeId: undefined,
+        isSuper: undefined,
+      };
       state.admin.id = null;
     },
   },

@@ -7,15 +7,19 @@ const useForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const send = async (email:string) => {
+  const send = async (email: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      await axios.post(`${baseURL}/auth/forgotPassword/${email}`,{});
+      await axios.post(`${baseURL}/auth/forgotPassword/${email}`, {});
       toast.success("Successfully!", { duration: 3000 });
-    } catch (err: any) {
-      setError(err.response.data?.error || "Server Error");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }

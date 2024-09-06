@@ -3,28 +3,32 @@ import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 import { useDispatch } from "react-redux";
 import { getAddress } from "../../redux/features/addressSlice";
+import { AppDispatch } from "../../redux/store";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const useChangeMain = () => {
+const useChangeMain = (refreshData: () => void) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const change = async (id: number) => {
     setLoading(true);
-    setError(null);
 
     try {
-      setTimeout(async () => {
-        await axiosInstance.patch(`${baseURL}/address/${id}/main`);
-        dispatch(getAddress());
-        setLoading(false);
-      }, 1000);
-    } catch (err: any) {
-      setError(err.response.data?.error || "Server Error");
+      await axiosInstance.patch(`${baseURL}/address/${id}/main`);
+      dispatch(getAddress());
+      refreshData();
+      setLoading(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 
-  return { change, loading, error };
+  return { change, loading };
 };
 
 export default useChangeMain;

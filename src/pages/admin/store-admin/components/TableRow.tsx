@@ -1,28 +1,32 @@
 import { Button, Table } from "flowbite-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import ModalDelete from "../../components/ModalDelete";
 import ModalInput from "../../components/ModalInput";
 import FormStoreAdmin from "./FormStoreAdmin";
-import useUpdateStore from "../../../../hooks/admin/useUpdateStore";
+import { IAdmin, IFormAdmin } from "../../../../types/admin.type";
+import useUpdateAdmin from "../../../../hooks/admin/useUpdateAdmin";
+import { baseURL } from "../../../../helper/config";
 
-export const TableRow = ({ index, storeAdmin, refreshData }: any) => {
+interface Props {
+  admin: IAdmin;
+  refreshData: () => void;
+}
+
+export const TableRow: React.FC<Props> = ({ admin, refreshData }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
-  const formik = useUpdateStore(storeAdmin, refreshData, setOpenUpdate);
+  const formik = useUpdateAdmin(admin, refreshData, setOpenUpdate);
   return (
-    <Table.Row
-      key={index}
-      className="bg-white dark:border-gray-700 dark:bg-gray-800 text-sm"
-    >
+    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800 text-sm">
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-        {index + 1}
+        {admin.id}
       </Table.Cell>
-      <Table.Cell className="whitespace-nowrap">{storeAdmin.name}</Table.Cell>
-      <Table.Cell className="whitespace-nowrap">{storeAdmin.email}</Table.Cell>
+      <Table.Cell className="whitespace-nowrap">{admin.name}</Table.Cell>
+      <Table.Cell className="whitespace-nowrap">{admin.email}</Table.Cell>
       <Table.Cell className="whitespace-nowrap">
-        {storeAdmin.store_branch?.name}
+        {admin.store_branch?.name}
       </Table.Cell>
       <Table.Cell className="flex justify-evenly">
         <Button
@@ -39,14 +43,13 @@ export const TableRow = ({ index, storeAdmin, refreshData }: any) => {
         </Button>
       </Table.Cell>
       <ModalDelete
-        url={`http://localhost:8000/api/store-admins/` + storeAdmin.id}
+        url={`${baseURL}/admin/` + admin.id}
         openModal={openDelete}
         title={"Store Admin"}
         setOpenModal={setOpenDelete}
         refreshData={refreshData}
       />
-      <ModalInput
-        product={storeAdmin}
+      <ModalInput<IFormAdmin>
         openModal={openUpdate}
         setOpenModal={setOpenUpdate}
         Form={FormStoreAdmin}

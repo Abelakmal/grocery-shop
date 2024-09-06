@@ -42,7 +42,7 @@ const ProductManage = () => {
       </div>
 
       {data ? (
-        <div className="grid md:grid-cols-2 grid-cols-1 mt-8 gap-2">
+        <div className="grid md:grid-cols-4 lg:grid-cols-5 sm:grid-cols-3 grid-cols-2 mt-8 gap-2">
           {data.data.map((product) => {
             return (
               <CardProduct

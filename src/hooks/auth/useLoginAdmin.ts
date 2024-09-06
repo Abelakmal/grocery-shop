@@ -4,41 +4,42 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../helper/config";
 import { fetchCurrentAdmin } from "../../redux/features/adminSlice";
+import { AppDispatch } from "../../redux/store";
 
 const useLoginAdmin = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-    const dispatch = useDispatch<any>();
-  
-    const login = async (email: string, password: string) => {
-      setLoading(true);
-      setError(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-      try {
-        const { data } = await axios.post(
-          `${baseURL}/auth/login-admin`,
-          {
-            email,
-            password,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem("token", data.data.token);
-        dispatch(fetchCurrentAdmin());
-        navigate("/admin");
-      } catch (err: any) {
-
-        
-        setError(err.response.data?.error || "Server Error");
-      } finally {
-        setLoading(false);
+  const login = async (email: string, password: string) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        `${baseURL}/auth/login-admin`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      localStorage.setItem("token", data.data.token);
+      dispatch(fetchCurrentAdmin());
+      navigate("/admin");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.error || "An error occurred");
+      } else {
+        setError("An unexpected error occurred");
       }
-    };
-  
-    return { login, loading, error };
+    } finally {
+      setLoading(false);
+    }
   };
-  
-  export default useLoginAdmin;
+
+  return { login, loading, error };
+};
+
+export default useLoginAdmin;

@@ -1,7 +1,6 @@
 import { Modal } from "flowbite-react";
 import { useState } from "react";
 import Koordinat from "./Koordinat";
-import { ILocation } from "../types/location.type";
 import Map from "./Map";
 import { GoArrowLeft } from "react-icons/go";
 import FormDetailAddress from "./FormDetailAddress";
@@ -9,17 +8,29 @@ import { useSelector } from "react-redux";
 import { IUser } from "../types/user.type";
 import { Link } from "react-router-dom";
 import ViewAddress from "./ViewAddress";
+import { RootState } from "../redux/store";
+import useCreateLocation from "../hooks/location/useCreateLocation";
+import useGetAddress from "../hooks/location/useGetAddress";
 const PickLocation = () => {
   const [openAddLocation, setOpenAddLocation] = useState(false);
-  const [nowLocation, setNowLocation] = useState<ILocation>();
-  const user = useSelector((state: any) => state.user.user as IUser);
+  const user = useSelector((state: RootState) => state.user.user as IUser);
+  const { address, refreshData } = useGetAddress();
 
   const [step, setStep] = useState(1);
+  const { formik } = useCreateLocation(
+    refreshData,
+    setOpenAddLocation,
+    setStep
+  );
 
   return (
     <div className="flex justify-center flex-col">
       {user.id ? (
-        <ViewAddress setOpenAddLocation={setOpenAddLocation} />
+        <ViewAddress
+          setOpenAddLocation={setOpenAddLocation}
+          address={address}
+          refreshData={refreshData}
+        />
       ) : (
         <div className="border-2 rounded-md flex justify-between items-center p-4">
           <div>
@@ -88,17 +99,9 @@ const PickLocation = () => {
               <p className="text-lg">Lengkapi Alamat</p>
             </div>
           </div>
-          {step === 1 && (
-            <Koordinat setStep={setStep} setNowLocation={setNowLocation} />
-          )}
-          {step === 2 && <Map nowLocation={nowLocation} setStep={setStep} />}
-          {step === 3 && (
-            <FormDetailAddress
-              nowLocation={nowLocation}
-              setOpenAddLocation={setOpenAddLocation}
-              setStep={setStep}
-            />
-          )}
+          {step === 1 && <Koordinat formik={formik} setStep={setStep} />}
+          {step === 2 && <Map formik={formik} setStep={setStep} />}
+          {step === 3 && <FormDetailAddress formik={formik} />}
         </Modal.Body>
       </Modal>
     </div>

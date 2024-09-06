@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { baseURL } from "../../helper/config";
 import axiosInstance from "../../helper/axios";
+import axios from "axios";
 
 const useCreateStore = (
   refreshData: CallableFunction,
@@ -39,8 +40,12 @@ const useCreateStore = (
         setOpenModal(false);
         refreshData();
         resetForm();
-      } catch (error: any) {
-        toast.error(error.response.data.message || error.response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.message || "An error occurred");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
       }
     },
   });

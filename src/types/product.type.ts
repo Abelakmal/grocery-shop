@@ -3,11 +3,11 @@ import { IStock } from "./stock.type";
 // import { IStock } from './stock.type';
 
 export interface IProduct {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   weight: number;
-  unitWeight: UnitWeight;
+  unitWeight: string;
   image: string;
   price: string;
   categoryId: number;
@@ -15,9 +15,14 @@ export interface IProduct {
   stock: IStock[];
 }
 
-enum UnitWeight {
-  GRAM = "GRAM",
-  KG = "KG",
+export interface IFormProduct {
+  name: string;
+  description: string;
+  weight: number;
+  unitWeight: string;
+  image: string;
+  price: string;
+  categoryId: number;
 }
 
 export interface IProductWithStock {
@@ -26,6 +31,7 @@ export interface IProductWithStock {
   createdAt: string;
   updateAt: string;
   product: {
+    id: number;
     name: string;
     description: string;
     weight: number;

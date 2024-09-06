@@ -1,23 +1,38 @@
-import axios from 'axios';
-import { Button, Modal } from 'flowbite-react';
-import toast from 'react-hot-toast';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import axios from "axios";
+import { Button, Modal } from "flowbite-react";
+import React from "react";
+import toast from "react-hot-toast";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import axiosInstance from "../../../helper/axios";
 
-const ModalDelete = ({
+interface Props {
+  openModal: boolean;
+  setOpenModal: (open: boolean) => void;
+  url: string;
+  refreshData: () => void;
+  title: string;
+}
+
+const ModalDelete: React.FC<Props> = ({
   openModal,
   setOpenModal,
   url,
   refreshData,
-  title
-}: any) => {
+  title,
+}) => {
   const confirmDelete = async () => {
     try {
-      await axios.delete(`${url}`)
+      await axiosInstance.delete(`${url}`);
       toast.success("Successfully!", { duration: 3000 });
       refreshData();
       setOpenModal(true);
     } catch (error) {
-      throw error
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+      console.log(error);
     }
     setOpenModal(false);
   };

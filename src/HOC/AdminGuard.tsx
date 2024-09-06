@@ -1,16 +1,21 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { fetchCurrentAdmin } from "../redux/features/adminSlice";
+import { AppDispatch, RootState } from "../redux/store";
 
-const AdminGuard = ({ component }: any) => {
-  const { admin, loading } = useSelector((state: any) => state.admin);
+interface Props {
+  component: JSX.Element;
+}
 
-  const dispatch: any = useDispatch();
+const AdminGuard: React.FC<Props> = ({ component }) => {
+  const { admin, loading } = useSelector((state: RootState) => state.admin);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchCurrentAdmin());
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return (

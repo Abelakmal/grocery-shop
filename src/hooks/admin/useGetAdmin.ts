@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { baseURL } from "../../helper/config";
 import axiosInstance from "../../helper/axios";
 import { IAdmin } from "../../types/admin.type";
@@ -7,10 +7,7 @@ import { IResponse } from "../../types/generale.type";
 const useGetAdmin = (page: number) => {
   const [data, setData] = useState<IResponse<IAdmin>>();
   const [loading, setLoading] = useState<boolean>(false);
-  useEffect(() => {
-    fetch();
-  }, []);
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     try {
       setLoading(true);
       const { data } = await axiosInstance.get(
@@ -19,11 +16,20 @@ const useGetAdmin = (page: number) => {
 
       setData(data.data);
     } catch (error) {
-      throw error;
+      if (error instanceof Error) {
+        console.error("An error occurred:", error.message);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]);
+  
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
   const refreshData = () => {
     fetch();
   };

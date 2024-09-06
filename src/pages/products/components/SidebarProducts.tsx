@@ -1,31 +1,40 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ICategory } from "../../../types/category.type";
 import useGetAllCategory from "../../../hooks/categories/useGetAllCategory";
 import { useLocation } from "react-router-dom";
 
-export const SidebarProducts = ({
+interface Props {
+  setFilterCategory: (filter: ICategory[]) => void;
+  showSide: boolean;
+  setShowSide: (open: boolean) => void;
+}
+
+export const SidebarProducts: React.FC<Props> = ({
   setFilterCategory,
   showSide,
   setShowSide,
-}: any) => {
+}) => {
   const [filter, setFilter] = useState<ICategory[]>([]);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const categoryId = searchParams.get("categoryId");
+  const categoryId = parseInt(searchParams.get("categoryId") as string);
   const name = searchParams.get("name");
 
-  const handleChecked = (id: string, name: string) => {
-    let dataFilter = [...filter];
-    const isExist = dataFilter?.find((data) => data.name === name);
-    if (isExist) {
-      dataFilter = dataFilter?.filter((value) => value?.name !== name);
-    } else {
-      if (dataFilter?.length <= 3) dataFilter?.push({ id, name });
-    }
-    setFilterCategory(dataFilter);
-    setFilter(dataFilter);
-  };
+  const handleChecked = useCallback(
+    (id: number, name: string) => {
+      let dataFilter = [...filter];
+      const isExist = dataFilter?.find((data) => data.name === name);
+      if (isExist) {
+        dataFilter = dataFilter?.filter((value) => value?.name !== name);
+      } else {
+        if (dataFilter?.length <= 3) dataFilter?.push({ id, name });
+      }
+      setFilterCategory(dataFilter);
+      setFilter(dataFilter);
+    },
+    [filter, setFilterCategory]
+  );
 
   const handleRemoveFilter = (name: string) => {
     const remove = [...filter];
@@ -41,7 +50,7 @@ export const SidebarProducts = ({
     if (categoryId && name) {
       handleChecked(categoryId, name);
     }
-  }, [categoryId && name]);
+  }, [categoryId, handleChecked, name]);
   return (
     <div
       className={`p-3 h-screen   bg-[#4a5765] text-white ${
@@ -49,7 +58,7 @@ export const SidebarProducts = ({
       } z-50 w-full  `}
     >
       <div className="flex">
-        {filter?.map((value: any, index: number) => {
+        {filter?.map((value: ICategory, index: number) => {
           return (
             <div key={index}>
               {value.id !== 0 && (
@@ -89,7 +98,7 @@ export const SidebarProducts = ({
                 key={value.id}
                 className="flex items-center me-4 my-6 cursor-pointer hover:bg-[#374151] rounded-lg p-1"
                 onClick={() =>
-                  handleChecked(value?.id as string, value?.name as string)
+                  handleChecked(value?.id, value?.name as string)
                 }
               >
                 <div className="flex justify-between w-full">

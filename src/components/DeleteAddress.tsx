@@ -1,8 +1,21 @@
 import { Button, Modal } from "flowbite-react";
 import useDelete from "../hooks/location/useDelete";
+import React from "react";
 
-const DeleteAddress = ({ openDelete, setOpenDelete, id }: any) => {
-  const { deleteAddress } = useDelete();
+interface Props {
+  openDelete: boolean;
+  setOpenDelete: (open: boolean) => void;
+  id: number;
+  refreshData: () => void;
+}
+
+const DeleteAddress: React.FC<Props> = ({
+  openDelete,
+  setOpenDelete,
+  id,
+  refreshData,
+}) => {
+  const { deleteAddress } = useDelete(refreshData);
 
   const handleChange = async (idAddress: number) => {
     await deleteAddress(idAddress);

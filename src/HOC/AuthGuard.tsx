@@ -1,18 +1,20 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { fetchCurrentUser } from "../redux/features/userSlice";
+import { AppDispatch, RootState } from "../redux/store";
 
-const AuthGuard = ({ component }: any) => {
-  const { user, loading } = useSelector((state: any) => state.user);
-  
-  
-  const dispatch: any = useDispatch();
+interface Props {
+  component: JSX.Element;
+}
+const AuthGuard: React.FC<Props> = ({ component }) => {
+  const { user, loading } = useSelector((state: RootState) => state.user);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
-  }, []);
-
+  }, [dispatch]);
 
   if (loading) {
     return (

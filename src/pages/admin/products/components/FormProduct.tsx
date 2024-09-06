@@ -1,14 +1,21 @@
 import { Button } from "flowbite-react";
 import useGetAllCategory from "../../../../hooks/categories/useGetAllCategory";
 import InputFields from "../../components/InputFields";
-import { ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
+import { FormikProps } from "formik";
+import { IFormProduct } from "../../../../types/product.type";
 
-const FormProduct = ({ setOpenModal, formik }: any) => {
+interface Props {
+  formik: FormikProps<IFormProduct>;
+  setOpenModal: (open: boolean) => void;
+}
+
+const FormProduct: React.FC<Props> = ({ setOpenModal, formik }) => {
   const { data } = useGetAllCategory();
 
   const formatNumber = (value: string) => {
     if (!value) return "";
-    let onlyNumbers = value.replace(/\D/g, "");
+    const onlyNumbers = value.replace(/\D/g, "");
 
     return onlyNumbers.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };

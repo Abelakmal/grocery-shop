@@ -1,4 +1,10 @@
-const InputAdress = ({ formik }: any) => {
+import { FormikProps } from "formik";
+import { IFormAddress } from "../types/address.type";
+
+interface Props {
+  formik: FormikProps<IFormAddress>;
+}
+const InputAdress: React.FC<Props> = ({ formik }) => {
   return (
     <div>
       {" "}

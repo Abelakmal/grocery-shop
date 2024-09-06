@@ -13,11 +13,11 @@ import useUpdateCart from "../../../hooks/cart/useUpdateCart";
 import { RootState } from "../../../redux/store";
 
 export const ProductDetails = () => {
-  let [sum, setSum] = useState(1);
-  let { id } = useParams();
+  const [sum, setSum] = useState<number>(1);
+  const { id } = useParams();
 
   const { data } = useGetStockById(id);
-  const { user } = useSelector((state: any) => state.user);
+  const { user } = useSelector((state: RootState) => state.user);
   const { create } = useCreateCart();
   const { update } = useUpdateCart();
   const { quantity } = useSelector((state: RootState) => state.cart);
@@ -29,7 +29,6 @@ export const ProductDetails = () => {
   const navigate = useNavigate();
 
   const addToCartHandler = async () => {
-    // validasi user jika sudah login
     if (!user.id) {
       return navigate("/signin");
     }
@@ -133,7 +132,7 @@ export const ProductDetails = () => {
                         setSum((prev) => (quantity < 10 ? prev + 1 : sum))
                       }
                       className="hover:bg-gray-200 h-full px-4 rounded-lg"
-                      disabled={!Boolean(data.amount > 0)}
+                      disabled={data.amount <= 0}
                     >
                       +
                     </button>
@@ -142,7 +141,7 @@ export const ProductDetails = () => {
                     color="success"
                     className="lg:px-4 lg:py-2 inline-block text-white border border-transparent rounded-m bg-green-600"
                     onClick={addToCartHandler}
-                    disabled={!Boolean(data.amount > 0)}
+                    disabled={data.amount <= 0}
                   >
                     <FaShoppingCart className="mr-3" />
                     Add to cart

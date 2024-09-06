@@ -1,17 +1,17 @@
 import * as Yup from "yup";
 
-import { useFormik } from "formik";
+import { FormikProps, useFormik } from "formik";
 import toast from "react-hot-toast";
 import { IStock } from "../../types/stock.type";
 import { baseURL } from "../../helper/config";
 import axiosInstance from "../../helper/axios";
+import axios from "axios";
 
 const useUpdateStock = (
   stock: IStock,
-  refreshData: CallableFunction,
-  setOpenModal: CallableFunction
-) => {
-  
+  refreshData: () => void,
+  setOpenModal: (open: boolean) => void
+): FormikProps<{ amount: number }> => {
   const validationSchema = Yup.object().shape({
     amount: Yup.number().required("Weight cannot be empty"),
   });
@@ -31,8 +31,12 @@ const useUpdateStock = (
         setOpenModal(false);
         refreshData();
         resetForm();
-      } catch (error: any) {
-        toast.error(error.response.data.message);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.message || "An error occurred");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
       }
     },
   });

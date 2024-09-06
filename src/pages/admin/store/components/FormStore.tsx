@@ -1,22 +1,34 @@
 import { Button, Spinner } from "flowbite-react";
 import InputFields from "../../components/InputFields";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import useSearchLocation from "../../../../hooks/location/useSearchLocation";
 import { ILocation } from "../../../../types/location.type";
+import { FormikProps } from "formik";
+import { IFormStore } from "../../../../types/store.type";
 
-const FormStore = ({ formik, setOpenModal }: any) => {
+interface Props {
+  formik: FormikProps<IFormStore>;
+  setOpenModal: (open: boolean) => void;
+}
+
+const FormStore: React.FC<Props> = ({ formik, setOpenModal }) => {
   const { search, location, loading } = useSearchLocation();
 
   useEffect(() => {
-    if (formik.values.location) {
-      search(formik.values.location);
-    }
+    const delayDebounceFn = setTimeout(() => {
+      if (formik.values.location) {
+        search(formik.values.location);
+      }
+    }, 1000);
+
+    return () => clearTimeout(delayDebounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.location]);
 
   const handleLocation = (
     latitude: string,
     longitude: string,
-    name: string | undefined
+    name: string
   ) => {
     formik.setValues({
       ...formik.values,
@@ -59,7 +71,7 @@ const FormStore = ({ formik, setOpenModal }: any) => {
                       handleLocation(
                         data.latitude.toString(),
                         data.longitude.toString(),
-                        data.name
+                        data.name as string
                       )
                     }
                   >

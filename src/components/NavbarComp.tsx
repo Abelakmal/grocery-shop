@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button, ListGroup, Modal } from "flowbite-react";
 import Delivered from "./Delivered";
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { jwtPayload } from "../types/admin.type";
-import { RootState } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
 import { countCart } from "../redux/features/cartSlice";
 import useGetCarts from "../hooks/cart/useGetCarts";
 
@@ -24,18 +24,16 @@ const NavbarComp = () => {
   const { quantity } = useSelector((state: RootState) => state.cart);
   const { data } = useGetCarts();
 
-
-
   const token = localStorage.getItem("token");
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if(token){
+    if (token) {
       dispatch(countCart(data));
     }
-  }, [data,token]);
+  }, [data, token, dispatch]);
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/products?search=${search}`);
   };
@@ -55,7 +53,7 @@ const NavbarComp = () => {
     setOpenModal(false);
   };
 
-  const { user } = useSelector((state: any) => state.user);
+  const { user } = useSelector((state: RootState) => state.user);
 
   return (
     <div className="fixed w-full bg-white z-50 ">
@@ -85,7 +83,6 @@ const NavbarComp = () => {
         {token && !isSuper ? (
           <div className="hidden sm:flex relative">
             <Link to="/cart">
-
               <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
                 <HiOutlineShoppingBag className="text-4xl hover:scale-110 transition-transform duration-150" />
                 {quantity > 0 && (

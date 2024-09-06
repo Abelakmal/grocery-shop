@@ -1,12 +1,21 @@
 import { Button, Modal } from "flowbite-react";
 import useChangeMain from "../hooks/location/useChangeMain";
+import React from "react";
 
-const ChangeMainAddress = ({
+interface Props {
+  openChangeMain: boolean;
+  setOpenChangeMain: (open: boolean) => void;
+  id: number;
+  refreshData: () => void;
+}
+
+const ChangeMainAddress: React.FC<Props> = ({
   openChangeMain,
   setOpenChangeMain,
   id,
-}: any) => {
-  const { change } = useChangeMain();
+  refreshData,
+}) => {
+  const { change } = useChangeMain(refreshData);
 
   const handleChange = async (id: number) => {
     await change(id);
@@ -20,7 +29,9 @@ const ChangeMainAddress = ({
           <h1 className="mb-5 md:text-4xl text-lg font-bold">
             Apakah Yakin Dijadikan Utama ?
           </h1>
-          <p className="md:text-xl text-sm">Anda hanya dapat memilih satu alamat utama</p>
+          <p className="md:text-xl text-sm">
+            Anda hanya dapat memilih satu alamat utama
+          </p>
           <div className="flex justify-center gap-4 mt-4">
             <Button
               color="gray"

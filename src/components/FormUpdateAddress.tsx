@@ -1,9 +1,23 @@
 import { Button, Modal } from "flowbite-react";
 import useUpdate from "../hooks/location/useUpdate";
 import InputAdress from "./InputAdress";
+import React from "react";
+import { IAddress } from "../types/address.type";
 
-const FormUpdateAddress = ({ openUpdate, setOpenUpdate, data }: any) => {
-  const { formik } = useUpdate(data, setOpenUpdate);
+interface Props {
+  openUpdate: boolean;
+  setOpenUpdate: (open: boolean) => void;
+  data: IAddress;
+  refreshData: () => void;
+}
+
+const FormUpdateAddress: React.FC<Props> = ({
+  openUpdate,
+  setOpenUpdate,
+  data,
+  refreshData,
+}) => {
+  const { formik } = useUpdate(refreshData, data, setOpenUpdate);
   return (
     <Modal
       size={"6xl"}
@@ -13,7 +27,7 @@ const FormUpdateAddress = ({ openUpdate, setOpenUpdate, data }: any) => {
     >
       <Modal.Header>
         {" "}
-        <h1 className="md:text-4xl">Update Alamat</h1>
+        <span className="md:text-4xl">Update Alamat</span>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>

@@ -2,33 +2,37 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 import { IAddress } from "../../types/address.type";
+import { AxiosError } from "axios";
 
 export const getAddress = createAsyncThunk(
   "address/getAddress",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.get(`${baseURL}/address`);
+      const { data } = await axiosInstance.get(`${baseURL}/address/main`);
+      
       return data.data;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data.error || "Server error");
+      } else {
+        return rejectWithValue("Server error");
+      }
     }
   }
 );
 
-const address: IAddress[] = [
-  {
-    id: null,
-    details: "",
-    label: "",
-    recipient_name: "",
-    recipient_number: "",
-    main: false,
-    latitude: "",
-    longitude: "",
-    userId: 1,
-  },
-];
-
+const address: IAddress = {
+  id: null,
+  details: "",
+  label: "",
+  location: "",
+  recipient_name: "",
+  recipient_number: "",
+  main: false,
+  latitude: "",
+  longitude: "",
+  userId: 1,
+};
 export const addressSlice = createSlice({
   name: "address",
   initialState: {
@@ -37,8 +41,19 @@ export const addressSlice = createSlice({
     error: "",
   },
   reducers: {
-    clearCurrentAddress: (state: any) => {
-      state.address = null;
+    clearCurrentAddress: (state: { address: IAddress }) => {
+      state.address = {
+        id: null,
+        details: "",
+        label: "",
+        location: "",
+        recipient_name: "",
+        recipient_number: "",
+        main: false,
+        latitude: "",
+        longitude: "",
+        userId: 1,
+      };
       state.address.id = null;
     },
   },

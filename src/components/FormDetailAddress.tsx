@@ -1,26 +1,23 @@
 import { Button } from "flowbite-react";
 import { RiMapPinLine } from "react-icons/ri";
-import useCreateLocation from "../hooks/location/useCreateLocation";
 import InputAdress from "./InputAdress";
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import { FormikProps } from "formik";
+import { IFormAddress } from "../types/address.type";
 
-const FormDetailAddress = ({
-  nowLocation,
-  setOpenAddLocation,
-  setStep,
-}: any) => {
-  const { formik } = useCreateLocation(
-    nowLocation.latitude,
-    nowLocation.longitude,
-    setOpenAddLocation,
-    setStep
-  );
+interface Props {
+  formik: FormikProps<IFormAddress>;
+}
 
+const FormDetailAddress: React.FC<Props> = ({ formik }) => {
   return (
     <div>
+      <Toaster />
       <div>
         <p>Pinpoint</p>
         <div className="flex mt-2 text-md items-center border-2 rounded-md p-2 shadow-md">
-          <RiMapPinLine /> <p className="ml-3">{nowLocation.name}</p>
+          <RiMapPinLine /> <p className="ml-3">{formik.values.location}</p>
         </div>
         <form onSubmit={formik.handleSubmit} className="mt-6">
           <InputAdress formik={formik} />
@@ -28,7 +25,7 @@ const FormDetailAddress = ({
             <input
               name="main"
               type="checkbox"
-              value={formik.values["main"]}
+              value={formik.values.main ? 1 : 0}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />

@@ -1,10 +1,19 @@
-import InputFields from '../../components/InputFields';
-import { Button } from 'flowbite-react';
+import InputFields from "../../components/InputFields";
+import { Button } from "flowbite-react";
+import { FormikProps } from "formik";
+import React from "react";
 
-const FormStock = ({ setOpenModal, formik }: any) => {
+interface FormProps<T> {
+  formik: FormikProps<T>;
+  setOpenModal: (open: boolean) => void;
+}
+
+const FormStock: React.FC<FormProps<{ amount: number }>> = ({
+  setOpenModal,
+  formik,
+}) => {
   return (
     <form onSubmit={formik.handleSubmit}>
-        
       <InputFields
         label="amount"
         type="number"

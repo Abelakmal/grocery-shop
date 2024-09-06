@@ -1,20 +1,27 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import { IAddress } from "../types/address.type";
 import { Button, Modal } from "flowbite-react";
 import FormUpdateAddress from "./FormUpdateAddress";
 import ChangeMainAddress from "./ChangeMainAddress";
 import DeleteAddress from "./DeleteAddress";
+import { Toaster } from "react-hot-toast";
 
-const ViewAddress = ({ setOpenAddLocation }: any) => {
+interface Props {
+  setOpenAddLocation: (open: boolean) => void;
+  address: IAddress[];
+  refreshData: () => void;
+}
+
+const ViewAddress: React.FC<Props> = ({
+  setOpenAddLocation,
+  address,
+  refreshData,
+}) => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openChangeMain, setOpenChangeMain] = useState(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [data, setData] = useState<IAddress | null>();
   const [id, setId] = useState<number>();
-  const address = useSelector(
-    (state: any) => state.address.address as IAddress[]
-  );
 
   const handleUpdate = (data: IAddress) => {
     setOpenUpdate(true);
@@ -32,16 +39,21 @@ const ViewAddress = ({ setOpenAddLocation }: any) => {
 
   return (
     <div>
-      {address.length > 0 ? (
+      <Toaster />
+      {address?.length > 0 ? (
         <>
           {address.map((data, index) => {
             return (
               <div
-                className={`border-2 border-green-500 mb-4 p-4 rounded-md ${data.main && "bg-green-100"}`}
+                className={`border-2 border-green-500 mb-4 p-4 rounded-md ${
+                  data.main && "bg-green-100"
+                }`}
                 key={index}
               >
                 <div className="flex items-center">
-                  <h2 className="font-semibold md:text-3xl text-lg">{data.label}</h2>{" "}
+                  <h2 className="font-semibold md:text-3xl text-lg">
+                    {data.label}
+                  </h2>{" "}
                   <p className="ml-4 text-black md:text-lg text-sm bg-gray-400 px-2  rounded-md">
                     {data.main && "Utama"}
                   </p>
@@ -93,28 +105,30 @@ const ViewAddress = ({ setOpenAddLocation }: any) => {
           Add Location
         </Button>
       </Modal.Footer>
-      {openUpdate && (
+      {openUpdate && data && (
         <FormUpdateAddress
           openUpdate={openUpdate}
           setOpenUpdate={setOpenUpdate}
           data={data}
+          refreshData={refreshData}
         />
       )}
-      {openChangeMain && (
+      {openChangeMain && id && (
         <ChangeMainAddress
           openChangeMain={openChangeMain}
           setOpenChangeMain={setOpenChangeMain}
           id={id}
+          refreshData={refreshData}
         />
       )}
-      {openDelete && (
+      {openDelete && id && (
         <DeleteAddress
           openDelete={openDelete}
           setOpenDelete={setOpenDelete}
           id={id}
+          refreshData={refreshData}
         />
       )}
-      
     </div>
   );
 };

@@ -7,3 +7,9 @@ export interface IStoreBranch {
   location: string;
 }
 
+export interface IFormStore {
+  name: string;
+  latitude: string;
+  longitude: string;
+  location: string;
+}

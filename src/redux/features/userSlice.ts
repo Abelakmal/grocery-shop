@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 import { IUser } from "../../types/user.type";
+import { AxiosError } from "axios";
 
 export const fetchCurrentUser = createAsyncThunk(
   "user/fetchCurrentUser",
@@ -21,8 +22,12 @@ export const fetchCurrentUser = createAsyncThunk(
         name: "",
         phone: "",
       };
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data.error || "Server error");
+      } else {
+        return rejectWithValue("Server error");
+      }
     }
   }
 );
@@ -44,7 +49,7 @@ export const userSlice = createSlice({
     error: "",
   },
   reducers: {
-    clearCurrentUser: (state: any) => {
+    clearCurrentUser: (state: { user: IUser }) => {
       state.user = {
         id: null,
         dob: "",

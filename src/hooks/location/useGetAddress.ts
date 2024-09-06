@@ -1,16 +1,16 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { IProduct } from "../../types/product.type";
+import { IAddress } from "../../types/address.type";
+import axiosInstance from "../../helper/axios";
+import { baseURL } from "../../helper/config";
 
-const base_url: string | undefined = process.env.API_URL!;
-
-const useGetProductById = (id: string | undefined) => {
-  const [data, setData] = useState<IProduct | undefined>(undefined);
+const useGetAddress = () => {
+  const [address, setData] = useState<IAddress[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const fetch = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${base_url}/product/${id}`);
+      const { data } = await axiosInstance.get(baseURL + "/address");
+
       setData(data.data);
     } catch (error) {
       if (error instanceof Error) {
@@ -21,7 +21,7 @@ const useGetProductById = (id: string | undefined) => {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     fetch();
@@ -30,7 +30,7 @@ const useGetProductById = (id: string | undefined) => {
   const refreshData = () => {
     fetch();
   };
-  return { data, refreshData, loading };
+  return { address, refreshData, loading };
 };
 
-export default useGetProductById;
+export default useGetAddress;

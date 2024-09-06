@@ -2,7 +2,6 @@ import { useState } from "react";
 import ModalInput from "../components/ModalInput";
 import FormStoreAdmin from "./components/FormStoreAdmin";
 import TableStoreAdmin from "./components/TableStoreAdmin";
-
 import useCreateAdmin from "../../../hooks/admin/useCreateAdmin";
 import useGetAdmin from "../../../hooks/admin/useGetAdmin";
 import { Pagination } from "flowbite-react";
@@ -30,7 +29,6 @@ const StoreAdminManage = () => {
         <TableStoreAdmin
           data={data.data}
           loading={loading}
-          formik={formik}
           refreshData={refreshData}
         />
       )}

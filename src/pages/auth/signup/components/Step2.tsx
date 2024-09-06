@@ -1,8 +1,16 @@
+import { FormikProps } from "formik";
+import React from "react";
 import { HiMiniArrowRight } from "react-icons/hi2";
 import { IoMdArrowBack } from "react-icons/io";
+import { IFormRegister } from "../../../../types/user.type";
 
-const Step2 = ({ setStep, formik, loading }: any) => {
+interface Props {
+  setStep: (step: number) => void;
+  formik: FormikProps<IFormRegister>;
+  loading: boolean;
+}
 
+const Step2: React.FC<Props> = ({ setStep, formik, loading }) => {
   return (
     <div className="sm:p-10 lg:p-4 px-4 pt-2 h-full max-sm:text-xs">
       <div className="flex justify-between">
@@ -17,6 +25,11 @@ const Step2 = ({ setStep, formik, loading }: any) => {
         </h1>
       </div>
       <div className="my-10 h-full">
+        {formik.errors["error"] && (
+          <p className="text-red-500 text-xs mt-1 border-2 p-1 rounded border-red-500 mb-5">
+            {formik.errors["error"]}
+          </p>
+        )}
         <div className="flex flex-col opacity-50 mb-2">
           <label>Name</label>
           <input
@@ -128,10 +141,12 @@ const Step2 = ({ setStep, formik, loading }: any) => {
         </div>
         <div className="grid grid-cols-2">
           <div className="flex  items-center ">
-            <p className="mr-2 ">
-              Anda Menyetujui Kebijakan Aplikasi?
-            </p>
-            <input type="checkbox" name="isAgree" onChange={formik.handleChange}/>{" "}
+            <p className="mr-2 ">Anda Menyetujui Kebijakan Aplikasi?</p>
+            <input
+              type="checkbox"
+              name="isAgree"
+              onChange={formik.handleChange}
+            />{" "}
           </div>
 
           <div className="w-full flex justify-end">

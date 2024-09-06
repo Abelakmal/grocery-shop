@@ -1,6 +1,24 @@
 import { Modal } from "flowbite-react";
+import { FormikProps } from "formik";
 
-const ModalInput = ({
+interface FormProps<T> {
+  formik: FormikProps<T>;
+  setOpenModal: (open: boolean) => void;
+  refreshData: () => void;
+  method?: string;
+}
+
+interface Props<T> {
+  openModal: boolean;
+  setOpenModal: (open: boolean) => void;
+  Form: React.ComponentType<FormProps<T>>;
+  formik: FormikProps<T>;
+  judul: string;
+  refreshData: () => void;
+  method?: string;
+}
+
+const ModalInput = <T,>({
   openModal,
   setOpenModal,
   Form,
@@ -8,7 +26,7 @@ const ModalInput = ({
   judul,
   refreshData,
   method,
-}: any) => {
+}: Props<T>) => {
   return (
     <Modal show={openModal} size="xl" onClose={() => setOpenModal(false)} popup>
       <Modal.Body>

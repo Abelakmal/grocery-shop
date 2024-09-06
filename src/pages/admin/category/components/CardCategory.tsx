@@ -1,7 +1,7 @@
 import { Card } from "flowbite-react";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
+import React, { useState } from "react";
 import ModalDelete from "../../components/ModalDelete";
 import ModalInput from "../../components/ModalInput";
 import FormCategory from "./FormCategory";
@@ -9,8 +9,13 @@ import { baseURL } from "../../../../helper/config";
 import useUpdateCategory from "../../../../hooks/categories/useUpdateCategory";
 import { jwtPayload } from "../../../../types/admin.type";
 import { jwtDecode } from "jwt-decode";
+import { ICategory, IFormCatgeory } from "../../../../types/category.type";
 
-const CardCategory = ({ category, refreshData }: any) => {
+interface Props {
+  category: ICategory;
+  refreshData: () => void;
+}
+const CardCategory: React.FC<Props> = ({ category, refreshData }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const formik = useUpdateCategory(category, refreshData, setOpenUpdate);
@@ -52,8 +57,7 @@ const CardCategory = ({ category, refreshData }: any) => {
         refreshData={refreshData}
       />
 
-      <ModalInput
-        category={category}
+      <ModalInput<IFormCatgeory>
         openModal={openUpdate}
         setOpenModal={setOpenUpdate}
         Form={FormCategory}

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCurrentUser } from "../redux/features/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { jwtPayload } from "../types/admin.type";
-import { RootState } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { countCart } from "../redux/features/cartSlice";
 import useGetCarts from "../hooks/cart/useGetCarts";
@@ -20,18 +20,18 @@ const MobileNavBar = () => {
   const [openModal, setOpenModal] = useState(false);
   const [show, setShow] = useState<boolean>(false);
   const location = useLocation();
-  const { user } = useSelector((state: any) => state.user);
-  const dispatch: any = useDispatch();
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
   const [isSuper, setIsSuper] = useState<boolean>(false);
   const { total, quantity } = useSelector((state: RootState) => state.cart);
 
-  const { data } = useGetCarts  ();
+  const { data } = useGetCarts();
 
   useEffect(() => {
     if (token) {
       dispatch(countCart(data));
     }
-  }, [data, token]);
+  }, [data, token, dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -53,8 +53,8 @@ const MobileNavBar = () => {
       {"/cart" === location.pathname && quantity > 0 && (
         <div className=" bg-white md:hidden flex justify-between items-center w-full px-2">
           <div className="flex items-center">
-            <input type="checkbox" />
-            <p className="text-xs ml-2">Semua</p>
+            
+            <p className="text-xs ml-2">Total</p>
           </div>
           <div className="flex items-center">
             <div className=" my-4">

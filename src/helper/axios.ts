@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance } from "axios";
 import { baseURL } from "./config";
 
 // Buat instance axios
@@ -28,11 +28,14 @@ axiosInstance.interceptors.request.use(
 // Variabel untuk menangani permintaan refresh token
 let isRefreshing = false;
 let failedQueue: {
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
+  resolve: (value?: string | PromiseLike<string> | null) => void;
+  reject: (reason?: AxiosError | null) => void;
 }[] = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (
+  error: AxiosError | null,
+  token: string | null = null
+) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
@@ -58,7 +61,7 @@ const refreshToken = async (): Promise<string> => {
     ] = `Bearer ${newToken}`;
     return newToken;
   } catch (error) {
-    processQueue(error, null);
+    processQueue(error as AxiosError, null);
     localStorage.clear();
     throw error;
   }

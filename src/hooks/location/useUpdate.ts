@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { useFormik } from "formik";
+import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
 import { baseURL } from "../../helper/config";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../helper/axios";
 import { getAddress } from "../../redux/features/addressSlice";
-import { IAddress } from "../../types/address.type";
+import { IAddress, IFormAddress } from "../../types/address.type";
+import { AppDispatch } from "../../redux/store";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const useUpdate = (data: IAddress, setOpenUpdate: CallableFunction) => {
+const useUpdate = (
+  refreshData: () => void,
+  data: IAddress,
+  setOpenUpdate: CallableFunction
+): { formik: FormikProps<IFormAddress>; loading: boolean } => {
   const validationSchema = Yup.object().shape({
     label: Yup.string().required("Wajib Disi"),
     details: Yup.string().required("Wajib Disi"),
@@ -16,37 +23,38 @@ const useUpdate = (data: IAddress, setOpenUpdate: CallableFunction) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const formik = useFormik({
     initialValues: {
-      id: data.id,
       label: data.label,
       details: data.details,
+      location: data.location,
       recipient_name: data.recipient_name,
       recipient_number: data.recipient_number,
       latitude: data.latitude,
       longitude: data.longitude,
-      error: "",
+      main: data.main,
     },
     validationSchema,
-    onSubmit: async (values, { setErrors }) => {
+    onSubmit: async (values) => {
       try {
         const {
-          id,
           details,
           label,
+          location,
           recipient_name,
           recipient_number,
           latitude,
           longitude,
         } = values;
 
-        await axiosInstance.put(baseURL + "/address/" + id, {
+        await axiosInstance.put(baseURL + "/address/" + data.id, {
           label,
           details,
           recipient_name,
           recipient_number,
+          location,
           latitude,
           longitude,
         });
@@ -54,12 +62,13 @@ const useUpdate = (data: IAddress, setOpenUpdate: CallableFunction) => {
         setLoading(true);
         setOpenUpdate(false);
         dispatch(getAddress());
-      } catch (error: any) {
-        console.error("Error :", error);
-        if (error.response.data.error) {
-          setErrors({
-            error: error.response.data.error,
-          });
+        refreshData()
+      } catch (error) {
+        console.error("Error Register:", error);
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.error || "An error occurred");
+        } else {
+          toast.error("An unexpected error occurred");
         }
       } finally {
         setLoading(false);

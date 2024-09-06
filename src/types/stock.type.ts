@@ -18,6 +18,7 @@ export interface IHistoryStock {
   stockBefore: number;
   stockAfter: number;
   createdAt: string;
+  updatedAt: Date;
   stockId: string;
   stock: IStock;
 }

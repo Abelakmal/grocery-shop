@@ -1,11 +1,12 @@
 import { Table } from "flowbite-react";
 import { IStoreBranch } from "../../../../types/store.type";
+import React from "react";
 
-interface props {
+interface Props {
   data: IStoreBranch[];
 }
 
-const TableStore = ({ data }: props) => {
+const TableStore: React.FC<Props> = ({ data }) => {
   return (
     <div className="overflow-x-auto ">
       <Table>

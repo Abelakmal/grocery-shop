@@ -9,7 +9,7 @@ import Profile from "../pages/profile";
 import NavbarComp from "../components/NavbarComp";
 import MobileNavBar from "../components/MobileNavBar";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { fetchCurrentUser } from "../redux/features/userSlice";
 import AuthGuard from "../HOC/AuthGuard";
 import UserGuard from "../HOC/UserGuard";
@@ -28,25 +28,29 @@ export const Routers = () => {
   const token = localStorage.getItem("token") || "";
 
   const dispatch = useDispatch<AppDispatch>();
+  
+  const route = useMemo(
+    () => [
+      "/signup",
+      "/signin",
+      "/signup/",
+      "/signin/",
+      "/admin",
+      "/admin/",
+      "/admin/login",
+      "/admin/login/",
+      "/reset-password",
+      "/forgotPassword",
+    ],
+    []
+  );
 
   useEffect(() => {
     if (token && !route.includes(location.pathname)) {
       dispatch(fetchCurrentUser());
     }
-  }, [token]);
+  }, [token, dispatch, location.pathname, route]);
 
-  const route = [
-    "/signup",
-    "/signin",
-    "/signup/",
-    "/signin/",
-    "/admin",
-    "/admin/",
-    "/admin/login",
-    "/admin/login/",
-    "/reset-password",
-    "/forgotPassword",
-  ];
   return (
     <div className=" md:h-screen h-full grid grid-cols-1 font-popins relative bg-white">
       <Toaster />

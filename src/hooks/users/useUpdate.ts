@@ -6,11 +6,11 @@ import { axiosInstance } from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 import { useDispatch } from "react-redux";
 import { fetchCurrentUser } from "../../redux/features/userSlice";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { AppDispatch } from "../../redux/store";
 
-const useUpdate = (
-  user: IUser,
-  setOpenChangeBio: CallableFunction,
-) => {
+const useUpdate = (user: IUser, setOpenChangeBio: CallableFunction) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name cannot be empty"),
     email: Yup.string().email().required("email cannot be empty"),
@@ -20,7 +20,7 @@ const useUpdate = (
   });
 
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const formik = useFormik({
     initialValues: {
@@ -31,7 +31,7 @@ const useUpdate = (
       address: user.address || undefined,
     },
     validationSchema,
-    onSubmit: async (values, { setErrors }) => {
+    onSubmit: async (values) => {
       try {
         setLoading(true);
         const { name, email, dob, phone, address } = values;
@@ -45,12 +45,11 @@ const useUpdate = (
         });
         dispatch(fetchCurrentUser());
         setOpenChangeBio(false);
-      } catch (error: any) {
-        console.error("Error Register:", error);
-        if (error.response.user.error) {
-          setErrors({
-            email: error.response.user.error,
-          });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.error || "An error occurred");
+        } else {
+          toast.error("An unexpected error occurred");
         }
       } finally {
         setLoading(false);
