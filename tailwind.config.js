@@ -1,19 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-import flowbite from "flowbite/plugin";
-
-// eslint-disable-next-line no-undef
-module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite-react/**/*.js",
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        popins: ["Poppins", "sans-serif"],
-      },
+import { content as _content, plugin } from "flowbite-react/tailwind";
+export const content = ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", _content()];
+export const theme = {
+  extend: {
+    fontFamily: {
+      popins: ["Poppins", "sans-serif"],
     },
   },
-  plugins: [flowbite],
 };
+export const plugins = [
+  plugin(),
+];
