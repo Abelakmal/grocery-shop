@@ -19,8 +19,10 @@ import AdminLoginPage from "../pages/auth/admin-login/AdminLoginPage";
 import AdminGuard from "../HOC/AdminGuard";
 import { AppDispatch } from "../redux/store";
 import ResetPasswordPage from "../pages/reset-password";
-import { Toaster } from "react-hot-toast";
 import ForgotPassword from "../pages/forgotPassword";
+import ShipmentPage from "../pages/cart/shipment";
+import NotFound from "../pages/error/NotFound";
+import ScrollToTop from "../components/ScrollToTop";
 
 export const Routers = () => {
   const location = useLocation();
@@ -28,7 +30,7 @@ export const Routers = () => {
   const token = localStorage.getItem("token") || "";
 
   const dispatch = useDispatch<AppDispatch>();
-  
+
   const route = useMemo(
     () => [
       "/signup",
@@ -41,6 +43,7 @@ export const Routers = () => {
       "/admin/login/",
       "/reset-password",
       "/forgotPassword",
+      "/cart/shipment",
     ],
     []
   );
@@ -53,9 +56,10 @@ export const Routers = () => {
 
   return (
     <div className=" md:h-screen h-full grid grid-cols-1 font-popins relative bg-white">
-      <Toaster />
+      <ScrollToTop />
       {!route.includes(location.pathname) && <NavbarComp />}
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<App />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
@@ -68,6 +72,10 @@ export const Routers = () => {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/cart" element={<UserGuard component={<CartPage />} />} />
+        <Route
+          path="/cart/shipment"
+          element={<UserGuard component={<ShipmentPage />} />}
+        />
         <Route
           path="/admin"
           element={<AdminGuard component={<AdminPage />} />}
