@@ -8,10 +8,11 @@ import useGetAllStock from "../../../hooks/stock/useGetAllStock";
 import { ICategory } from "../../../types/category.type";
 import { RootState } from "../../../redux/store";
 import { useSelector } from "react-redux";
-import { ICart } from "../../../types/cart.type";
+import { ICart, ICartForm } from "../../../types/cart.type";
 import useGetCarts from "../../../hooks/cart/useGetCarts";
 import useCreateCart from "../../../hooks/cart/useCreateCart";
 import useUpdateCart from "../../../hooks/cart/useUpdateCart";
+import toast from "react-hot-toast";
 
 interface props {
   filterCategory: ICategory[];
@@ -19,6 +20,7 @@ interface props {
 }
 
 export const ListProducts = ({ filterCategory, setShowSide }: props) => {
+  const { address } = useSelector((state: RootState) => state.address);
   const [sort, setSort] = useState<string>("");
   const [pageSize, setPageSize] = useState<number>(10);
   const location = useLocation();
@@ -27,7 +29,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
-  const carts = useGetCarts();
+  const carts = useGetCarts(address.id);
   const { create } = useCreateCart();
   const { update } = useUpdateCart();
 
@@ -55,19 +57,34 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const addToCartHandler = async (product_id: number, price: string) => {
+  const addToCartHandler = async (
+    stock_id: number,
+    price: string,
+    amount: number
+  ) => {
     if (!user.id) {
       return navigate("/signin");
     }
-    const cartItem: ICart = {
-      product_id,
+
+    if (amount < 1) {
+      return;
+    }
+
+    if (!address.id) {
+      return toast.error("Anda harus membuat alamat Terlebih dahahulu", {
+        duration: 2000,
+      });
+    }
+    const cartItem: ICartForm = {
+      stock_id,
       price_at_time: parseInt(price, 0),
       quantity: 1,
       user_id: user.id,
+      address_id: address.id
     };
 
     const isExist = carts.data.find(
-      (cart: ICart) => cart.product_id === product_id
+      (cart: ICart) => cart.stock_id === stock_id
     );
     if (isExist && isExist?.quantity >= 10) {
       return;
@@ -81,7 +98,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
   };
 
   return (
-    <div className="w-full h-full mb-5 bg-white lg:pt-64 pt-28">
+    <div className="w-full h-full mb-5 bg-white lg:pt-64 pt-40">
       <>
         <div className="fixed top-[9rem] h-max  z-40 bg-white w-full shadow-lg">
           <div className="flex text-nowrap  justify-between items-center text-[14px] sm:text-xl h-full p-4   w-full">
@@ -177,12 +194,14 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
                           />
                         </p>
                         <Button
+                          disabled={product.amount < 1}
                           color="success"
-                          className=" text-white hover:bg-green-500 max-lg:bg-green-500 "
+                          className={` text-white hover:bg-green-500 max-lg:bg-green-500 `}
                           onClick={() =>
                             addToCartHandler(
-                              product.product.id,
-                              product.product.price
+                              product.id,
+                              product.product.price,
+                              product.amount
                             )
                           }
                         >

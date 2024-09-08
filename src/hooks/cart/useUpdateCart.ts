@@ -17,6 +17,7 @@ const useUpdateCart = () => {
         quantity,
       });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.error || "An error occurred");
       } else {

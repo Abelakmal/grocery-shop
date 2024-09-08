@@ -13,6 +13,7 @@ import { AppDispatch, RootState } from "../redux/store";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { countCart } from "../redux/features/cartSlice";
 import useGetCarts from "../hooks/cart/useGetCarts";
+import useGetTransactions from "../hooks/transactions/useGetTransactions";
 
 const MobileNavBar = () => {
   const token = localStorage.getItem("token");
@@ -24,8 +25,10 @@ const MobileNavBar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [isSuper, setIsSuper] = useState<boolean>(false);
   const { total, quantity } = useSelector((state: RootState) => state.cart);
+  const { address } = useSelector((state: RootState) => state.address);
 
-  const { data } = useGetCarts();
+  const { data } = useGetCarts(address.id);
+  const transactions = useGetTransactions("PENDING_PAYMENT");
 
   useEffect(() => {
     if (token) {
@@ -53,7 +56,6 @@ const MobileNavBar = () => {
       {"/cart" === location.pathname && quantity > 0 && (
         <div className=" bg-white md:hidden flex justify-between items-center w-full px-2">
           <div className="flex items-center">
-            
             <p className="text-xs ml-2">Total</p>
           </div>
           <div className="flex items-center">
@@ -63,9 +65,11 @@ const MobileNavBar = () => {
               </p>
               <p className="text-sm font-semibold"></p>
             </div>
-            <button className=" text-xs bg-green-600 text-white  rounded-md  p-2 px-4 ml-4 font-semibold">
-              Beli {quantity}
-            </button>
+            <Link to={"/cart/checkout"}>
+              <button className=" text-xs bg-green-600 text-white  rounded-md  p-2 px-4 ml-4 font-semibold">
+                Beli {quantity}
+              </button>
+            </Link>
           </div>
         </div>
       )}
@@ -88,9 +92,14 @@ const MobileNavBar = () => {
               <span>Cart</span>
             </div>
           </Link>
-          <Link to="/transaction">
-            <div className="flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
+          <Link to="/orders">
+            <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
               <TbReport className="text-2xl hover:scale-110 transition-transform duration-150" />
+              {transactions.data.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-black rounded-full text-[10px] px-2">
+                  {transactions.data.length}
+                </span>
+              )}
               <span>Orders</span>
             </div>
           </Link>

@@ -4,7 +4,6 @@ import { Button, Modal } from "flowbite-react";
 import FormUpdateAddress from "./FormUpdateAddress";
 import ChangeMainAddress from "./ChangeMainAddress";
 import DeleteAddress from "./DeleteAddress";
-import { Toaster } from "react-hot-toast";
 
 interface Props {
   setOpenAddLocation: (open: boolean) => void;
@@ -39,7 +38,6 @@ const ViewAddress: React.FC<Props> = ({
 
   return (
     <div>
-      <Toaster />
       {address?.length > 0 ? (
         <>
           {address.map((data, index) => {
@@ -51,36 +49,36 @@ const ViewAddress: React.FC<Props> = ({
                 key={index}
               >
                 <div className="flex items-center">
-                  <h2 className="font-semibold md:text-3xl text-lg">
+                  <h2 className="font-semibold md:text-lg text-[12px]">
                     {data.label}
                   </h2>{" "}
-                  <p className="ml-4 text-black md:text-lg text-sm bg-gray-400 px-2  rounded-md">
+                  <p className="ml-4 text-black md:text-lg text-[12px] bg-gray-400 px-2   rounded-md">
                     {data.main && "Utama"}
                   </p>
                 </div>
-                <p className="md:text-4xl text-xl font-bold mt-2 capitalize">
+                <p className="md:text-2xl text-[12px] font-bold mt-2 capitalize">
                   {data.recipient_name}
                 </p>
-                <p className="md:text-xl my-2">{data.recipient_number}</p>
-                <p className="md:text-xl ">{data.details}</p>
-                <ul className="flex items-center mt-6 md:text-lg text-sm font-semibold justify-around text-green-600">
+                <p className="md:text-xl text-[10px] my-2">{data.recipient_number}</p>
+                <p className="md:text-xl text-[10px]">{data.details}</p>
+                <ul className="flex items-center mt-6  font-semibold justify-around text-green-600">
                   <li
-                    className="cursor-pointer"
+                    className="cursor-pointer text-[10px] md:text-base"
                     onClick={() => handleUpdate(data)}
                   >
                     Ubah Alamat
                   </li>
                   {!data.main && (
                     <li
-                      className="cursor-pointer"
+                      className="cursor-pointer text-[10px] md:text-base"
                       onClick={() => handleChangeMain(data.id as number)}
                     >
-                      Jadikan Utama
+                      Jadikan Utama Dan Pilih
                     </li>
                   )}
                   {!data.main && (
                     <li
-                      className="cursor-pointer"
+                      className="cursor-pointer text-[10px] md:text-base"
                       onClick={() => handleDelete(data.id as number)}
                     >
                       Hapus

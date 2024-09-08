@@ -19,7 +19,7 @@ const Category = () => {
             See more
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <div className="flex overflow-x-scroll gap-4 no-scrollbar">
           {data?.length > 0 && (
             <>
               {data?.slice(0, 6).map((category: ICategory, index) => (

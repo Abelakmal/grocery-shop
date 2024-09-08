@@ -1,14 +1,14 @@
 import { useState } from "react";
 import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
-import { ICart } from "../../types/cart.type";
+import {  ICartForm } from "../../types/cart.type";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const useCreateCart = () => {
   const [loading, setLoading] = useState(false);
 
-  const create = async (data: ICart) => {
+  const create = async (data: ICartForm) => {
     setLoading(true);
 
     try {

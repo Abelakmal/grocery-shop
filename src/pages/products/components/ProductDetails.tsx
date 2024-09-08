@@ -5,12 +5,13 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetStockById from "../../../hooks/stock/useGetStockById";
 import { useSelector } from "react-redux";
-import { ICart } from "../../../types/cart.type";
+import { ICart, ICartForm } from "../../../types/cart.type";
 import useCreateCart from "../../../hooks/cart/useCreateCart";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import useGetCarts from "../../../hooks/cart/useGetCarts";
 import useUpdateCart from "../../../hooks/cart/useUpdateCart";
 import { RootState } from "../../../redux/store";
+import toast from "react-hot-toast";
 
 export const ProductDetails = () => {
   const [sum, setSum] = useState<number>(1);
@@ -21,8 +22,11 @@ export const ProductDetails = () => {
   const { create } = useCreateCart();
   const { update } = useUpdateCart();
   const { quantity } = useSelector((state: RootState) => state.cart);
+  const { address } = useSelector((state: RootState) => state.address);
 
-  const carts = useGetCarts();
+  console.log(data);
+
+  const carts = useGetCarts(address.id);
 
   const imgRef = useRef(null);
 
@@ -32,15 +36,21 @@ export const ProductDetails = () => {
     if (!user.id) {
       return navigate("/signin");
     }
-    const cartItem: ICart = {
-      product_id: parseInt(id as string, 0),
+    if (!address.id) {
+      return toast.error("Anda harus membuat alamat Terlebih dahahulu", {
+        duration: 2000,
+      });
+    }
+    const cartItem: ICartForm = {
+      stock_id: parseInt(id as string, 0),
       price_at_time: parseInt(data?.product.price as string, 0),
       quantity: sum,
       user_id: user.id,
+      address_id: address.id,
     };
 
     const isExist = carts.data.find(
-      (cart: ICart) => cart.product_id === parseInt(id as string, 0)
+      (cart: ICart) => cart.stock_id === parseInt(id as string, 0)
     );
     if (isExist && isExist?.quantity >= 10) {
       return;
@@ -129,10 +139,12 @@ export const ProductDetails = () => {
                     <p className="px-2">{sum}</p>
                     <button
                       onClick={() =>
-                        setSum((prev) => (quantity < 10 ? prev + 1 : sum))
+                        setSum((prev) =>
+                          quantity < 10 && sum < 10 ? prev + 1 : sum
+                        )
                       }
                       className="hover:bg-gray-200 h-full px-4 rounded-lg"
-                      disabled={data.amount <= 0}
+                      disabled={data.amount <= 0 || sum >= data.amount}
                     >
                       +
                     </button>

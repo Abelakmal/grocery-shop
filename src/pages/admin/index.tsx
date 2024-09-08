@@ -15,7 +15,6 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
-import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { baseURL } from "../../helper/config";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -39,7 +38,6 @@ export const AdminPage = () => {
 
   return (
     <section className="flex bg-[#272c2f] h-full">
-      <Toaster position="top-center" reverseOrder={false} />
       <SidebarAdmin setShow={setShow} isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <div

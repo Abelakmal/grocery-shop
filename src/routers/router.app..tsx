@@ -20,9 +20,12 @@ import AdminGuard from "../HOC/AdminGuard";
 import { AppDispatch } from "../redux/store";
 import ResetPasswordPage from "../pages/reset-password";
 import ForgotPassword from "../pages/forgotPassword";
-import ShipmentPage from "../pages/cart/shipment";
 import NotFound from "../pages/error/NotFound";
 import ScrollToTop from "../components/ScrollToTop";
+import { Toaster } from "react-hot-toast";
+import CheckoutPage from "../pages/cart/checkout";
+import OrdersPage from "../pages/orders";
+import OrderDetail from "../pages/orders/order-detail";
 
 export const Routers = () => {
   const location = useLocation();
@@ -43,7 +46,8 @@ export const Routers = () => {
       "/admin/login/",
       "/reset-password",
       "/forgotPassword",
-      "/cart/shipment",
+      "/cart/checkout",
+      "/orders/detail",
     ],
     []
   );
@@ -56,6 +60,7 @@ export const Routers = () => {
 
   return (
     <div className=" md:h-screen h-full grid grid-cols-1 font-popins relative bg-white">
+      <Toaster />
       <ScrollToTop />
       {!route.includes(location.pathname) && <NavbarComp />}
       <Routes>
@@ -73,8 +78,16 @@ export const Routers = () => {
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/cart" element={<UserGuard component={<CartPage />} />} />
         <Route
-          path="/cart/shipment"
-          element={<UserGuard component={<ShipmentPage />} />}
+          path="/cart/checkout"
+          element={<UserGuard component={<CheckoutPage />} />}
+        />
+        <Route
+          path="/orders"
+          element={<UserGuard component={<OrdersPage />} />}
+        />
+        <Route
+          path="/orders/detail"
+          element={<UserGuard component={<OrderDetail />} />}
         />
         <Route
           path="/admin"

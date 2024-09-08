@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const base_url: string | undefined = process.env.API_URL!;
 
-const useGetCarts = () => {
+const useGetCarts = (id_address: number | null) => {
   const token = localStorage.getItem("token") || "";
   const [data, setData] = useState<ICart[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -14,7 +14,9 @@ const useGetCarts = () => {
   const fetch = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await axiosInstance.get(`${base_url}/cart`);
+      const { data } = await axiosInstance.get(
+        `${base_url}/cart/${id_address}`
+      );
       setData(data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -25,12 +27,12 @@ const useGetCarts = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [id_address]);
   useEffect(() => {
-    if (token) {
+    if (token && id_address) {
       fetch();
     }
-  }, [fetch, token]);
+  }, [fetch, token, id_address]);
   const refreshData = () => {
     fetch();
   };
