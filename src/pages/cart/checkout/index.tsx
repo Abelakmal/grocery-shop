@@ -52,17 +52,17 @@ const CheckoutPage = () => {
           },
           onPending: function (result: any) {
             setSnap(false);
-            navigate(`/orders/detail?transaction_id=${result.order_id}`);
+            navigate(`/orders/detail?order_id=${result.order_id}`);
             console.log(result);
           },
           onError: function (result: any) {
             setSnap(false);
-            navigate(`/orders/detail?transaction_id=${result.order_id}`);
+            navigate(`/orders/detail?order_id=${result.order_id}`);
             console.log(result);
           },
           onClose: function (result: any) {
             setSnap(false);
-            navigate(`/orders/detail?transaction_id=${result.order_id}`);
+            navigate(`/orders/detail?order_id=${result.order_id}`);
             console.log(result);
           },
         });

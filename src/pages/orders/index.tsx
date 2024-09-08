@@ -23,7 +23,7 @@ const OrdersPage = () => {
         <div className="mx-4 md:mx-20">
           {data?.map((item, index) => {
             return (
-              <Link to={`/orders/detail?transaction_id=${item.id}`} key={index}>
+              <Link to={`/orders/detail?order_id=${item.id}`} key={index}>
                 <div className="shadow-md border-2 rounded mb-4 p-2">
                   <div className="flex justify-between border-b-2 w-full">
                     <div className="flex items-center ">

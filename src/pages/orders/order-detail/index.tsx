@@ -9,7 +9,7 @@ import { Button } from "flowbite-react";
 const OrderDetail = () => {
   const [searchParams] = useSearchParams();
 
-  const { data } = useGetTransactionById(searchParams.get("transaction_id"));
+  const { data } = useGetTransactionById(searchParams.get("order_id"));
   console.log(data);
 
   const ongkosKirim = 50000;
@@ -61,7 +61,7 @@ const OrderDetail = () => {
                       alt={item.stock.product.name}
                     />
                   </div>
-                  <div className="w-full ml-3 col-span-2">
+                  <div className="w-full ml-3 col-span-2 pr-2 md:text-end">
                     <p className="text-xs font-medium">
                       {item.stock.product.name}
                     </p>
