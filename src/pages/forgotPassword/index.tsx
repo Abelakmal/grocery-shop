@@ -2,7 +2,6 @@ import { FormEvent, useState } from "react";
 import useForgotPassword from "../../hooks/auth/useForgotPassword";
 import { Link, useNavigate } from "react-router-dom";
 import { HiArrowSmallLeft } from "react-icons/hi2";
-import { Toaster } from "react-hot-toast";
 
 const ForgotPassword = () => {
   const { send } = useForgotPassword();
@@ -16,7 +15,6 @@ const ForgotPassword = () => {
   };
   return (
     <div className="w-full md:bg-gray-100 md:flex justify-center items-center h-screen lg:px-10 ">
-      <Toaster />
       <div className="p-4 flex items-center w-full justify-between border-b-2 absolute top-0 bg-white">
         <div className="flex items-center">
           <Link to={"/"}>

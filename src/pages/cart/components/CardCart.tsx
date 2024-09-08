@@ -19,46 +19,54 @@ const CardCart = ({ cart, refreshData, index }: props) => {
   const { update } = useUpdateCart();
 
   const updateCart = useCallback(async () => {
-    if (sum !== cart.quantity) {
+    if (sum <= cart.stock.amount) {
       await update(sum, cart.id as number);
       refreshData();
     }
   }, [sum, cart, update, refreshData]);
 
   useEffect(() => {
-    updateCart();
-  }, [sum, updateCart]);
+    if (sum !== cart.quantity) {
+      updateCart();
+    }
+  }, [updateCart, sum, cart.quantity]);
 
   const confirmDelete = async () => {
-    await axiosInstance.delete(`${baseURL}/cart/${cart.id}`);
-    setOpenModal(false);
-    refreshData();
+    try {
+      await axiosInstance.delete(`${baseURL}/cart/${cart.id}`);
+      setOpenModal(false);
+      refreshData();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div
-      className={`md:w-full w-screen bg-white p-4 md:rounded-lg mt-5  h-full flex mb-20 ${
+      className={`md:w-full w-screen bg-white p-4 md:rounded-lg mt-5  h-full flex mb-20 md:mb-2 md:mt-2 ${
         index > 0 && 1 && "max-md:border-t-4 max-md:pt-10"
       }`}
     >
       <div className="flex h-full  w-full">
         <img
-          src={cart.product?.image}
+          src={cart.stock?.product.image}
           alt=""
           className="w-20 h-20 object-cover mr-4"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full">
           <div className="">
-            <p className=" md:text-lg text-xs font font-semibold w-max ">
-              {cart.product?.name}
+            <p className=" md:text-base text-xs font font-semibold w-max ">
+              {cart.stock?.product.name}
             </p>
             <p className=" lg:text-xs text-[10px] ">
-              {cart.product?.description.slice(0,40)}...
+              {cart.stock?.product.description.slice(0, 40)}...
             </p>
           </div>
           <p className="font-semibold lg:text-lg text-[10px] md:text-end">
-            <FormatRupiah value={parseInt(cart.product?.price as string, 0)} />
+            <FormatRupiah
+              value={parseInt(cart.stock?.product.price as string, 0)}
+            />
           </p>
           <div className="flex items-center md:col-span-2 w-full md:justify-end justify-between">
             <IoTrashOutline
@@ -76,7 +84,7 @@ const CardCart = ({ cart, refreshData, index }: props) => {
               <button
                 onClick={() => setSum((prev) => (prev < 10 ? prev + 1 : sum))}
                 className="hover:bg-gray-200 h-full px-4 rounded-lg"
-                disabled={!(cart.quantity > 0)}
+                disabled={!(cart.stock?.amount > 0)}
               >
                 +
               </button>

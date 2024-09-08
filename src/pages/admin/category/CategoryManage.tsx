@@ -1,7 +1,6 @@
 import {  Spinner } from "flowbite-react";
 import { useState } from "react";
 import useGetAllCategory from "../../../hooks/categories/useGetAllCategory";
-import { Toaster } from "react-hot-toast";
 import ModalInput from "../components/ModalInput";
 import FormCategory from "./components/FormCategory";
 import CardCategory from "./components/CardCategory";
@@ -26,7 +25,6 @@ const CategoryManage = () => {
 
   return (
     <section className="bg-[#272c2f] md:px-10 md:py-10 text-white w-full">
-      <Toaster />
       <div className="flex justify-between top-0 sticky bg-[#272c2f]  py-4">
         <h1 className={`md:text-3xl text-sm`}>Manage Category</h1>
         {decodeToken.isSuper && (

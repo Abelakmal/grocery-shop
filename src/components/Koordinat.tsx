@@ -7,7 +7,6 @@ import { Spinner } from "flowbite-react";
 import useDetailLocation from "../hooks/location/useDetailLocation";
 import { FormikProps } from "formik";
 import { IFormAddress } from "../types/address.type";
-import { Toaster } from "react-hot-toast";
 
 interface Props {
   formik: FormikProps<IFormAddress>;
@@ -61,7 +60,6 @@ const Koordinat: React.FC<Props> = ({ formik, setStep }) => {
 
   return (
     <>
-      <Toaster />
       <div className="relative">
         <form className="">
           <div className="flex flex-col">

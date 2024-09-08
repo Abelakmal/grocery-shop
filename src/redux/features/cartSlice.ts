@@ -16,7 +16,7 @@ const cartSlice = createSlice({
 
       state.total = data.reduce(
         (total: number, cart: ICart) =>
-          (total + cart.price_at_time) * cart.quantity,
+          total + cart.price_at_time * cart.quantity,
         0
       );
       

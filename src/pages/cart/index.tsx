@@ -14,14 +14,15 @@ import axiosInstance from "../../helper/axios";
 import { baseURL } from "../../helper/config";
 
 const CartPage = () => {
+  const { address } = useSelector((state: RootState) => state.address);
   const dispatch = useDispatch<AppDispatch>();
-  const { data, refreshData } = useGetCarts();
+  const { data, refreshData } = useGetCarts(address.id);
   const [check, setCheck] = useState(false);
   const { total } = useSelector((state: RootState) => state.cart);
 
   const [openModal, setOpenModal] = useState(false);
   const confirmDelete = async () => {
-    await axiosInstance.delete(`${baseURL}/cart`);
+    await axiosInstance.delete(`${baseURL}/cart/many/${address.id}`);
     refreshData();
     setOpenModal(false);
   };
@@ -37,7 +38,7 @@ const CartPage = () => {
       }`}
     >
       <div className="w-max ">
-        <h1 className="md:text-2xl font-bold mb-4 flex items-center max-md:w-screen border-b pb-2">
+        <h1 className="lg:text-2xl  font-bold mb-4 flex items-center max-md:w-screen border-b pb-2">
           <Link to={"/products"}>
             <span className="block  mx-3 hover:bg-gray-300">
               <HiArrowSmallLeft />
@@ -48,7 +49,7 @@ const CartPage = () => {
 
         <div className="flex  md:border-2 ">
           {data.length < 1 ? (
-            <div className="bg-white md:p-20 flex items-center rounded-lg ">
+            <div className="bg-white md:p-20 flex items-center pt-40 justify-center w-full rounded-lg ">
               <img src="keranjang.svg" alt="keranjang" className="w-20" />
               <div>
                 <p className="xl:text-3xl text-xs xl:text-nowrap  font-bold mb-4">
@@ -94,17 +95,27 @@ const CartPage = () => {
               })}
             </div>
           )}
-          <div className="bg-white p-4 ml-10 xl:w-96  md:flex hidden flex-col h-full justify-between rounded-lg sticky md:top-40">
+          <div className="bg-white p-4 ml-1 lg:ml-10 xl:w-96  md:flex hidden flex-col h-full justify-between rounded-lg sticky md:top-40">
             <div className="border-b-2 ">
-              <h2 className="lg:text-xl font-bold">Ringkasan belanja</h2>
+              <h2 className="lg:text-xl md:text-sm font-bold">
+                Ringkasan belanja
+              </h2>
               <div className="flex justify-between my-4">
-                <p className="text-lg">total</p>
-                <p>{total > 0 ? <FormatRupiah value={total} /> : "-"}</p>
+                <p className="lg:text-lg md:text-sm">total</p>
+                <p className="lg:text-lg md:text-xs">
+                  {total > 0 ? <FormatRupiah value={total} /> : "-"}
+                </p>
               </div>
             </div>
-            <button className="w-full lg:text-xl text-xs bg-green-600 text-white  rounded-md  p-2 font-semibold">
-              Beli
-            </button>
+            <Link to={"/cart/checkout"}>
+              <Button
+                color={"success"}
+                disabled={data.length < 1}
+                className="w-full lg:text-xl text-xs bg-green-600 text-white  rounded-md   font-semibold"
+              >
+                Beli
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

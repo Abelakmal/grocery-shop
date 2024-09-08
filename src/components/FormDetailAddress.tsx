@@ -2,7 +2,6 @@ import { Button } from "flowbite-react";
 import { RiMapPinLine } from "react-icons/ri";
 import InputAdress from "./InputAdress";
 import React from "react";
-import { Toaster } from "react-hot-toast";
 import { FormikProps } from "formik";
 import { IFormAddress } from "../types/address.type";
 
@@ -13,7 +12,6 @@ interface Props {
 const FormDetailAddress: React.FC<Props> = ({ formik }) => {
   return (
     <div>
-      <Toaster />
       <div>
         <p>Pinpoint</p>
         <div className="flex mt-2 text-md items-center border-2 rounded-md p-2 shadow-md">

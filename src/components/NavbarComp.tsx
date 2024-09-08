@@ -13,6 +13,7 @@ import { jwtPayload } from "../types/admin.type";
 import { AppDispatch, RootState } from "../redux/store";
 import { countCart } from "../redux/features/cartSlice";
 import useGetCarts from "../hooks/cart/useGetCarts";
+import useGetTransactions from "../hooks/transactions/useGetTransactions";
 
 const NavbarComp = () => {
   const [search, setSearch] = useState<string>("");
@@ -21,8 +22,11 @@ const NavbarComp = () => {
   const [show, setShow] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState(false);
 
+  const { address } = useSelector((state: RootState) => state.address);
+
   const { quantity } = useSelector((state: RootState) => state.cart);
-  const { data } = useGetCarts();
+  const { data } = useGetCarts(address.id);
+  const transactions = useGetTransactions("PENDING_PAYMENT");
 
   const token = localStorage.getItem("token");
   const dispatch = useDispatch<AppDispatch>();
@@ -83,7 +87,7 @@ const NavbarComp = () => {
         {token && !isSuper ? (
           <div className="hidden sm:flex relative">
             <Link to="/cart">
-              <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
+              <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150 mr-4">
                 <HiOutlineShoppingBag className="text-4xl hover:scale-110 transition-transform duration-150" />
                 {quantity > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-black rounded-full text-[18px] font-bold px-2 py-[1px]">
@@ -92,12 +96,15 @@ const NavbarComp = () => {
                 )}
               </div>
             </Link>
-            <Link to="/transaction">
-              <button className="ml-6 flex">
-                <span className="w-full text-4xl">
-                  <TbReport />
-                </span>
-              </button>
+            <Link to="/orders">
+              <div className="relative flex flex-col items-center text-xs hover:text-[#b1bf4c] transition-colors duration-150">
+                <TbReport className="text-4xl hover:scale-110 transition-transform duration-150" />
+                {transactions.data.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-black rounded-full text-[18px] font-bold px-2 py-[1px]">
+                    {transactions.data.length}
+                  </span>
+                )}
+              </div>
             </Link>
             <div className="ml-6 w-10">
               <ListGroup

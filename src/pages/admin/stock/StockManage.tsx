@@ -8,7 +8,6 @@ import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { TableStocks } from "./components/TableStocks";
 import { RootState } from "../../../redux/store";
-import { Toaster } from "react-hot-toast";
 
 const StockManage = () => {
   const [page, setCurrentPage] = useState(1);
@@ -22,7 +21,6 @@ const StockManage = () => {
 
   return (
     <div className="w-full md:px-10 md:py-10 bg-[#272c2f] text-white">
-      <Toaster />
       <h1 className={`md:text-3xl text-sm`}>Manage Stock </h1>
       <div className="flex justify-between items-end w-full">
         {decodeToken.isSuper && (
