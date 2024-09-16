@@ -1,27 +1,26 @@
 import { useState } from "react";
 import StoreList from "../components/StoreList";
 import FilterReport from "../components/FilterReport";
-import { useGetAllOrder } from "../../../hooks/order/useGetAllOrder";
 import { FaSearch } from "react-icons/fa";
 import { TableSalesReport } from "./components/TableSalesReport";
 import { jwtPayload } from "../../../types/admin.type";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import useGetTransactionsByIdStore from "../../../hooks/transactions/useGetTransactionsByIdStore";
 
 const SalesManage = () => {
   const [startDate, setStartDate] = useState("");
   const [search, setSearch] = useState("");
   const [endDate, setEndDate] = useState(new Date().toISOString());
   const [categoryId, setCategoryId] = useState(0);
-  const { admin } = useSelector((state: any) => state.admin);
-  const [storeId, setStoreId] = useState(admin.storeId);
+  const { admin } = useSelector((state: RootState) => state.admin);
+  const [storeId, setStoreId] = useState(admin.storeId as number);
   const token = localStorage.getItem("token");
   const decodeToken = jwtDecode<jwtPayload>(token as string);
-  const { data, loading, refreshData } = useGetAllOrder(
+  const { data, loading, refreshData } = useGetTransactionsByIdStore(
+    "",
     storeId,
-    categoryId,
-    startDate,
-    endDate,
     search
   );
 
@@ -57,7 +56,7 @@ const SalesManage = () => {
       </div>
 
       <div className="mt-4">
-        {data && <TableSalesReport data={data} loading={loading} />}
+        {data && <TableSalesReport data={data.data} loading={loading} />}
       </div>
     </div>
   );

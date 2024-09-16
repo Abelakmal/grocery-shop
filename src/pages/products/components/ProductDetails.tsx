@@ -64,12 +64,12 @@ export const ProductDetails = () => {
   };
 
   return (
-    <div className="h-full lg:pt-64 md:pt-52 pt-32 bg-white">
+    <div className="h-full lg:pt-64 md:pt-52 pt-28 bg-white">
       {data && (
-        <section className="bg-white  ">
+        <section className="bg-white">
           <Breadcrumb
             aria-label="Default breadcrumb example"
-            className="pl-8 mb-5 py-4 bg-gray-200 max-sm:sticky z-40 w-full fixed top-[8.5rem]"
+            className="pl-8 mb-5 py-4 bg-gray-200 max-sm:sticky z-40 w-full fixed md:top-[8.2rem]"
           >
             <Breadcrumb.Item href="/" icon={HiHome}>
               Home

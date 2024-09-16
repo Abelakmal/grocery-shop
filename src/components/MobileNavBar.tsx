@@ -52,7 +52,7 @@ const MobileNavBar = () => {
     }
   }, [token]);
   return (
-    <div className="fixed bottom-0 mx-auto z-50 w-full inset-x-0 bg-white shadow-lg md:hidden">
+    <div className="fixed bottom-0 mx-auto z- w-full inset-x-0 bg-white shadow-lg md:hidden">
       {"/cart" === location.pathname && quantity > 0 && (
         <div className=" bg-white md:hidden flex justify-between items-center w-full px-2">
           <div className="flex items-center">

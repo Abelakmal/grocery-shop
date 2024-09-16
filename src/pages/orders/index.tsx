@@ -10,8 +10,8 @@ const OrdersPage = () => {
   console.log(data);
 
   return (
-    <div className="pt-44 md:pt-36">
-      <h1 className="lg:text-2xl mt-4 md:sticky top-36 pt-1  bg-white hidden font-bold mb-4 md:flex items-center max-md:w-screen border-b pb-2">
+    <div className="pt-44 md:pt-32">
+      <h1 className="lg:text-2xl mt-4 md:sticky top-[8.4rem] pt-2  bg-white hidden font-bold mb-4 md:flex items-center max-md:w-screen border-b pb-2">
         <Link to={"/"}>
           <span className="block  mx-3 hover:bg-gray-300">
             <HiArrowSmallLeft />

@@ -13,13 +13,9 @@ import useGetCarts from "../../../hooks/cart/useGetCarts";
 import useCreateCart from "../../../hooks/cart/useCreateCart";
 import useUpdateCart from "../../../hooks/cart/useUpdateCart";
 import toast from "react-hot-toast";
+import { SidebarProducts } from "./SidebarProducts";
 
-interface props {
-  filterCategory: ICategory[];
-  setShowSide: CallableFunction;
-}
-
-export const ListProducts = ({ filterCategory, setShowSide }: props) => {
+export const ListProducts = () => {
   const { address } = useSelector((state: RootState) => state.address);
   const [sort, setSort] = useState<string>("");
   const [pageSize, setPageSize] = useState<number>(10);
@@ -32,6 +28,8 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
   const carts = useGetCarts(address.id);
   const { create } = useCreateCart();
   const { update } = useUpdateCart();
+  const [filterCategory, setFilterCategory] = useState<ICategory[]>([]);
+  const [showSide, setShowSide] = useState<boolean>(false);
 
   const { data, loading } = useGetAllStock(
     sort,
@@ -80,7 +78,7 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
       price_at_time: parseInt(price, 0),
       quantity: 1,
       user_id: user.id,
-      address_id: address.id
+      address_id: address.id,
     };
 
     const isExist = carts.data.find(
@@ -98,14 +96,14 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
   };
 
   return (
-    <div className="w-full h-full mb-5 bg-white lg:pt-64 pt-40">
+    <div className="w-full h-full mb-5 bg-white lg:pt-64 pt-24">
       <>
-        <div className="fixed top-[9rem] h-max  z-40 bg-white w-full shadow-lg">
-          <div className="flex text-nowrap  justify-between items-center text-[14px] sm:text-xl h-full p-4   w-full">
+        <div className="fixed md:top-[8rem] top-[6.7rem] h-max  z-40 bg-white w-full shadow-lg">
+          <div className="flex text-nowrap  justify-between items-center text-[10px] sm:text-xl h-full p-4   w-full">
             <div className="flex items-center">
               <div
-                className="mx-3  h-max w-max p-2 rounded-lg  cursor-pointer border-2 "
-                onClick={() => setShowSide(true)}
+                className="md:mx-3  h-max w-max md:p-2 p-1 mr-2 rounded-lg  cursor-pointer border-2 "
+                onClick={() => setShowSide(!showSide)}
               >
                 <RiMenu2Fill />
               </div>
@@ -116,13 +114,13 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
             </div>
 
             <div className="flex items-center ">
-              <p className="mr-3 max-md:text-[10px]">Sort By: </p>
+              <p className="mr-3 max-md:text-[10px] ">Sort By: </p>
               <select
-                className="rounded-lg max-md:text-[8px] w-max h-max"
+                className="rounded-lg max-md:text-[8px] max-md:h-6 max-md:w-20  leading-none "
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
               >
-                <option value={""} className="max-md:text-[10px]">
+                <option value={""} className="max-md:text-[10px] w-max h-max">
                   Default
                 </option>
                 <option value={"latest"} className="max-md:text-[10px]">
@@ -137,12 +135,16 @@ export const ListProducts = ({ filterCategory, setShowSide }: props) => {
               </select>
             </div>
           </div>
+          <SidebarProducts
+            setFilterCategory={setFilterCategory}
+            showSide={showSide}
+          />
           {filterCategory.length > 0 && (
-            <div className={`flex pb-4 ml-7 `}>
+            <div className={`flex md:pb-4 pb-2 ml-7 `}>
               {filterCategory.map((data: ICategory, index: number) => {
                 return (
                   <p
-                    className="text-sm mr-2 bg-[#77818b] p-1 rounded whitespace-nowrap text-white"
+                    className="md:text-sm text-[8px] mr-2 bg-[#77818b] p-1 rounded whitespace-nowrap text-white"
                     key={index}
                   >
                     {data.name}

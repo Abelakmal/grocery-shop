@@ -24,6 +24,11 @@ export interface ITransaction {
   createdAt: string;
   updatedAt: string;
   transactions_items: ITransactionsItem[];
+  user: {
+    name: string;
+    email: string;
+    phone: string;
+  };
 }
 
 export interface ITransactionsItem {

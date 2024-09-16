@@ -205,14 +205,6 @@ const CheckoutPage = () => {
         </Modal>
       </div>
       <div className={`h-screen w-full ${!snap ? "hidden" : "block"}`}>
-        <h1 className="lg:text-2xl mt-4 font-bold  flex items-center max-md:w-screen border-b pb-2 relative z-10 bg-white">
-          <button onClick={() => setSnap(false)}>
-            <span className="block  mx-3 hover:bg-gray-300">
-              <HiArrowSmallLeft />
-            </span>
-          </button>
-          Pembayaraan
-        </h1>
         {loading ? (
           <div className="flex justify-center items-center h-screen">
             <Spinner aria-label="Default status example" />

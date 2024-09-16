@@ -4,7 +4,7 @@ export interface ICategory {
   id: number;
   name: string;
   image?: string;
-  product?: IProduct[];
+  products?: IProduct[];
 }
 
 export interface IFormCatgeory {

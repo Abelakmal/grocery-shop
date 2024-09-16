@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ICategory } from "../../types/category.type";
-
-const base_url: string | undefined = process.env.API_URL!;
+import toast from "react-hot-toast";
+import { baseURL } from "../../helper/config";
 
 const useGetAllCategory = () => {
   const [data, setData] = useState<ICategory[]>([]);
@@ -13,10 +13,14 @@ const useGetAllCategory = () => {
   const fetch = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${base_url}/category`);
+      const { data } = await axios.get(`${baseURL}/category`);
       setData(data.data);
     } catch (error) {
-      throw error;
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }

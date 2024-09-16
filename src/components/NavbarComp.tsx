@@ -64,8 +64,8 @@ const NavbarComp = () => {
       <div className="bg-[#ccc1a1]  flex flex-row lg:justify-center justify-between w-full  px-1 md:px-5 items-center">
         <Link to="/">
           <div className={` flex font-bold mr-2`}>
-            <div className=" text-green-600 text-sm md:text-xl ">Grocery</div>
-            <div className=" text-black text-sm md:text-2xl h-full ">Shop</div>
+            <div className=" text-green-600 text-xs md:text-xl ">Grocery</div>
+            <div className=" text-black text-xs md:text-2xl h-full ">Shop</div>
           </div>
         </Link>
         <form
@@ -78,9 +78,9 @@ const NavbarComp = () => {
             </span>
           </div>
           <input
-            className="pl-12 bg-gray-100 text-gray-600 placeholder-gray-200 sm:focus:bg-white w-full mx-auto my-4 py-2 px-3 rounded-xl z-10 outline-0 border-gray-200"
+            className="pl-12 bg-gray-100 text-gray-600 text-[10px] leading-[2px] placeholder-gray-200 sm:focus:bg-white w-full  mx-auto my-4 py-2 px-3 rounded-xl z-10 outline-0 border-gray-200"
             placeholder="Search for product name..."
-            type="search"
+            type="search" 
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>

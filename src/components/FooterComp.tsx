@@ -9,7 +9,7 @@ import {
 
 const FooterComp = () => {
   return (
-    <Footer className="bg-orange-50  h-full  z-40">
+    <Footer className="bg-orange-50  h-full">
       <div className="container mx-auto max-w-7xl px-5 md:py-20 py-40">
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <FooterCopyright href="#" by="GroceryShop™" year={2024} />

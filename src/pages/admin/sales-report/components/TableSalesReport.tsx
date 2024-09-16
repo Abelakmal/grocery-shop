@@ -1,9 +1,8 @@
-
-import { format } from 'date-fns';
-import { Spinner, Table } from 'flowbite-react';
-import { IOrder } from '../../../../types/order.type';
+import { format } from "date-fns";
+import { Spinner, Table } from "flowbite-react";
+import { ITransaction } from "../../../../types/transaction.type";
 interface IParam {
-  data: IOrder[];
+  data: ITransaction[];
   loading: boolean;
 }
 
@@ -16,15 +15,16 @@ export function TableSalesReport({ data, loading }: IParam) {
       </div>
     );
   }
+  
   return (
     <div className="overflow-x-auto ">
       <Table>
         <Table.Head>
           <Table.HeadCell>No</Table.HeadCell>
-          <Table.HeadCell>Branch Name</Table.HeadCell>
           <Table.HeadCell>Costumer Name</Table.HeadCell>
-          <Table.HeadCell>Product Name</Table.HeadCell>
-          <Table.HeadCell>Product Category</Table.HeadCell>
+          <Table.HeadCell>Costumer Email</Table.HeadCell>
+          <Table.HeadCell>Costumer Phone</Table.HeadCell>
+          <Table.HeadCell>Payment Method</Table.HeadCell>
           <Table.HeadCell>Price</Table.HeadCell>
           <Table.HeadCell>Sold qty</Table.HeadCell>
           <Table.HeadCell>Total Price</Table.HeadCell>
@@ -33,25 +33,35 @@ export function TableSalesReport({ data, loading }: IParam) {
         <Table.Body className="divide-y">
           {data.map((order, index) => {
             return (
-              <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800 text-sm">
+              <Table.Row
+                key={index}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800 text-sm"
+              >
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
+                  {order.id}
+                </Table.Cell>
+
+                <Table.Cell className="whitespace-nowrap">
+                  {order.user.name}
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap">
-                  {order.StoreBranch.name}
+                  {order.user.email}
                 </Table.Cell>
+                <Table.Cell>{order.user.phone}</Table.Cell>
                 <Table.Cell className="whitespace-nowrap">
-                  {order.customer.profile.name}
+                  {order.payment_method}
                 </Table.Cell>
-                <Table.Cell className="whitespace-nowrap">
-                  {order.product.name}
+                <Table.Cell>{order.status}</Table.Cell>
+                <Table.Cell>
+                  {order.transactions_items.reduce(
+                    (rdx: number, data) => rdx + data.quantity,
+                    0
+                  )}
+                  +
                 </Table.Cell>
-                <Table.Cell>{order.product.category.name}</Table.Cell>
-                <Table.Cell>{order.product.price}</Table.Cell>
-                <Table.Cell>{order.qty}</Table.Cell>
-                <Table.Cell>{order.amount}</Table.Cell>
+                <Table.Cell>{order.total}</Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {format(new Date(order.createdAt), 'dd-LLL-yyyy')}
+                  {format(new Date(order.createdAt), "dd-LLL-yyyy")}
                 </Table.Cell>
               </Table.Row>
             );

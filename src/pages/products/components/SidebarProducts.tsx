@@ -6,13 +6,11 @@ import { useLocation } from "react-router-dom";
 interface Props {
   setFilterCategory: (filter: ICategory[]) => void;
   showSide: boolean;
-  setShowSide: (open: boolean) => void;
 }
 
 export const SidebarProducts: React.FC<Props> = ({
   setFilterCategory,
   showSide,
-  setShowSide,
 }) => {
   const [filter, setFilter] = useState<ICategory[]>([]);
 
@@ -56,8 +54,8 @@ export const SidebarProducts: React.FC<Props> = ({
   return (
     <div
       className={`p-3 h-screen   bg-[#4a5765] text-white ${
-        showSide ? "fixed" : "hidden"
-      } z-50 w-full  `}
+        showSide ? "absolute" : "hidden"
+      } z-50 w-full  md:w-[40vw] overflow-y-scroll no-scrollbar`}
     >
       <div className="flex">
         {filter?.map((value: ICategory, index: number) => {
@@ -65,7 +63,7 @@ export const SidebarProducts: React.FC<Props> = ({
             <div key={index}>
               {value.id !== 0 && (
                 <p
-                  className="text-sm mr-2 bg-[#77818b] p-1 rounded whitespace-nowrap"
+                  className="md:text-sm text-[8px] mr-2 bg-[#77818b] p-1 rounded whitespace-nowrap"
                   onClick={() => handleRemoveFilter(value.name)}
                 >
                   <span className="text-black">x </span>
@@ -78,17 +76,11 @@ export const SidebarProducts: React.FC<Props> = ({
       </div>
       <div className="flex justify-between items-center">
         <h1
-          className={` cursor-pointer`}
+          className={` cursor-pointer md:text-base text-xs`}
           onClick={() => setDropdown(!dropDown)}
         >
           Product <span className="text-[#b1bf4c]">Category</span>
-          <span className="ml-2 text-xl font-bold">{dropDown ? "+" : "-"}</span>
-        </h1>
-        <h1
-          className="text-xl cursor-pointer"
-          onClick={() => setShowSide(false)}
-        >
-          X
+          <span className="ml-2 md:text-xl text-base font-bold">{dropDown ? "+" : "-"}</span>
         </h1>
       </div>
 
@@ -101,21 +93,21 @@ export const SidebarProducts: React.FC<Props> = ({
                 className="flex items-center me-4 my-6 cursor-pointer hover:bg-[#374151] rounded-lg p-1"
                 onClick={() => handleChecked(value?.id, value?.name as string)}
               >
-                <div className="flex justify-between w-full">
+                <div className="flex">
                   <p
-                    className={`ms-2 text-sm   font-medium dark:text-gray-300`}
+                    className={`ms-2 md:text-sm text-[10px]   font-medium dark:text-gray-300`}
                   >
                     {value.name}
                   </p>
-                  <span className="text-[12px] text-gray-400">
-                    {value.product?.length}
+                  <span className="text-[12px] ml-1 text-gray-400">
+                    {"("}{value.products?.length}{")"}
                   </span>
                 </div>
               </div>
             );
           })}
       </div>
-      <h2 className={` mt-5`}>
+      <h2 className={` mt-5 md:text-base text-xs`}>
         Filter <span className="text-[#b1bf4c]">Price</span>
       </h2>
       <form>
@@ -123,14 +115,14 @@ export const SidebarProducts: React.FC<Props> = ({
           <input
             type="number"
             placeholder="Price Max"
-            className="rounded-lg text-black p-2"
+            className="rounded-lg text-black md:p-2 md:text-base text-[10px] leading-none"
           />
         </div>
         <div>
           <input
             type="number"
             placeholder="Price Min"
-            className="rounded-lg text-black p-2"
+            className="rounded-lg text-black md:p-2 md:text-base text-[10px] leading-none"
           />
         </div>
       </form>
